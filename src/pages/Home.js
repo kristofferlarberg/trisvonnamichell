@@ -4,7 +4,7 @@ import { client, linkResolver } from "../prismic-configuration";
 import NotFound from "./NotFound";
 import Prismic from "prismic-javascript";
 
-const Page = ({ match }) => {
+const Home = ({ match }) => {
   const [doc, setDocData] = useState(null);
   const [notFound, toggleNotFound] = useState(false);
 
@@ -47,7 +47,7 @@ const Page = ({ match }) => {
   if (doc) {
     console.log(doc);
     return (
-      <div className="page">
+      <div className="home">
         <h1>Tris Vonna-Michell</h1>
         <br />
 
@@ -55,7 +55,7 @@ const Page = ({ match }) => {
         {/* <RichText render={doc.data.description} linkResolver={linkResolver} /> */}
         {doc.results.map((item, i) => (
           <a href={Link.url(item.link, linkResolver)} key={i}>
-            {item.data.wotk_title[0].text}
+            {item.data.work_title[0].text}
             <br />
             <img
               key={"a" + i}
@@ -73,4 +73,4 @@ const Page = ({ match }) => {
   return null;
 };
 
-export default Page;
+export default Home;

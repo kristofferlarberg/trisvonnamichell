@@ -1,15 +1,14 @@
-// In src/pages/Page.js
 import React, { useEffect, useState } from "react";
 import { RichText } from "prismic-reactjs";
 import { client, linkResolver } from "../prismic-configuration";
 import NotFound from "./NotFound";
 import Prismic from "prismic-javascript";
 
-const Blog = ({ match, tag }) => {
+const Renditions = ({ match }) => {
   const [doc, setDocData] = useState(null);
   const [notFound, toggleNotFound] = useState(false);
+
   console.log(match);
-  console.log(tag);
 
   const uid = match.params.uid;
 
@@ -27,15 +26,18 @@ const Blog = ({ match, tag }) => {
         Prismic.Predicates.at("document.type", "work")
       );
       console.log(uid);
+
       //Match the url work category with the list of categories and find correct id
-      const work_id = categories.results.filter(
-        (item) => item.slugs[0] === uid
-      )[0].id;
+      const category_id = categories.results.filter((item) => item.slugs[0] === uid)[0].id;
+
+      console.log(category_id);
 
       //Get posts with the choosen category, with the id
       const result = await client.query(
-        Prismic.Predicates.at("my.rendition.work_category", work_id)
+        Prismic.Predicates.at("my.rendition.work_category", category_id)
       );
+
+      console.log(result);
 
       if (result) {
         // We use the State hook to save the document
@@ -77,4 +79,4 @@ const Blog = ({ match, tag }) => {
   return null;
 };
 
-export default Blog;
+export default Renditions;

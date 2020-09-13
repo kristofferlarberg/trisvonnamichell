@@ -25,7 +25,7 @@ const App = (props) => {
       <BrowserRouter>
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route exact path="/work/:uid" component={Renditions} />
+          <Route exact path="work/:uid" component={Renditions} />
           <Route component={NotFound} />
         </Switch>
       </BrowserRouter>

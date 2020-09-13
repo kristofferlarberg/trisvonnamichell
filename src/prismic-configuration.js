@@ -13,8 +13,8 @@ const accessToken = "";
 export const linkResolver = (doc) => {
   // console.log(doc)
   if (doc.type === "home") return `/`;
-  if (doc.type === "work") return `/trisvonnamichell/${doc.slug}`;
-  if (doc.type === "renditions") return `/trisvonnamichell/${doc.slug}`;
+  if (doc.type === "work") return `/${doc.slug}`;
+  if (doc.type === "renditions") return `/${doc.slug}`;
 
   return "/";
 };
