@@ -1,26 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Fragment } from "react";
+import { Helmet } from "react-helmet";
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import { apiEndpoint } from "./prismic-configuration";
+import { NotFound } from "./pages";
+import Home from "./pages/Home";
+import Renditions from "./pages/Renditions";
 
-function App() {
+/**
+ * Main application componenet
+ */
+const App = (props) => {
+  const repoNameArray = /([^/]+)\.cdn.prismic\.io\/api/.exec(apiEndpoint);
+  const repoName = repoNameArray[1];
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Fragment>
+      <Helmet>
+        <script
+          async
+          defer
+          src={`//static.cdn.prismic.io/prismic.js?repo=${repoName}&new=true`}
+        />
+      </Helmet>
+      <BrowserRouter>
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/work/:uid" component={Renditions} />
+          <Route component={NotFound} />
+        </Switch>
+      </BrowserRouter>
+    </Fragment>
   );
-}
+};
 
 export default App;
