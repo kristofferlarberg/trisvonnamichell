@@ -25,10 +25,11 @@ const Renditions = ({ match }) => {
       const categories = await client.query(
         Prismic.Predicates.at("document.type", "work")
       );
+      
       console.log(uid);
 
       //Match the url work category with the list of categories and find correct id
-      const category_id = categories.results.filter((item) => item.slugs[0] === uid)[0].id;
+      const category_id = categories.results.filter(item => item.slugs[0] === uid)[0].id;
 
       console.log(category_id);
 

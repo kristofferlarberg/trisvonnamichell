@@ -31,6 +31,8 @@ const Home = ({ match }) => {
           };
         });
 
+console.log(result);
+
         // We use the State hook to save the document
         return setDocData(result);
       } else {

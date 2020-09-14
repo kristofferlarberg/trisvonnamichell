@@ -12,9 +12,8 @@ const accessToken = "";
 // Manages the url links to internal Prismic documents
 export const linkResolver = (doc) => {
   // console.log(doc)
-  if (doc.type === "home") return `/`;
   if (doc.type === "work") return `/${doc.slug}`;
-  if (doc.type === "renditions") return `/${doc.slug}`;
+  if (doc.type === "rendition") return `/${doc.slug}`;
 
   return "/";
 };
