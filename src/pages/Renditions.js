@@ -26,6 +26,7 @@ const Renditions = ({ match }) => {
         Prismic.Predicates.at("document.type", "work")
       );
       
+      console.log(categories);
       console.log(uid);
 
       //Match the url work category with the list of categories and find correct id
