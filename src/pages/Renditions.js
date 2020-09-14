@@ -25,7 +25,7 @@ const Renditions = ({ match }) => {
       const categories = await client.query(
         Prismic.Predicates.at("document.type", "work")
       );
-      
+
       console.log(categories);
       console.log(uid);
 
@@ -38,6 +38,11 @@ const Renditions = ({ match }) => {
       const result = await client.query(
         Prismic.Predicates.at("my.rendition.work_category", category_id)
       );
+
+      // const result = await client.query(
+      //   Prismic.Predicates.at("document.type", "rendition")
+      // );
+
 
       console.log(result);
 
@@ -57,10 +62,12 @@ const Renditions = ({ match }) => {
   }, [uid]); // Skip the Effect hook if the UID hasn't changed
 
   if (doc) {
+    console.log("doc")
+    console.log(doc)
     return doc.results.map((item, i) => (
       <div key={i} className="renditions">
         {/* This is how to render a Rich Text field as plain text*/}
-        <h1 key={"a" + i}>{RichText.asText(item.data.title)}</h1>
+        <h1 key={"a" + i}>{RichText.asText(item.data.rendition_title)}</h1>
         {/* This is how to render a Rich Text field into your template as HTML */}
         <RichText
           key={"b" + i}
@@ -68,11 +75,15 @@ const Renditions = ({ match }) => {
           linkResolver={linkResolver}
         />
         {/* This is how to get an image into your template */}
-        <img
-          src={item.data.image.url}
-          key={"c" + i}
-          alt={item.data.image.alt}
-        />
+        {item.data.rendition_images.map((image, i) => (
+          <img
+            src={image.rendition_image.url}
+            key={"c" + i}
+
+          />
+
+        ))}
+
       </div>
     ));
   } else if (notFound) {

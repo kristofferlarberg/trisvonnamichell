@@ -30,8 +30,8 @@ const Home = ({ match }) => {
             type: item.type,
           };
         });
-
-console.log(result);
+        console.log("link")
+        console.log(result);
 
         // We use the State hook to save the document
         return setDocData(result);
