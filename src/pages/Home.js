@@ -20,7 +20,7 @@ const Home = ({ match }) => {
       //Create the link object and add to result
       if (result) {
         result.results.map((item, i) => {
-          result.results[i].link = {
+          return result.results[i].link = {
             id: item.id,
             isBroken: false,
             lang: item.lang,
@@ -30,8 +30,6 @@ const Home = ({ match }) => {
             type: item.type,
           };
         });
-
-console.log(result);
 
         // We use the State hook to save the document
         return setDocData(result);
@@ -47,7 +45,7 @@ console.log(result);
   }, [uid]); // Skip the Effect hook if the UID hasn't changed
 
   if (doc) {
-    console.log(doc);
+
     return (
       <div className="home">
         <h1>Tris Vonna-Michell</h1>
@@ -63,8 +61,9 @@ console.log(result);
               key={"a" + i}
               src={item.data.work_preview_image.url}
               className="link_img"
-            />{" "}
-            <br />{" "}
+              alt={item.data.work_title[0].text}
+            />
+            <br />
           </a>
         ))}
       </div>
