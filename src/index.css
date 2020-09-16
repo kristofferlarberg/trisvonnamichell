@@ -1,4 +1,52 @@
+@font-face {
+  font-family: "Basier Square Mono";
+  src: url(./fonts/basiersquaremono-regular-webfont.eot) format("eot"),
+    url(./fonts/basiersquaremono-regular-webfont.woff2) format("woff2"),
+    url(./fonts/basiersquaremono-regular-webfont.woff) format("woff"),
+    url(./fonts/basiersquaremono-regular-webfont.ttf) format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Basier Square Regular";
+  src: url(./fonts/basiersquare-regular-webfont.eot) format("eot"),
+    url(./fonts/basiersquare-regular-webfont.woff2) format("woff2"),
+    url(./fonts/basiersquare-regular-webfont.woff) format("woff"),
+    url(./fonts/basiersquare-regular-webfont.ttf) format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
 body {
   margin: 0;
   padding: 0;
+  font-family: 'Basier Square Regular', sans-serif;
+  font-size: 1rem;
+  line-height: 1.4rem;
+}
+
+h1 {
+  font-family: 'Basier Square Mono', sans-serif;
+  font-size: 3rem;
+}
+
+h2 {
+  font-family: 'Basier Square Mono', sans-serif;
+  font-size: 2.5rem;
+}
+
+h3 {
+  font-family: 'Basier Square Mono', sans-serif;
+  font-size: 2rem;
+}
+
+h4 {
+  font-family: 'Basier Square Mono', sans-serif;
+  font-size: 1rem;
+}
+
+h5 {
+  font-family: 'Basier Square Regular', sans-serif;
+  font-size: 1rem;
 }
