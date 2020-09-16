@@ -3,6 +3,48 @@ import { Link, RichText } from "prismic-reactjs";
 import { client, linkResolver } from "../prismic-configuration";
 import NotFound from "./NotFound";
 import Prismic from "prismic-javascript";
+import styled from "styled-components";
+
+const Title = styled.h2`
+  margin-left:1.5rem;
+`
+const Line = styled.section`
+  background-color: #eee;
+  margin-bottom: 0.7rem;
+  height: 10rem;
+  text-align: right;
+`
+const Preview = styled.img`
+  height: 10rem;
+  object-fit: cover;
+  opacity: 0.8;
+`
+const WorkLink = styled.a`
+  height: 10rem;
+  position: relative;
+  top:-10.33rem; 
+  text-decoration: none;
+`
+const HoverLine = styled.span`
+  display:block;
+  text-align: center;
+  height: 10rem;
+  &:hover{
+    background-color: #D09C0077;
+  }
+`
+const WorkTitle = styled.h3`
+    color: black;
+    position: relative;
+    display: inline-block;
+    top: 3rem;
+    margin:0rem;
+    margin-bottom:0.2rem;
+    padding:0.3rem;
+    font-size: 1rem;
+    z-index: 1;
+    background-color: white;
+  `
 
 const Home = ({ match }) => {
   const [doc, setDocData] = useState(null);
@@ -53,27 +95,29 @@ const Home = ({ match }) => {
   }, [uid]); // Skip the Effect hook if the UID hasn't changed
 
   if (doc) {
-    console.log(doc.results[0].image_width)
+    console.log(doc)
     return (
       <div className="home">
-        <h1>Tris Vonna-Michell</h1>
-        <br />
+        <Title >Tris Vonna-Michell</Title>
 
         {/* This is how to render a Rich Text field into your template as HTML */}
         {/* <RichText render={doc.data.description} linkResolver={linkResolver} /> */}
         {doc.results.map((item, i) => (
-          <a href={Link.url(item.link, linkResolver)} key={i}>
-            {item.data.work_title[0].text}
-            <br />
-            <img
-              key={"a" + i}
+          <Line key={"a" + i}>
+            <Preview
+              key={"e" + i}
               src={item.data.work_preview_image.url}
               className="link_img"
               alt={item.data.work_title[0].text}
               style={{ "width": `${item.image_width / doc.max_width * 100}%` }}
             />
-            <br />
-          </a>
+            <WorkLink href={Link.url(item.link, linkResolver)} key={i}>
+              <HoverLine key={"d" + i}>
+                <WorkTitle key={"b" + i}>{item.data.work_title[0].text}</WorkTitle><br />
+                <WorkTitle key={"c" + i}>{item.data.work_year_from}–{item.data.work_year_to}</WorkTitle>
+              </HoverLine>
+            </WorkLink>
+          </Line>
         ))}
       </div>
     );
