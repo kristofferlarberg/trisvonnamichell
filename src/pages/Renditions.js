@@ -61,7 +61,7 @@ const Renditions = ({ match }) => {
     doc.results.map((item, i) => (
       <div key={i} className="renditions">
         {/* This is how to render a Rich Text field as plain text*/}
-        <h1 key={"a" + i}>{RichText.asText(item.data.rendition_title)}</h1>
+        <h3 key={"a" + i}>{RichText.asText(item.data.rendition_title)}</h3>
 
         {item.data.rendition_images.map((image, i) => ([
           <img
