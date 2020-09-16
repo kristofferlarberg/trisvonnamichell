@@ -20,7 +20,12 @@ const Home = ({ match }) => {
       //Create the link object and add to result
       if (result) {
         result.results.map((item, i) => {
-          return result.results[i].link = {
+          let width = item.data.work_year_to - item.data.work_year_from + 1;
+          let max_width = width;
+          if (i > 0) {
+            max_width = width > result.max_width ? width : result.max_width;
+          }
+          return [result.results[i].link = {
             id: item.id,
             isBroken: false,
             lang: item.lang,
@@ -28,8 +33,11 @@ const Home = ({ match }) => {
             slug: item.slugs[0],
             tags: [],
             type: item.type,
-          };
+          }, result.results[i].image_width = width,
+          result.max_width = max_width
+          ];
         });
+
 
         // We use the State hook to save the document
         return setDocData(result);
@@ -45,7 +53,7 @@ const Home = ({ match }) => {
   }, [uid]); // Skip the Effect hook if the UID hasn't changed
 
   if (doc) {
-
+    console.log(doc.results[0].image_width)
     return (
       <div className="home">
         <h1>Tris Vonna-Michell</h1>
@@ -62,6 +70,7 @@ const Home = ({ match }) => {
               src={item.data.work_preview_image.url}
               className="link_img"
               alt={item.data.work_title[0].text}
+              style={{ "width": `${item.image_width / doc.max_width * 100}%` }}
             />
             <br />
           </a>
