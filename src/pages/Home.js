@@ -7,6 +7,16 @@ import styled from "styled-components";
 
 const Title = styled.h2`
   margin-left:1.5rem;
+  @media (max-width: 500px) {
+    margin-left:0rem;
+    font-size:2rem;
+    text-align:center;
+  }
+  @media (max-width: 400px) {
+    margin-left:0rem;
+    font-size:1.6rem;
+    text-align:center;
+  }
 `
 const Line = styled.section`
   background-color: #eee;
@@ -30,6 +40,7 @@ const HoverLine = styled.span`
   display: block;
   text-align: center;
   height: 10rem;
+  transition-duration: 0.4s;
   &:hover{
     background-color: #D09C0077;
   }
@@ -42,7 +53,6 @@ const WorkTitle = styled.h3`
   color: #000;
   margin: 0 0 0.2rem 0;
   padding: 0.3rem 0.6rem 0.3rem 0.6rem;
-  z-index: 1;
   background-color: #fff;
 `
 
