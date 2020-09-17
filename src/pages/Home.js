@@ -12,21 +12,22 @@ const Line = styled.section`
   background-color: #eee;
   margin-bottom: 0.7rem;
   height: 10rem;
-  text-align: right;
 `
 const Preview = styled.img`
+  position: relative;
+  left: ${props => props.left}%;
+  width: ${props => props.width}%;
   height: 10rem;
   object-fit: cover;
-  opacity: 0.8;
 `
 const WorkLink = styled.a`
-  height: 10rem;
   position: relative;
   top:-10.33rem; 
+  height: 10rem;
   text-decoration: none;
 `
 const HoverLine = styled.span`
-  display:block;
+  display: block;
   text-align: center;
   height: 10rem;
   &:hover{
@@ -34,17 +35,16 @@ const HoverLine = styled.span`
   }
 `
 const WorkTitle = styled.h3`
-    color: black;
-    position: relative;
-    display: inline-block;
-    top: 3rem;
-    margin:0rem;
-    margin-bottom:0.2rem;
-    padding:0.3rem;
-    font-size: 1rem;
-    z-index: 1;
-    background-color: white;
-  `
+  display: inline-block;
+  position: relative;
+  top: 3rem;
+  font-size: 1rem;
+  color: #000;
+  margin: 0 0 0.2rem 0;
+  padding: 0.3rem;
+  z-index: 1;
+  background-color: #fff;
+`
 
 const Home = ({ match }) => {
   const [doc, setDocData] = useState(null);
@@ -64,8 +64,12 @@ const Home = ({ match }) => {
         result.results.map((item, i) => {
           let width = item.data.work_year_to - item.data.work_year_from + 1;
           let max_width = width;
+          let min_year = item.data.work_year_from
+          let max_year = item.data.work_year_to
           if (i > 0) {
             max_width = width > result.max_width ? width : result.max_width;
+            min_year = min_year < result.min_year ? min_year : result.min_year;
+            max_year = max_year < result.max_year ? max_year : result.max_year;
           }
           return [result.results[i].link = {
             id: item.id,
@@ -76,7 +80,9 @@ const Home = ({ match }) => {
             tags: [],
             type: item.type,
           }, result.results[i].image_width = width,
-          result.max_width = max_width
+          result.max_width = max_width,
+          result.min_year = min_year,
+          result.max_year = max_year,
           ];
         });
 
@@ -95,7 +101,6 @@ const Home = ({ match }) => {
   }, [uid]); // Skip the Effect hook if the UID hasn't changed
 
   if (doc) {
-    console.log(doc)
     return (
       <div className="home">
         <Title >Tris Vonna-Michell</Title>
@@ -109,7 +114,9 @@ const Home = ({ match }) => {
               src={item.data.work_preview_image.url}
               className="link_img"
               alt={item.data.work_title[0].text}
-              style={{ "width": `${item.image_width / doc.max_width * 100}%` }}
+              width={item.image_width / doc.max_width * 100}
+              left={(item.data.work_year_from - doc.min_year) / doc.max_width * 100}
+            // style={{ "width": `${item.image_width / doc.max_width * 100}%` }}
             />
             <WorkLink href={Link.url(item.link, linkResolver)} key={i}>
               <HoverLine key={"d" + i}>
