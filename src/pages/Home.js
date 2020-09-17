@@ -41,7 +41,7 @@ const WorkTitle = styled.h3`
   font-size: 1rem;
   color: #000;
   margin: 0 0 0.2rem 0;
-  padding: 0.3rem;
+  padding: 0.3rem 0.6rem 0.3rem 0.6rem;
   z-index: 1;
   background-color: #fff;
 `
