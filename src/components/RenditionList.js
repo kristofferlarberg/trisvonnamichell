@@ -45,7 +45,7 @@ console.log(setActive);
     <ListSection onClick={toggleImages}>
       <OpenImages>
         {props.title}
-        {props.descriptionOnly}
+        {setActive === "" ? <>{props.descriptionPreview}</> : null}
       </OpenImages>
       <Details ref={content} style={{ maxHeight: `${setHeight}` }}>
         {props.img}

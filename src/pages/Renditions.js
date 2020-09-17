@@ -3,8 +3,37 @@ import { RichText } from "prismic-reactjs";
 import { client, linkResolver } from "../prismic-configuration";
 import NotFound from "./NotFound";
 import Prismic from "prismic-javascript";
+import styled from "styled-components";
 
 import RenditionList from "../components/RenditionList";
+
+const ContentContainer = styled.div`
+  display: flex;
+  width: 100vw;
+`;
+
+const Script = styled.section`
+  margin-left: 4rem;
+  padding: 1.5rem;
+  width: 30vw;
+  background-color: yellow;
+`;
+
+const ListContainer = styled.div`
+margin-left: 4rem;
+  display: flex;
+  flex-direction: column;
+  width: 50vw;
+`;
+
+const DescriptionPreview = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const Bullet = styled.h2`
+  margin-top: 1.8rem;
+`;
 
 const Renditions = ({ match }) => {
   const [doc, setDocData] = useState(null);
@@ -47,40 +76,63 @@ const Renditions = ({ match }) => {
 
   if (doc) {
     console.log(doc);
-    return [
-      <div key="a">
-        <RichText key="b" render={doc.work_title} linkResolver={linkResolver} />
-        <RichText
-          key="c"
-          render={doc.work_script}
-          linkResolver={linkResolver}
-        />
-      </div>,
-      doc.results.map((item) => (
-        <RenditionList
-          title={RichText.asText(item.data.rendition_title)}
-          descriptionOnly={item.data.rendition_images.map((image, i) => (
+    return (
+      <>
+        <div key="a">
+          <RichText
+            key="b"
+            render={doc.work_title}
+            linkResolver={linkResolver}
+          />
+        </div>
+        <ContentContainer>
+          <Script>
             <RichText
-              key={"c" + i}
-              render={image.rendition_image_caption}
+              key="c"
+              render={doc.work_script}
               linkResolver={linkResolver}
             />
-          ))}
-          img={item.data.rendition_images.map((image, i) => [
-            <img
-              src={image.rendition_image.url}
-              key={"b" + i}
-              alt={image.rendition_image_caption[0].text}
-            />,
-            <RichText
-              key={"c" + i}
-              render={image.rendition_image_caption}
-              linkResolver={linkResolver}
-            />,
-          ])}
-        />
-      )),
-    ];
+          </Script>
+          <ListContainer>
+            {doc.results.map((item, i) => (
+              <RenditionList
+                title={
+                  <RichText
+                    key={i}
+                    render={item.data.rendition_title}
+                    linkResolver={linkResolver}
+                  />
+                }
+                descriptionPreview={item.data.rendition_images.map(
+                  (image, i) => (
+                    <DescriptionPreview>
+                      <Bullet>&#8226;</Bullet>
+                      <RichText
+                        key={"c" + i}
+                        render={image.rendition_image_caption}
+                        linkResolver={linkResolver}
+                      />
+                    </DescriptionPreview>
+                  )
+                )}
+                img={item.data.rendition_images.map((image, i) => [
+                  <img
+                    src={image.rendition_image.url}
+                    key={"b" + i}
+                    alt={image.rendition_image_caption[0].text}
+                  />,
+                  <RichText
+                    key={"c" + i}
+                    render={image.rendition_image_caption}
+                    linkResolver={linkResolver}
+                  />,
+                ])}
+              />
+            ))}
+          </ListContainer>
+        </ContentContainer>
+      </>
+    );
   } else if (notFound) {
     return <NotFound />;
   }
