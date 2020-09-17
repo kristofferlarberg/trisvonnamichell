@@ -19,6 +19,7 @@
 }
 
 body {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
   font-family: 'Basier Square Regular', sans-serif;
@@ -49,4 +50,5 @@ h4 {
 h5 {
   font-family: 'Basier Square Regular', sans-serif;
   font-size: 1rem;
+  color: black;
 }
