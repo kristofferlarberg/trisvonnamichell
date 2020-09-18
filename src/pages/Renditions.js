@@ -6,21 +6,16 @@ import Prismic from "prismic-javascript";
 import styled from "styled-components";
 
 import RenditionList from "../components/RenditionList";
+import Script from "../components/Script";
+import Header from "../components/Header";
 
 const ContentContainer = styled.div`
   display: flex;
   width: 100vw;
 `;
 
-const Script = styled.section`
-  margin-left: 4rem;
-  padding: 1.5rem;
-  width: 30vw;
-  background-color: yellow;
-`;
-
 const ListContainer = styled.div`
-margin-left: 4rem;
+  margin-left: 4rem;
   display: flex;
   flex-direction: column;
   width: 50vw;
@@ -31,8 +26,12 @@ const DescriptionPreview = styled.div`
   align-items: center;
 `;
 
+const DescriptionPreviewText = styled.h5`
+  margin: 0;
+`;
+
 const Bullet = styled.h2`
-  margin-top: 1.8rem;
+  margin: -0.3rem 1rem 0 0;
 `;
 
 const Renditions = ({ match }) => {
@@ -78,21 +77,25 @@ const Renditions = ({ match }) => {
     console.log(doc);
     return (
       <>
-        <div key="a">
-          <RichText
-            key="b"
-            render={doc.work_title}
-            linkResolver={linkResolver}
-          />
-        </div>
-        <ContentContainer>
-          <Script>
+        <Header
+          text={
             <RichText
-              key="c"
-              render={doc.work_script}
+              key="b"
+              render={doc.work_title}
               linkResolver={linkResolver}
             />
-          </Script>
+          }
+        />
+        <ContentContainer>
+          <Script
+            text={
+              <RichText
+                key="c"
+                render={doc.work_script}
+                linkResolver={linkResolver}
+              />
+            }
+          />
           <ListContainer>
             {doc.results.map((item, i) => (
               <RenditionList
@@ -107,11 +110,13 @@ const Renditions = ({ match }) => {
                   (image, i) => (
                     <DescriptionPreview>
                       <Bullet>&#8226;</Bullet>
-                      <RichText
-                        key={"c" + i}
-                        render={image.rendition_image_caption}
-                        linkResolver={linkResolver}
-                      />
+                      <DescriptionPreviewText>
+                        <RichText
+                          key={"c" + i}
+                          render={image.rendition_image_caption}
+                          linkResolver={linkResolver}
+                        />
+                      </DescriptionPreviewText>
                     </DescriptionPreview>
                   )
                 )}
@@ -140,21 +145,3 @@ const Renditions = ({ match }) => {
 };
 
 export default Renditions;
-
-/*       <div key={i} className="renditions">
-        <h3 key={"a" + i}>{RichText.asText(item.data.rendition_title)}</h3>
-
-        {item.data.rendition_images.map((image, i) => ([
-          <img
-            src={image.rendition_image.url}
-            key={"b" + i}
-            alt={image.rendition_image_caption[0].text}
-          />,
-          <RichText
-            key={"c" + i}
-            render={image.rendition_image_caption}
-            linkResolver={linkResolver}
-          />]
-        ))}
-
-      </div> */
