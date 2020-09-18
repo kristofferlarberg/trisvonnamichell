@@ -6,16 +6,16 @@ import Prismic from "prismic-javascript";
 import styled from "styled-components";
 
 const Title = styled.h2`
-  margin-left:1.5rem;
+  margin-left: 1.5rem;
   @media (max-width: 500px) {
-    margin-left:0rem;
-    font-size:2rem;
-    text-align:center;
+    margin-left: 0rem;
+    font-size: 2rem;
+    text-align: center;
   }
   @media (max-width: 400px) {
-    margin-left:0rem;
-    font-size:1.6rem;
-    text-align:center;
+    margin-left: 0rem;
+    font-size: 1.6rem;
+    text-align: center;
   }
 `
 const Line = styled.section`
@@ -32,9 +32,10 @@ const Preview = styled.img`
 `
 const WorkLink = styled.a`
   position: relative;
-  top:-10.33rem; 
+  top: -10.33rem; 
   height: 10rem;
   text-decoration: none;
+  color: inherit;
 `
 const HoverLine = styled.span`
   display: block;
@@ -45,12 +46,10 @@ const HoverLine = styled.span`
     background-color: #D09C0077;
   }
 `
-const WorkTitle = styled.h3`
+const WorkTitle = styled.h4`
   display: inline-block;
   position: relative;
   top: 3rem;
-  font-size: 1rem;
-  color: #000;
   margin: 0 0 0.2rem 0;
   padding: 0.3rem 0.6rem 0.3rem 0.6rem;
   background-color: #fff;
