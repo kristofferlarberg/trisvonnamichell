@@ -8,6 +8,7 @@ import styled from "styled-components";
 import RenditionList from "../components/RenditionList";
 import Script from "../components/Script";
 import Header from "../components/Header";
+import RemoteControl from "../components/RemoteControl";
 
 const ContentContainer = styled.div`
   display: flex;
@@ -37,8 +38,11 @@ const Bullet = styled.h2`
 const Renditions = ({ match }) => {
   const [doc, setDocData] = useState(null);
   const [notFound, toggleNotFound] = useState(false);
+  const [remoteValue, setRemoteValue] = useState(null)
 
-  const uid = match.params.uid;
+console.log(remoteValue);
+  
+const uid = match.params.uid;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -77,6 +81,10 @@ const Renditions = ({ match }) => {
     console.log(doc);
     return (
       <>
+        <RemoteControl
+          adjustValue={(value) => setRemoteValue(value)}
+          remoteValue={remoteValue}
+        />
         <Header
           text={
             <RichText

@@ -35,20 +35,19 @@ function RenditionList(props) {
       setActive === "active" ? "0px" : `${content.current.scrollHeight}px`
     );
   }
-
-  console.log(setActive);
-
   return (
-    <ListSection onClick={toggleImages}>
-      <OpenImages>
-        {props.title}
-        {setActive === "" ? <>{props.descriptionPreview}</> : null}
-      </OpenImages>
-      <Details ref={content} style={{ maxHeight: `${setHeight}` }}>
-        {props.img}
-        {props.description}
-      </Details>
-    </ListSection>
+    <>
+      <ListSection onClick={toggleImages}>
+        <OpenImages>
+          {props.title}
+          {setActive === "" ? <>{props.descriptionPreview}</> : null}
+        </OpenImages>
+        <Details ref={content} style={{ maxHeight: `${setHeight}` }}>
+          {props.img}
+          {props.description}
+        </Details>
+      </ListSection>
+    </>
   );
 }
 
