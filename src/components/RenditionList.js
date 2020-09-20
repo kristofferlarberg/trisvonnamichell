@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 
 const ListSection = styled.section`
@@ -23,18 +23,25 @@ const Details = styled.section`
   transition: max-height 0.6s ease;
 `;
 
-function RenditionList(props) {
+const RenditionList = ({ expandValue }, props) => {
   const [setActive, setActiveState] = useState("");
   const [setHeight, setHeightState] = useState("0px");
+  const [expandId, setExpandId] = useState(0);
 
   const content = useRef(null);
 
+  useEffect(() => {
+    setExpandId(expandValue);
+    console.log(expandId);
+  });
+
   function toggleImages() {
-    setActiveState(setActive === "" ? "active" : "");
+    /*     setActiveState(setActive === "" ? "active" : "");
     setHeightState(
       setActive === "active" ? "0px" : `${content.current.scrollHeight}px`
-    );
+    ); */
   }
+
   return (
     <>
       <ListSection onClick={toggleImages}>
@@ -49,6 +56,6 @@ function RenditionList(props) {
       </ListSection>
     </>
   );
-}
+};
 
 export default RenditionList;

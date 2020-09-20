@@ -38,9 +38,7 @@ const Bullet = styled.h2`
 const Renditions = ({ match }) => {
   const [doc, setDocData] = useState(null);
   const [notFound, toggleNotFound] = useState(false);
-  const [remoteValue, setRemoteValue] = useState(null)
-
-console.log(remoteValue);
+  const [expandValue, setExpandValue] = useState(1)
   
 const uid = match.params.uid;
 
@@ -81,10 +79,7 @@ const uid = match.params.uid;
     console.log(doc);
     return (
       <>
-        <RemoteControl
-          adjustValue={(value) => setRemoteValue(value)}
-          remoteValue={remoteValue}
-        />
+        <RemoteControl adjustValue={(value) => setExpandValue(value)} />
         <Header
           text={
             <RichText
@@ -107,6 +102,7 @@ const uid = match.params.uid;
           <ListContainer>
             {doc.results.map((item, i) => (
               <RenditionList
+                expandValue={expandValue}
                 title={
                   <RichText
                     key={i}
@@ -140,6 +136,7 @@ const uid = match.params.uid;
                     linkResolver={linkResolver}
                   />,
                 ])}
+                expandValue={expandValue}
               />
             ))}
           </ListContainer>
