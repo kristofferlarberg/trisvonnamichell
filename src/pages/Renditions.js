@@ -19,7 +19,7 @@ const ListContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  transition: all 0.5s ease-in;
+  transition: all 0.2s ease-in;
 
 `;
 

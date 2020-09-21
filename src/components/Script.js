@@ -8,7 +8,7 @@ const ScriptBox = styled.section`
   position: fixed;
   padding-left:4vw;
   left: ${props => props.position ? "-33" : "0"}vw;
-  transition: ${props => props.position ? "all 0.5s ease-out" : "all 0.5s ease-in"};
+  transition: ${props => props.position ? "all 0.2s ease-out" : "all 0.3s ease-in"};
   
 `;
 // position: ${ props => props.position ? "relative" : "absolute" };
