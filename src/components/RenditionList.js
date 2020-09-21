@@ -23,31 +23,40 @@ const Details = styled.section`
   transition: max-height 0.6s ease;
 `;
 
-const RenditionList = ({ expandValue }, props) => {
-  const [setActive, setActiveState] = useState("");
-  const [setHeight, setHeightState] = useState("0px");
-  const [expandId, setExpandId] = useState(0);
+const RenditionList = ({ expandValue, rendArray }, props) => {
+  const [active, setActive] = useState(false);
+  const [height, setHeight] = useState("0px");
+  const [expandId, setExpandId] = useState(null);
 
   const content = useRef(null);
 
   useEffect(() => {
     setExpandId(expandValue);
-    console.log(expandId);
+    for (let v = 0; v < rendArray.length; v++) {
+      if (expandId === rendArray[v]) {
+        console.log(expandId);
+        setActive(true);
+        setHeight(
+          active === "active" ? "0px" : `${content.current.scrollHeight}px`
+        );
+      }
+    }
   });
+  console.log(active);
+  console.log(expandId);
+  console.log(rendArray);
+  console.log(rendArray[0]);
 
-  function toggleImages() {
-    /*     setActiveState(setActive === "" ? "active" : "");
-    setHeightState(
-      setActive === "active" ? "0px" : `${content.current.scrollHeight}px`
-    ); */
+  /*  function toggleImages(i) {
+   
   }
-
+ */
   return (
     <>
-      <ListSection onClick={toggleImages}>
+      <ListSection>
         <OpenImages>
           {props.title}
-          {setActive === "" ? <>{props.descriptionPreview}</> : null}
+          {active === "" ? <>{props.descriptionPreview}</> : null}
         </OpenImages>
         <Details ref={content} style={{ maxHeight: `${setHeight}` }}>
           {props.img}
