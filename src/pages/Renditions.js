@@ -39,9 +39,9 @@ const Renditions = ({ match }) => {
   const [doc, setDocData] = useState(null);
   const [notFound, toggleNotFound] = useState(false);
   const [expandValue, setExpandValue] = useState(null);
-  const [rendArray, setRendArray] = useState(null);
-  
-const uid = match.params.uid;
+  // const [rendArray, setRendArray] = useState(null);
+
+  const uid = match.params.uid;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -64,7 +64,7 @@ const uid = match.params.uid;
         result.work_script = category.data.work_script;
         result.work_title = category.data.work_title;
         // We use the State hook to save the document
-        setRendArray(result.results);
+        // setRendArray(result.results);
         return setDocData(result);
       } else {
         // Otherwise show an error message
@@ -78,8 +78,8 @@ const uid = match.params.uid;
   }, [uid]); // Skip the Effect hook if the UID hasn't changed
 
   if (doc) {
-    console.log(doc);
-    console.log(rendArray);
+    console.log("Expand value in renditions:" + expandValue);
+    // console.log(rendArray);
     return (
       <>
         <RemoteControl adjustValue={(value) => setExpandValue(value)} />
@@ -106,7 +106,8 @@ const uid = match.params.uid;
             {doc.results.map((item, i) => (
               <RenditionList
                 expandValue={expandValue}
-                rendArray={rendArray}
+                id={i}
+                // rendArray={rendArray}
                 title={
                   <RichText
                     key={i}

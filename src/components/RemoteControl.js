@@ -42,11 +42,19 @@ const ButtonSymbol = styled.img`
 `;
 
 function RemoteControl({ adjustValue }) {
-  const [value, setValue] = useState(null);
+  const [value, setValue] = useState(0);
 
   function openNext() {
+    if (value === null) {
+      setValue(0);
+      console.log("VALUE:" + value)
+
+      return adjustValue(value);
+    }
     if (value !== 1000) {
       setValue(value + 1);
+      console.log("VALUE:" + value)
+
       return adjustValue(value);
     }
   }
