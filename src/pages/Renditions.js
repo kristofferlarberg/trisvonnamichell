@@ -8,6 +8,7 @@ import styled from "styled-components";
 import RenditionList from "../components/RenditionList";
 import Script from "../components/Script";
 import Header from "../components/Header";
+import RemoteControl from "../components/RemoteControl";
 
 const ContentContainer = styled.div`
   display: flex;
@@ -42,7 +43,8 @@ const Image = styled.img`
 const Renditions = ({ match }) => {
   const [doc, setDocData] = useState(null);
   const [notFound, toggleNotFound] = useState(false);
-  const [toggleScript, toggleScriptState] = useState(true);
+  const [expandValue, setExpandValue] = useState(null);
+  // const [rendArray, setRendArray] = useState(null);
 
   const uid = match.params.uid;
 
@@ -67,6 +69,7 @@ const Renditions = ({ match }) => {
         result.work_script = category.data.work_script;
         result.work_title = category.data.work_title;
         // We use the State hook to save the document
+        // setRendArray(result.results);
         return setDocData(result);
       } else {
         // Otherwise show an error message
@@ -82,9 +85,11 @@ const Renditions = ({ match }) => {
     toggleScriptState(!toggleScript);
   }
   if (doc) {
-    console.log(doc);
+    console.log("Expand value in renditions:" + expandValue);
+    // console.log(rendArray);
     return (
       <>
+        <RemoteControl adjustValue={(value) => setExpandValue(value)} />
         <Header
           text={
             <RichText
@@ -109,6 +114,9 @@ const Renditions = ({ match }) => {
           <ListContainer position={!toggleScript}>
             {doc.results.map((item, i) => (
               <RenditionList
+                expandValue={expandValue}
+                id={i}
+                // rendArray={rendArray}
                 title={
                   <RichText
                     key={i}
@@ -142,6 +150,7 @@ const Renditions = ({ match }) => {
                     linkResolver={linkResolver}
                   />,
                 ])}
+                expandValue={expandValue}
               />
             ))}
           </ListContainer>

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 
 const ListSection = styled.section`
@@ -23,33 +23,39 @@ const Details = styled.section`
   transition: max-height 0.6s ease;
 `;
 
-function RenditionList(props) {
-  const [setActive, setActiveState] = useState("");
-  const [setHeight, setHeightState] = useState("0px");
-
+const RenditionList = (props) => {
+  const [active, setActive] = useState(false);
+  const [height, setHeight] = useState("0px");
   const content = useRef(null);
 
-  function toggleImages() {
-    setActiveState(setActive === "" ? "active" : "");
-    setHeightState(
-      setActive === "active" ? "0px" : `${content.current.scrollHeight}px`
-    );
-  }
+  useEffect(() => {
+    setActive(false);
+    if (props.expandValue === 1000) setActive(true);
+    if (props.expandValue === props.id) setActive(true);
+    console.log("propsid:" + props.id)
+    console.log("expandvalue:" + props.expandValue)
+    console.log("active:" + active)
+    console.log("-----------------------")
 
-  console.log(setActive);
+    setHeight(
+      active === true ? "0px" : `${content.current.scrollHeight}px`
+    );
+  });
 
   return (
-    <ListSection onClick={toggleImages}>
-      <OpenImages>
-        {props.title}
-        {setActive === "" ? <>{props.descriptionPreview}</> : null}
-      </OpenImages>
-      <Details ref={content} style={{ maxHeight: `${setHeight}` }}>
-        {props.img}
-        {props.description}
-      </Details>
-    </ListSection>
+    <>
+      <ListSection>
+        <OpenImages>
+          {props.title}
+          {!active ? <>{props.descriptionPreview}</> : null}
+        </OpenImages>
+        <Details ref={content} style={{ maxHeight: `${setHeight}` }}>
+          {active ? props.img : null}
+          {props.description}
+        </Details>
+      </ListSection>
+    </>
   );
-}
+};
 
 export default RenditionList;
