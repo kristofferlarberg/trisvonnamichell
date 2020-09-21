@@ -30,17 +30,13 @@ const RenditionList = (props) => {
 
   useEffect(() => {
     setActive(false);
-    if (props.expandValue === 1000) setActive(true);
+    if (props.expandValue === props.renditionsLength * 2) setActive(true);
     if (props.expandValue === props.id) setActive(true);
-    // console.log("propsid:" + props.id)
-    // console.log("expandvalue:" + props.expandValue)
-    // console.log("active:" + active)
-    // console.log("-----------------------")
 
     setHeight(
       active === true ? "0px" : `${content.current.scrollHeight}px`
     );
-  }, [props.expandValue, props.id, active]
+  }, [props.renditionsLength, props.expandValue, props.id, active]
   );
 
   return (

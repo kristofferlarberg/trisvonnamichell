@@ -83,15 +83,19 @@ const Renditions = ({ match }) => {
     };
     fetchData();
   }, [uid]); // Skip the Effect hook if the UID hasn't changed
-  function handleClick() {
-    toggleScriptState(!toggleScript);
-  }
+  // function handleClick() {
+  //   toggleScriptState(!toggleScript);
+  // }
   if (doc) {
-    console.log("Expand value in renditions:" + expandValue);
-    // console.log(rendArray);
+
     return (
       <>
-        <RemoteControl renditionLength={doc.results.length} adjustValue={(value) => setExpandValue(value)} />
+        <RemoteControl
+          currentValue={expandValue}
+          renditionsLength={doc.results.length}
+          adjustValue={(value) => setExpandValue(value + expandValue)}
+          currentScriptValue={toggleScript}
+          toggleScriptRemote={(value) => toggleScriptState(value)} />
         <Header
           text={
             <RichText
@@ -103,7 +107,7 @@ const Renditions = ({ match }) => {
         />
         <ContentContainer>
           <Script
-            handleClick={handleClick}
+            // handleClick={handleClick}
             position={!toggleScript}
             text={
               <RichText
@@ -116,6 +120,7 @@ const Renditions = ({ match }) => {
           <ListContainer position={!toggleScript}>
             {doc.results.map((item, i) => (
               <RenditionList
+                renditionsLength={doc.results.length}
                 expandValue={expandValue}
                 id={i}
                 // rendArray={rendArray}
