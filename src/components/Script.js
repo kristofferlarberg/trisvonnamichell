@@ -2,15 +2,22 @@ import React, { useState, useRef } from "react";
 import styled from "styled-components";
 
 const ScriptBox = styled.section`
-  margin-left: 4rem;
   padding: 1.5rem;
   width: 30vw;
-  height: 100%;
   background-color: #fcff7e;
+  position: fixed;
+  padding-left:4vw;
+  left: ${props => props.position ? "-33" : "0"}vw;
+  transition: ${props => props.position ? "all 0.2s ease-out" : "all 0.3s ease-in"};
+  
 `;
+// position: ${ props => props.position ? "relative" : "absolute" };
+
 
 function Script(props) {
-  return <ScriptBox>{props.text}</ScriptBox>;
+
+
+  return <ScriptBox onClick={props.handleClick} position={props.position}>{props.text}</ScriptBox>;
 }
 
 export default Script;
