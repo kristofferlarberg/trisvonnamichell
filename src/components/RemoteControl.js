@@ -41,17 +41,19 @@ const ButtonSymbol = styled.img`
   height: auto;
 `;
 
-function RemoteControl({ adjustValue }) {
+function RemoteControl(props) {
   const [value, setValue] = useState(0);
+  const adjustValue = props.adjustValue;
+
 
   function openNext() {
-    if (value === null) {
-      setValue(0);
-      console.log("VALUE:" + value)
+    // if (value === null) {
+    //   setValue(0);
+    //   console.log("VALUE:" + value)
 
-      return adjustValue(value);
-    }
-    if (value !== 1000) {
+    //   return adjustValue(value);
+    // }
+    if (value !== 1000 && value < props.renditionLength) {
       setValue(value + 1);
       console.log("VALUE:" + value)
 
@@ -60,7 +62,16 @@ function RemoteControl({ adjustValue }) {
   }
 
   function openPrevious() {
-    if (value !== 1000) {
+
+    if (value === -1) {
+      setValue(null);
+      console.log("VALUE:" + value)
+
+      return adjustValue(value);
+
+    }
+    if (value !== 1000 && value >= 0) {
+      console.log("VALUE:" + value)
       setValue(value - 1);
       return adjustValue(value);
     }

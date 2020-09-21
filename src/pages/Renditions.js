@@ -43,7 +43,7 @@ const Image = styled.img`
 const Renditions = ({ match }) => {
   const [doc, setDocData] = useState(null);
   const [notFound, toggleNotFound] = useState(false);
-  const [expandValue, setExpandValue] = useState(null);
+  const [expandValue, setExpandValue] = useState(-1);
   const [toggleScript, toggleScriptState] = useState(true);
 
   // const [rendArray, setRendArray] = useState(null);
@@ -91,7 +91,7 @@ const Renditions = ({ match }) => {
     // console.log(rendArray);
     return (
       <>
-        <RemoteControl adjustValue={(value) => setExpandValue(value)} />
+        <RemoteControl renditionLength={doc.results.length} adjustValue={(value) => setExpandValue(value)} />
         <Header
           text={
             <RichText
