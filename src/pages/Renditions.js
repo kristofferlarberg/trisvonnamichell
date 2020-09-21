@@ -12,14 +12,16 @@ import RemoteControl from "../components/RemoteControl";
 
 const ContentContainer = styled.div`
   display: flex;
-  width: 100vw;
+  width: 97vw;
 `;
 
 const ListContainer = styled.div`
-  margin-left: 4rem;
+  margin-left: ${props => props.position ? "4" : "37"}vw;
   display: flex;
   flex-direction: column;
-  width: 50vw;
+  width: 100%;
+  transition: all 0.2s ease-in;
+
 `;
 
 const DescriptionPreview = styled.div`
@@ -33,6 +35,9 @@ const DescriptionPreviewText = styled.h5`
 
 const Bullet = styled.h2`
   margin: -0.3rem 1rem 0 0;
+`;
+const Image = styled.img`
+  width: 100%;
 `;
 
 const Renditions = ({ match }) => {
@@ -76,7 +81,9 @@ const Renditions = ({ match }) => {
     };
     fetchData();
   }, [uid]); // Skip the Effect hook if the UID hasn't changed
-
+  function handleClick() {
+    toggleScriptState(!toggleScript);
+  }
   if (doc) {
     console.log("Expand value in renditions:" + expandValue);
     // console.log(rendArray);
@@ -94,6 +101,8 @@ const Renditions = ({ match }) => {
         />
         <ContentContainer>
           <Script
+            handleClick={handleClick}
+            position={!toggleScript}
             text={
               <RichText
                 key="c"
@@ -102,7 +111,7 @@ const Renditions = ({ match }) => {
               />
             }
           />
-          <ListContainer>
+          <ListContainer position={!toggleScript}>
             {doc.results.map((item, i) => (
               <RenditionList
                 expandValue={expandValue}
@@ -130,7 +139,7 @@ const Renditions = ({ match }) => {
                   )
                 )}
                 img={item.data.rendition_images.map((image, i) => [
-                  <img
+                  <Image
                     src={image.rendition_image.url}
                     key={"b" + i}
                     alt={image.rendition_image_caption[0].text}
