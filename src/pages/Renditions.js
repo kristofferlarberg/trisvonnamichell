@@ -44,6 +44,8 @@ const Renditions = ({ match }) => {
   const [doc, setDocData] = useState(null);
   const [notFound, toggleNotFound] = useState(false);
   const [expandValue, setExpandValue] = useState(null);
+  const [toggleScript, toggleScriptState] = useState(true);
+
   // const [rendArray, setRendArray] = useState(null);
 
   const uid = match.params.uid;
