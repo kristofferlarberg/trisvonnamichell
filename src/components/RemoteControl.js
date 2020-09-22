@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-
+import { Link } from "react-router-dom";
 import ButtonOne from "../graphics/1.svg";
 import ButtonTwo from "../graphics/2.svg";
 import ButtonThree from "../graphics/3.svg";
@@ -80,7 +80,7 @@ function RemoteControl(props) {
         <ButtonSymbol src={ButtonFour} alt="Close all sections" />
       </Button>
       <LastButton>
-        <ButtonSymbol src={ButtonFive} alt="Go back to home" />
+        <Link to="/"><ButtonSymbol src={ButtonFive} alt="Go back to home" /></Link>
       </LastButton>
     </Container>
   );
