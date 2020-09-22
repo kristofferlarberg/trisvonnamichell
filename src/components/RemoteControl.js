@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import ButtonOne from "../graphics/1.svg";
 import ButtonTwo from "../graphics/2.svg";
 import ButtonThree from "../graphics/3.svg";
+import ButtonThreeP from "../graphics/3p.svg";
 import ButtonFour from "../graphics/4.svg";
 import ButtonFive from "../graphics/5.svg";
 
@@ -17,6 +18,9 @@ const Container = styled.div`
   justify-content: center;
   border-radius: 30px;
   background-color: grey;
+  position: fixed; 
+  bottom: 1rem; 
+  right: 1rem;
 `;
 
 const Button = styled.button`
@@ -49,7 +53,7 @@ function RemoteControl(props) {
   }
 
   function openPrevious() {
-    if (currentValue > -1) return adjustValue(-1)
+    if (currentValue > -1 && currentValue != renditionsLength * 2) return adjustValue(-1)
   }
 
   function openAll() {
@@ -74,7 +78,7 @@ function RemoteControl(props) {
         <ButtonSymbol src={ButtonTwo} alt="Open previous section" />
       </Button>
       <Button onClick={openAll}>
-        <ButtonSymbol src={ButtonThree} alt="Open all sections" />
+        <ButtonSymbol src={currentValue != renditionsLength * 2 ? ButtonThree : ButtonThreeP} alt="Open all sections" />
       </Button>
       <Button onClick={closeAll}>
         <ButtonSymbol src={ButtonFour} alt="Close all sections" />

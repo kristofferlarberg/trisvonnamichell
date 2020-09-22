@@ -90,7 +90,7 @@ const Renditions = ({ match }) => {
 
     return (
       <>
-        <RemoteControl
+        <RemoteControl style={{ "position": "fixed", "bottom": "10rem", "right": "10rem" }}
           currentValue={expandValue}
           renditionsLength={doc.results.length}
           adjustValue={(value) => setExpandValue(value + expandValue)}
