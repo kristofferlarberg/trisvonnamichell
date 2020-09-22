@@ -53,7 +53,7 @@ function RemoteControl(props) {
   }
 
   function openPrevious() {
-    if (currentValue > -1 && currentValue != renditionsLength * 2) return adjustValue(-1)
+    if (currentValue > -1 && currentValue !== renditionsLength * 2) return adjustValue(-1)
   }
 
   function openAll() {
@@ -78,7 +78,7 @@ function RemoteControl(props) {
         <ButtonSymbol src={ButtonTwo} alt="Open previous section" />
       </Button>
       <Button onClick={openAll}>
-        <ButtonSymbol src={currentValue != renditionsLength * 2 ? ButtonThree : ButtonThreeP} alt="Open all sections" />
+        <ButtonSymbol src={currentValue !== renditionsLength * 2 ? ButtonThree : ButtonThreeP} alt="Open all sections" />
       </Button>
       <Button onClick={closeAll}>
         <ButtonSymbol src={ButtonFour} alt="Close all sections" />

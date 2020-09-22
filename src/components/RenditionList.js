@@ -21,12 +21,21 @@ const OpenImages = styled.button`
 const Details = styled.section`
   overflow: hidden;
   transition: max-height 0.6s ease;
+  max-height: ${props => props.height};
+`;
+
+const PreviewDiv = styled.div`
+  max-height: ${props => props.height2};
+  overflow: hidden;
+  transition: 0.6s ease;
 `;
 
 const RenditionList = (props) => {
   const [active, setActive] = useState(false);
   const [height, setHeight] = useState("0px");
+  const [height2, setHeight2] = useState("0px");
   const content = useRef(null);
+  const content2 = useRef(null);
 
   useEffect(() => {
     setActive(false);
@@ -34,7 +43,10 @@ const RenditionList = (props) => {
     if (props.expandValue === props.id) setActive(true);
 
     setHeight(
-      active === true ? "0px" : `${content.current.scrollHeight}px`
+      active === false ? "0px" : `${content.current.scrollHeight}px`
+    );
+    setHeight2(
+      active === true ? "0px" : `${content2.current.scrollHeight}px`
     );
   }, [props.renditionsLength, props.expandValue, props.id, active]
   );
@@ -44,10 +56,12 @@ const RenditionList = (props) => {
       <ListSection>
         <OpenImages>
           {props.title}
-          {!active ? <>{props.descriptionPreview}</> : null}
+          <PreviewDiv ref={content2} height2={height2}>
+            {props.descriptionPreview}
+          </PreviewDiv>
         </OpenImages>
-        <Details ref={content} style={{ maxHeight: `${setHeight}` }}>
-          {active ? props.img : null}
+        <Details ref={content} height={height}>
+          {props.img}
           {props.description}
         </Details>
       </ListSection>
