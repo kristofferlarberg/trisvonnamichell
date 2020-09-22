@@ -5,7 +5,7 @@ import NotFound from "./NotFound";
 import Prismic from "prismic-javascript";
 import styled from "styled-components";
 
-const Title = styled.h2`
+const Title = styled.h1`
   margin-left: 1.5rem;
   @media (max-width: 500px) {
     margin-left: 0rem;

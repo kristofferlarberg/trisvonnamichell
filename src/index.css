@@ -22,15 +22,16 @@ body {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  background-color: #e0e0e0;
+  background-color: #fff;
   font-family: 'Basier Square Regular', sans-serif;
   font-size: 1rem;
   line-height: 1.4rem;
+  overflow-y: scroll;
 }
 
 h1 {
-  font-family: 'Basier Square Mono', sans-serif;
-  font-size: 3rem;
+  font-family: 'Basier Square Regular', sans-serif;
+  font-size: 2rem;
 }
 
 h2 {
@@ -45,7 +46,7 @@ h3 {
 
 h4 {
   font-family: 'Basier Square Mono', sans-serif;
-  font-size: 1rem;
+  font-size: 1.5rem;
 }
 
 h5 {

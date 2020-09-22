@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
-
+import { Link } from "react-router-dom";
 import ButtonOne from "../graphics/1.svg";
 import ButtonTwo from "../graphics/2.svg";
 import ButtonThree from "../graphics/3.svg";
+import ButtonThreeP from "../graphics/3p.svg";
 import ButtonFour from "../graphics/4.svg";
 import ButtonFive from "../graphics/5.svg";
 
@@ -17,6 +18,9 @@ const Container = styled.div`
   justify-content: center;
   border-radius: 30px;
   background-color: grey;
+  position: fixed; 
+  bottom: 1rem; 
+  right: 1rem;
 `;
 
 const Button = styled.button`
@@ -42,54 +46,31 @@ const ButtonSymbol = styled.img`
 `;
 
 function RemoteControl(props) {
-  const [value, setValue] = useState(0);
-  const adjustValue = props.adjustValue;
-
+  const { adjustValue, currentValue, renditionsLength, currentScriptValue, toggleScriptRemote } = props;
 
   function openNext() {
-    // if (value === null) {
-    //   setValue(0);
-    //   console.log("VALUE:" + value)
-
-    //   return adjustValue(value);
-    // }
-    if (value !== 1000 && value < props.renditionLength) {
-      setValue(value + 1);
-      console.log("VALUE:" + value)
-
-      return adjustValue(value);
-    }
+    if (currentValue < renditionsLength - 1) return adjustValue(1)
   }
 
   function openPrevious() {
-
-    if (value === -1) {
-      setValue(null);
-      console.log("VALUE:" + value)
-
-      return adjustValue(value);
-
-    }
-    if (value !== 1000 && value >= 0) {
-      console.log("VALUE:" + value)
-      setValue(value - 1);
-      return adjustValue(value);
-    }
+    if (currentValue > -1 && currentValue !== renditionsLength * 2) return adjustValue(-1)
   }
 
   function openAll() {
-    setValue(1000);
-    return adjustValue(value);
+    return adjustValue(renditionsLength * 2 - currentValue);
   }
 
   function closeAll() {
-    setValue(null);
-    return adjustValue(value);
+    return adjustValue(-1 - currentValue);
+  }
+
+  function toggleScript() {
+    return toggleScriptRemote(!currentScriptValue);
   }
 
   return (
     <Container>
-      <Button>T</Button>
+      <Button onClick={toggleScript}>T</Button>
       <Button onClick={openNext}>
         <ButtonSymbol src={ButtonOne} alt="Open next section" />
       </Button>
@@ -97,13 +78,13 @@ function RemoteControl(props) {
         <ButtonSymbol src={ButtonTwo} alt="Open previous section" />
       </Button>
       <Button onClick={openAll}>
-        <ButtonSymbol src={ButtonThree} alt="Open all sections" />
+        <ButtonSymbol src={currentValue !== renditionsLength * 2 ? ButtonThree : ButtonThreeP} alt="Open all sections" />
       </Button>
       <Button onClick={closeAll}>
         <ButtonSymbol src={ButtonFour} alt="Close all sections" />
       </Button>
       <LastButton>
-        <ButtonSymbol src={ButtonFive} alt="Go back to home" />
+        <Link to="/"><ButtonSymbol src={ButtonFive} alt="Go back to home" /></Link>
       </LastButton>
     </Container>
   );
