@@ -2,15 +2,29 @@ import React, { useState, useRef } from "react";
 import styled from "styled-components";
 
 const HeaderContainer = styled.header`
-  padding: 1.5rem;
-  height: 100%;
+  height: auto;
   display: flex;
   justify-content: center;
+  background-color: none;
+  display: flex;
+  align-items: center;
+`;
+
+const WorkTitle = styled.h2`
+  padding: 0.5rem 1.5rem;
+  margin-bottom: 4rem;
+  margin-top: 4rem;
+  line-height: 0;
   background-color: white;
 `;
 
+
 function Header(props) {
-  return <HeaderContainer>{props.text}</HeaderContainer>;
+  return (
+    <HeaderContainer>
+      <WorkTitle>{props.text}</WorkTitle>
+    </HeaderContainer>
+  );
 }
 
 export default Header;

@@ -12,33 +12,28 @@ import ButtonSix from "../graphics/6.svg";
 const Container = styled.div`
   padding: 5px;
   margin: 1rem;
-  width: 500px;
-  height: 90px;
+  width: 340px;
+  height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 30px;
+  border-radius: 15px;
   background-color: grey;
-  position: fixed; 
-  bottom: 1rem; 
+  position: fixed;
+  bottom: 1rem;
   right: 1rem;
 `;
 
 const Button = styled.button`
-  width: 70px;
-  height: 70px;
+  width: 50px;
+  height: 40px;
   border: 0;
   border-left: 1px solid black;
   background-color: grey;
 `;
 
-const LastButton = styled.button`
-  width: 70px;
-  height: 70px;
-  border: 0;
-  border-left: 1px solid black;
+const LastButton = styled(Button)`
   border-right: 1px solid black;
-  background-color: grey;
 `;
 
 const ButtonSymbol = styled.img`
@@ -47,14 +42,21 @@ const ButtonSymbol = styled.img`
 `;
 
 function RemoteControl(props) {
-  const { adjustValue, currentValue, renditionsLength, currentScriptValue, toggleScriptRemote } = props;
+  const {
+    adjustValue,
+    currentValue,
+    renditionsLength,
+    currentScriptValue,
+    toggleScriptRemote,
+  } = props;
 
   function openNext() {
-    if (currentValue < renditionsLength - 1) return adjustValue(1)
+    if (currentValue < renditionsLength - 1) return adjustValue(1);
   }
 
   function openPrevious() {
-    if (currentValue > -1 && currentValue !== renditionsLength * 2) return adjustValue(-1)
+    if (currentValue > -1 && currentValue !== renditionsLength * 2)
+      return adjustValue(-1);
   }
 
   function openAll() {
@@ -71,9 +73,6 @@ function RemoteControl(props) {
 
   return (
     <Container>
-      <Button onClick={toggleScript}>
-        <ButtonSymbol src={ButtonSix} alt="Open/close script" />
-      </Button>
       <Button onClick={openNext}>
         <ButtonSymbol src={ButtonOne} alt="Open next section" />
       </Button>
@@ -81,14 +80,24 @@ function RemoteControl(props) {
         <ButtonSymbol src={ButtonTwo} alt="Open previous section" />
       </Button>
       <Button onClick={openAll}>
-        <ButtonSymbol src={currentValue !== renditionsLength * 2 ? ButtonThree : ButtonThreeP} alt="Open all sections" />
+        <ButtonSymbol
+          src={
+            currentValue !== renditionsLength * 2 ? ButtonThree : ButtonThreeP
+          }
+          alt="Open all sections"
+        />
       </Button>
       <Button onClick={closeAll}>
         <ButtonSymbol src={ButtonFour} alt="Close all sections" />
       </Button>
-      <LastButton>
-        <Link to="/"><ButtonSymbol src={ButtonFive} alt="Go back to home" /></Link>
-      </LastButton>
+      <Button onClick={toggleScript}>
+        <ButtonSymbol src={ButtonSix} alt="Open/close script" />
+      </Button>
+      <Link to="/">
+        <LastButton>
+          <ButtonSymbol src={ButtonFive} alt="Go back to home" />
+        </LastButton>
+      </Link>
     </Container>
   );
 }

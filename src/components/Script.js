@@ -4,20 +4,20 @@ import styled from "styled-components";
 const ScriptBox = styled.section`
   padding: 1.5rem;
   width: 30vw;
-  background-color: #fcff7e;
+  background-color: yellow;
   position: fixed;
-  padding-left:4vw;
-  left: ${props => props.position ? "-33" : "0"}vw;
-  transition: ${props => props.position ? "all 0.2s ease-out" : "all 0.3s ease-in"};
-  
+  left: ${(props) => (props.position ? "-25" : "4")}vw;
+  transition: ${(props) =>
+    props.position ? "all 0.2s ease-out" : "all 0.3s ease-in"};
 `;
 // position: ${ props => props.position ? "relative" : "absolute" };
 
-
 function Script(props) {
-
-
-  return <ScriptBox onClick={props.handleClick} position={props.position}>{props.text}</ScriptBox>;
+  return (
+    <ScriptBox onClick={props.handleClick} position={props.position}>
+      {props.text}
+    </ScriptBox>
+  );
 }
 
 export default Script;
