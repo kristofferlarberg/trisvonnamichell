@@ -10,18 +10,22 @@ import Script from "../components/Script";
 import Header from "../components/Header";
 import RemoteControl from "../components/RemoteControl";
 
+
+
 const ContentContainer = styled.div`
   display: flex;
-  width: 97vw;
+  width: 100vw;
+  margin-top: 2rem;
 `;
 
 const ListContainer = styled.div`
-  margin-left: ${props => props.position ? "4" : "37"}vw;
+  margin-left: ${(props) => (props.position ? "20" : "40")}vw;
+  margin-right: ${(props) => (props.position ? "20" : "4")}vw;
   display: flex;
   flex-direction: column;
   width: 100%;
   transition: all 0.2s ease-in;
-
+  border-top: 2px solid white;
 `;
 
 const DescriptionPreview = styled.div`
@@ -90,7 +94,7 @@ const Renditions = ({ match }) => {
 
     return (
       <>
-        <RemoteControl style={{ "position": "fixed", "bottom": "10rem", "right": "10rem" }}
+        <RemoteControl
           currentValue={expandValue}
           renditionsLength={doc.results.length}
           adjustValue={(value) => setExpandValue(value + expandValue)}

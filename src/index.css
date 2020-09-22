@@ -22,7 +22,7 @@ body {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  background-color: #fff;
+  background-color: #e0e0e0;
   font-family: 'Basier Square Regular', sans-serif;
   font-size: 1rem;
   line-height: 1.4rem;
@@ -31,12 +31,12 @@ body {
 
 h1 {
   font-family: 'Basier Square Regular', sans-serif;
-  font-size: 2.2rem;
+  font-size: 2rem;
 }
 
 h2 {
   font-family: 'Basier Square Mono', sans-serif;
-  font-size: 2rem;
+  font-size: 1.7rem;
 }
 
 h3 {

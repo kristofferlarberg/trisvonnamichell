@@ -7,9 +7,10 @@ import styled from "styled-components";
 
 const lineHeight = 11
 
-const Title = styled.h1`
-  margin-left: 1rem;
-  padding: 1.65rem;
+const Title = styled.nav`
+  padding: 2rem;
+  margin: 0;
+  background-color: white;
   @media (max-width: 500px) {
     margin-left: 0rem;
     font-size: 2rem;
@@ -23,7 +24,7 @@ const Title = styled.h1`
 `
 const Line = styled.section`
   background-color: #e0e0e0;
-  margin-bottom: 0.5rem;
+  border-bottom: 4px solid white;
   height: ${lineHeight}rem;
 `
 const Preview = styled.img`
@@ -56,7 +57,6 @@ const WorkTitle = styled.h4`
   margin: 0 0 0.4rem 0;
   padding: 0.5rem 0.8rem 0.5rem 0.8rem;
   background-color: #fff;
-  border-radius: 0.2rem;
 `
 
 const Home = ({ match }) => {
@@ -116,7 +116,9 @@ const Home = ({ match }) => {
   if (doc) {
     return (
       <div className="home">
-        <Title >Tris Vonna-Michell</Title>
+        <Title>
+          <h1>Tris Vonna-Michell</h1>
+        </Title>
 
         {/* This is how to render a Rich Text field into your template as HTML */}
         {/* <RichText render={doc.data.description} linkResolver={linkResolver} /> */}
@@ -127,14 +129,26 @@ const Home = ({ match }) => {
               src={item.data.work_preview_image.url}
               className="link_img"
               alt={item.data.work_title[0].text}
-              width={item.image_width / doc.max_width * 100}
-              left={(item.data.work_year_from - doc.min_year) / doc.max_width * 100}
-            // style={{ "width": `${item.image_width / doc.max_width * 100}%` }}
+              width={(item.image_width / doc.max_width) * 100}
+              left={
+                ((item.data.work_year_from - doc.min_year) / doc.max_width) *
+                100
+              }
+              // style={{ "width": `${item.image_width / doc.max_width * 100}%` }}
             />
-            <WorkLink numberOfWorks={doc.results.length} href={Link.url(item.link, linkResolver)} key={i}>
+            <WorkLink
+              numberOfWorks={doc.results.length}
+              href={Link.url(item.link, linkResolver)}
+              key={i}
+            >
               <HoverLine key={"d" + i}>
-                <WorkTitle key={"b" + i}>{item.data.work_title[0].text}</WorkTitle><br />
-                <WorkTitle key={"c" + i}>{item.data.work_year_from}–{item.data.work_year_to}</WorkTitle>
+                <WorkTitle key={"b" + i}>
+                  {item.data.work_title[0].text}
+                </WorkTitle>
+                <br />
+                <WorkTitle key={"c" + i}>
+                  {item.data.work_year_from}–{item.data.work_year_to}
+                </WorkTitle>
               </HoverLine>
             </WorkLink>
           </Line>
