@@ -7,6 +7,7 @@ import ButtonThree from "../graphics/3.svg";
 import ButtonThreeP from "../graphics/3p.svg";
 import ButtonFour from "../graphics/4.svg";
 import ButtonFive from "../graphics/5.svg";
+import ButtonSix from "../graphics/6.svg";
 
 const Container = styled.div`
   padding: 5px;
@@ -70,7 +71,9 @@ function RemoteControl(props) {
 
   return (
     <Container>
-      <Button onClick={toggleScript}>T</Button>
+      <Button onClick={toggleScript}>
+        <ButtonSymbol src={ButtonSix} alt="Open/close script" />
+      </Button>
       <Button onClick={openNext}>
         <ButtonSymbol src={ButtonOne} alt="Open next section" />
       </Button>

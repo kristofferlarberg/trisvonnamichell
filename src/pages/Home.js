@@ -5,8 +5,11 @@ import NotFound from "./NotFound";
 import Prismic from "prismic-javascript";
 import styled from "styled-components";
 
+const lineHeight = 11
+
 const Title = styled.h1`
-  margin-left: 1.5rem;
+  margin-left: 1rem;
+  padding: 1.65rem;
   @media (max-width: 500px) {
     margin-left: 0rem;
     font-size: 2rem;
@@ -19,28 +22,28 @@ const Title = styled.h1`
   }
 `
 const Line = styled.section`
-  background-color: #eee;
-  margin-bottom: 0.7rem;
-  height: 10rem;
+  background-color: #e0e0e0;
+  margin-bottom: 0.5rem;
+  height: ${lineHeight}rem;
 `
 const Preview = styled.img`
   position: relative;
   left: ${props => props.left}%;
   width: ${props => props.width}%;
-  height: 10rem;
+  height: ${lineHeight}rem;
   object-fit: cover;
 `
 const WorkLink = styled.a`
   position: relative;
-  top: -10.33rem; 
-  height: 10rem;
+  top: -${props => lineHeight + 1 / props.numberOfWorks}rem; 
+  height: ${lineHeight}rem;
   text-decoration: none;
   color: inherit;
 `
 const HoverLine = styled.span`
   display: block;
   text-align: center;
-  height: 10rem;
+  height: ${lineHeight}rem;
   transition-duration: 0.4s;
   &:hover{
     background-color: #D09C0077;
@@ -49,10 +52,11 @@ const HoverLine = styled.span`
 const WorkTitle = styled.h4`
   display: inline-block;
   position: relative;
-  top: 3rem;
-  margin: 0 0 0.2rem 0;
-  padding: 0.3rem 0.6rem 0.3rem 0.6rem;
+  top: ${(lineHeight - 1.4 * 2 - 0.4 - 0.5 * 4) / 2}rem;
+  margin: 0 0 0.4rem 0;
+  padding: 0.5rem 0.8rem 0.5rem 0.8rem;
   background-color: #fff;
+  border-radius: 0.2rem;
 `
 
 const Home = ({ match }) => {
@@ -127,7 +131,7 @@ const Home = ({ match }) => {
               left={(item.data.work_year_from - doc.min_year) / doc.max_width * 100}
             // style={{ "width": `${item.image_width / doc.max_width * 100}%` }}
             />
-            <WorkLink href={Link.url(item.link, linkResolver)} key={i}>
+            <WorkLink numberOfWorks={doc.results.length} href={Link.url(item.link, linkResolver)} key={i}>
               <HoverLine key={"d" + i}>
                 <WorkTitle key={"b" + i}>{item.data.work_title[0].text}</WorkTitle><br />
                 <WorkTitle key={"c" + i}>{item.data.work_year_from}–{item.data.work_year_to}</WorkTitle>
