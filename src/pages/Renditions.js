@@ -25,7 +25,6 @@ const ListContainer = styled.div`
   flex-direction: column;
   width: 100%;
   transition: all 0.2s ease-in;
-  border-top: 2px solid white;
 `;
 
 const DescriptionPreview = styled.div`
@@ -101,13 +100,13 @@ const Renditions = ({ match }) => {
           currentScriptValue={toggleScript}
           toggleScriptRemote={(value) => toggleScriptState(value)} />
         <Header
-          text={
-            <RichText
-              key="b"
-              render={doc.work_title}
-              linkResolver={linkResolver}
-            />
-          }
+          text={doc.work_title[0].text}
+        //   <RichText
+        //     key="b"
+        //     render={doc.work_title}
+        //     linkResolver={linkResolver}
+        //   />
+        // }
         />
         <ContentContainer>
           <Script
@@ -124,27 +123,32 @@ const Renditions = ({ match }) => {
           <ListContainer position={!toggleScript}>
             {doc.results.map((item, i) => (
               <RenditionList
+                key={"a" + i}
                 renditionsLength={doc.results.length}
                 expandValue={expandValue}
                 id={i}
                 // rendArray={rendArray}
                 title={
-                  <RichText
-                    key={i}
-                    render={item.data.rendition_title}
-                    linkResolver={linkResolver}
-                  />
-                }
+                  item.data.rendition_title[0].text}
+                //   <RichText
+                //     key={i}
+                //     render={item.data.rendition_title}
+                //     linkResolver={linkResolver}
+                //   />
+                // }
                 descriptionPreview={item.data.rendition_images.map(
                   (image, i) => (
-                    <DescriptionPreview>
-                      <Bullet>&#8226;</Bullet>
+                    <DescriptionPreview key={"d" + i}
+                    >
+                      <Bullet key={"e" + i}
+                      >&#8226;</Bullet>
                       <DescriptionPreviewText>
-                        <RichText
+                        {image.rendition_image_caption[0].text}
+                        {/* <RichText
                           key={"c" + i}
                           render={image.rendition_image_caption}
                           linkResolver={linkResolver}
-                        />
+                        /> */}
                       </DescriptionPreviewText>
                     </DescriptionPreview>
                   )
@@ -161,7 +165,6 @@ const Renditions = ({ match }) => {
                     linkResolver={linkResolver}
                   />,
                 ])}
-                expandValue={expandValue}
               />
             ))}
           </ListContainer>

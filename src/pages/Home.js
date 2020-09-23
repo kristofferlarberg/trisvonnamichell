@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Link, RichText } from "prismic-reactjs";
+import { Link } from "prismic-reactjs";
 import { client, linkResolver } from "../prismic-configuration";
 import NotFound from "./NotFound";
 import Prismic from "prismic-javascript";
 import styled from "styled-components";
 
-const lineHeight = 11
+const lineHeight = 15
 
 const Title = styled.nav`
-  padding: 2rem;
+  padding: 1rem 2.5rem 1rem 2.5rem;
   margin: 0;
   background-color: white;
   @media (max-width: 500px) {
@@ -53,8 +53,8 @@ const HoverLine = styled.span`
 const WorkTitle = styled.h4`
   display: inline-block;
   position: relative;
-  top: ${(lineHeight - 1.4 * 2 - 0.4 - 0.5 * 4) / 2}rem;
-  margin: 0 0 0.4rem 0;
+  top: ${(lineHeight - 1.4 * 2 - 0.25 - 0.5 * 4) / 2}rem;
+  margin: 0 0 0.25rem 0;
   padding: 0.5rem 0.8rem 0.5rem 0.8rem;
   background-color: #fff;
 `
@@ -115,7 +115,7 @@ const Home = ({ match }) => {
 
   if (doc) {
     return (
-      <div className="home">
+      <div>
         <Title>
           <h1>Tris Vonna-Michell</h1>
         </Title>
@@ -134,7 +134,7 @@ const Home = ({ match }) => {
                 ((item.data.work_year_from - doc.min_year) / doc.max_width) *
                 100
               }
-              // style={{ "width": `${item.image_width / doc.max_width * 100}%` }}
+            // style={{ "width": `${item.image_width / doc.max_width * 100}%` }}
             />
             <WorkLink
               numberOfWorks={doc.results.length}
