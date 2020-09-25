@@ -1,7 +1,10 @@
-import React, { useState, useRef } from "react";
+import React from "react";
 import styled from "styled-components";
 
 const HeaderContainer = styled.header`
+  position: fixed;
+  top: 0;
+  width:100vw;
   height: auto;
   display: flex;
   justify-content: center;
@@ -11,11 +14,12 @@ const HeaderContainer = styled.header`
 `;
 
 const WorkTitle = styled.h2`
-  padding: 0.5rem 1.5rem;
+  text-align: center;
+  padding: 1rem 1.5rem;
   margin-bottom: 4rem;
-  margin-top: 4rem;
-  line-height: 0;
+  margin-top: 0;
   background-color: white;
+  width: 100%;
 `;
 
 

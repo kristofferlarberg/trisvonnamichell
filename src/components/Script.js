@@ -1,12 +1,12 @@
-import React, { useState, useRef } from "react";
+import React from "react";
 import styled from "styled-components";
 
 const ScriptBox = styled.section`
   padding: 1.5rem;
   width: 30vw;
-  background-color: yellow;
+  background-color: #fafd5c;
   position: fixed;
-  left: ${(props) => (props.position ? "-25" : "4")}vw;
+  left: ${(props) => (props.position ? "-30" : "4")}vw;
   transition: ${(props) =>
     props.position ? "all 0.2s ease-out" : "all 0.3s ease-in"};
 `;

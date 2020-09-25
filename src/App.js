@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { Helmet } from "react-helmet";
-import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { apiEndpoint } from "./prismic-configuration";
 import { NotFound } from "./pages";
 import Home from "./pages/Home";
