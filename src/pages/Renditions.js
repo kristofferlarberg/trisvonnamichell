@@ -15,7 +15,7 @@ import RemoteControl from "../components/RemoteControl";
 const ContentContainer = styled.div`
   display: flex;
   width: 100vw;
-  margin-top: 2rem;
+  margin-top: 10rem;
 `;
 
 const ListContainer = styled.div`
