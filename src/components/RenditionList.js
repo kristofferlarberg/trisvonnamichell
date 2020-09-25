@@ -5,13 +5,11 @@ const ListSection = styled.section`
   padding: 2rem 4rem 4rem 4rem;
   display: flex;
   flex-direction: column;
-  color: #e0e0e0;
   border-bottom: 4px solid #e0e0e0;
   background-color: white;
 `;
 
-const OpenImages = styled.button`
-  cursor: pointer;
+const OpenImages = styled.section`
   display: flex;
   flex-direction: column;
   border: 0;

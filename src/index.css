@@ -36,7 +36,7 @@ h1 {
 
 h2 {
   font-family: 'Basier Square Mono', sans-serif;
-  font-size: 1.7rem;
+  font-size: 1.5rem;
 }
 
 h3 {
@@ -52,6 +52,7 @@ h4 {
 h5 {
   font-family: 'Basier Square Regular', sans-serif;
   font-size: 1rem;
+  line-height: 1.5rem;
   color: black;
   margin: 0;
 }

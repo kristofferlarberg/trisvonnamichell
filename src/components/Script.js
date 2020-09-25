@@ -4,7 +4,7 @@ import styled from "styled-components";
 const ScriptBox = styled.section`
   padding: 1.5rem;
   width: 30vw;
-  background-color: yellow;
+  background-color: #fafd5c;
   position: fixed;
   left: ${(props) => (props.position ? "-30" : "4")}vw;
   transition: ${(props) =>
