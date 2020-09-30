@@ -4,18 +4,31 @@ import { client, linkResolver } from "../prismic-configuration";
 import NotFound from "./NotFound";
 import Prismic from "prismic-javascript";
 import styled from "styled-components";
-
 import RenditionList from "../components/RenditionList";
 import Script from "../components/Script";
 import Header from "../components/Header";
 import RemoteControl from "../components/RemoteControl";
+import testbg from "../graphics/testbg.jpg";
+import testbg2 from "../graphics/testbg-2.jpg";
+import testbg3 from "../graphics/testbg-3.jpg";
 
-
+const Main = styled.main`
+  height: 100vh;
+  box-sizing: border-box;
+  overflow: auto;
+/*   background-color: #d3b975;
+  background-image: url(${testbg3});
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-blend-mode: color; */
+`;
 
 const ContentContainer = styled.div`
   display: flex;
-  width: 100vw;
-  margin-top: 10rem;
+  box-sizing: border-box;
+  width: 100%;
+  height: auto;
+  padding-top: 5rem;
 `;
 
 const ListContainer = styled.div`
@@ -48,6 +61,7 @@ const Renditions = ({ match }) => {
   const [notFound, toggleNotFound] = useState(false);
   const [expandValue, setExpandValue] = useState(-1);
   const [toggleScript, toggleScriptState] = useState(true);
+  const [mainHeight, setMainHeight] = useState(true);
 
   // const [rendArray, setRendArray] = useState(null);
 
@@ -85,28 +99,30 @@ const Renditions = ({ match }) => {
       }
     };
     fetchData();
+
+    //expandValue > -1 ? setMainHeight("")
   }, [uid]); // Skip the Effect hook if the UID hasn't changed
   // function handleClick() {
   //   toggleScriptState(!toggleScript);
   // }
   if (doc) {
-
     return (
-      <>
+      <Main>
         <RemoteControl
           currentValue={expandValue}
           renditionsLength={doc.results.length}
           adjustValue={(value) => setExpandValue(value + expandValue)}
           currentScriptValue={toggleScript}
-          toggleScriptRemote={(value) => toggleScriptState(value)} />
+          toggleScriptRemote={(value) => toggleScriptState(value)}
+        />
         <Header
           text={doc.work_title[0].text}
-        //   <RichText
-        //     key="b"
-        //     render={doc.work_title}
-        //     linkResolver={linkResolver}
-        //   />
-        // }
+          //   <RichText
+          //     key="b"
+          //     render={doc.work_title}
+          //     linkResolver={linkResolver}
+          //   />
+          // }
         />
         <ContentContainer>
           <Script
@@ -128,8 +144,7 @@ const Renditions = ({ match }) => {
                 expandValue={expandValue}
                 id={i}
                 // rendArray={rendArray}
-                title={
-                  item.data.rendition_title[0].text}
+                title={item.data.rendition_title[0].text}
                 //   <RichText
                 //     key={i}
                 //     render={item.data.rendition_title}
@@ -138,10 +153,8 @@ const Renditions = ({ match }) => {
                 // }
                 descriptionPreview={item.data.rendition_images.map(
                   (image, i) => (
-                    <DescriptionPreview key={"d" + i}
-                    >
-                      <Bullet key={"e" + i}
-                      >&#8226;</Bullet>
+                    <DescriptionPreview key={"d" + i}>
+                      <Bullet key={"e" + i}>&#8226;</Bullet>
                       <DescriptionPreviewText>
                         {image.rendition_image_caption[0].text}
                         {/* <RichText
@@ -169,7 +182,7 @@ const Renditions = ({ match }) => {
             ))}
           </ListContainer>
         </ContentContainer>
-      </>
+      </Main>
     );
   } else if (notFound) {
     return <NotFound />;

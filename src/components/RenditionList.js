@@ -2,11 +2,11 @@ import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 
 const ListSection = styled.section`
+  margin-bottom: 5px;
   padding: 2rem 4rem 4rem 4rem;
   display: flex;
   flex-direction: column;
-  border-bottom: 4px solid #e0e0e0;
-  background-color: white;
+  background-color: #e0e0e0;
 `;
 
 const OpenImages = styled.section`
@@ -14,7 +14,6 @@ const OpenImages = styled.section`
   flex-direction: column;
   border: 0;
   outline: none;
-  background-color: white;
 `;
 
 const Title = styled.h3`

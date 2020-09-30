@@ -4,24 +4,24 @@ import styled from "styled-components";
 const HeaderContainer = styled.header`
   position: fixed;
   top: 0;
-  width:100vw;
+  width: 100%;
   height: auto;
-  display: flex;
-  justify-content: center;
   background-color: none;
   display: flex;
+  justify-content: center;
   align-items: center;
 `;
 
 const WorkTitle = styled.h2`
-  text-align: center;
-  padding: 1rem 1.5rem;
-  margin-bottom: 4rem;
-  margin-top: 0;
-  background-color: white;
   width: 100%;
+  padding: 1rem 1.5rem;
+  margin: 4rem;
+  box-sizing: border-box;
+  margin-top: 0;
+  text-align: center;
+  color: white;
+  border-bottom: 4px solid white;
 `;
-
 
 function Header(props) {
   return (
