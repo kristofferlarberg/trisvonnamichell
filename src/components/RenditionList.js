@@ -50,7 +50,6 @@ const RenditionList = (props) => {
     if (props.expandValue === props.id) {
       setActive(true);
       executeScroll(content2);
-      console.log(content2.current.offsetTop)
     }
     setHeight(active === false ? "0px" : `${content.current.scrollHeight}px`);
     setHeight2(active === true ? "0px" : `${content2.current.scrollHeight}px`);
@@ -61,7 +60,7 @@ const RenditionList = (props) => {
     <>
       <ListSection>
         <OpenImages>
-          <Title>{props.title}</Title>
+          <Title>{props.title} {props.year}</Title>
           <PreviewDiv ref={content2} height2={height2}>
             {props.descriptionPreview}
           </PreviewDiv>

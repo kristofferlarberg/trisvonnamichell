@@ -62,6 +62,7 @@ const Renditions = ({ match }) => {
   const [notFound, toggleNotFound] = useState(false);
   const [expandValue, setExpandValue] = useState(-1);
   const [toggleScript, toggleScriptState] = useState(true);
+  const [toggleRemote, toggleRemoteState] = useState(true);
   const [mainHeight, setMainHeight] = useState(true);
 
   // const [rendArray, setRendArray] = useState(null);
@@ -84,10 +85,11 @@ const Renditions = ({ match }) => {
       const result = await client.query(
         Prismic.Predicates.at("my.rendition.work_category", category.id)
       );
-
       if (result) {
         result.work_script = category.data.work_script;
         result.work_title = category.data.work_title;
+        result.work_year_from = category.data.work_year_from;
+        result.work_year_to = category.data.work_year_to;
         // We use the State hook to save the document
         // setRendArray(result.results);
         return setDocData(result);
@@ -103,13 +105,21 @@ const Renditions = ({ match }) => {
 
     //expandValue > -1 ? setMainHeight("")
   }, [uid]); // Skip the Effect hook if the UID hasn't changed
+  function handleClick() {
+    toggleRemoteState(!toggleRemote);
+  }
+
+
   // function handleClick() {
   //   toggleScriptState(!toggleScript);
   // }
   if (doc) {
+
     return (
       <Main>
         <RemoteControl
+          handleClick={handleClick}
+          position={toggleRemote}
           currentValue={expandValue}
           renditionsLength={doc.results.length}
           adjustValue={(value) => setExpandValue(value + expandValue)}
@@ -117,7 +127,7 @@ const Renditions = ({ match }) => {
           toggleScriptRemote={(value) => toggleScriptState(value)}
         />
         <Header
-          text={doc.work_title[0].text}
+          text={`${doc.work_title[0].text} ${doc.work_year_from}–${doc.work_year_to}`}
         //   <RichText
         //     key="b"
         //     render={doc.work_title}
@@ -146,6 +156,7 @@ const Renditions = ({ match }) => {
                 id={i}
                 // rendArray={rendArray}
                 title={item.data.rendition_title[0].text}
+                year={item.data.rendition_year}
                 //   <RichText
                 //     key={i}
                 //     render={item.data.rendition_title}
