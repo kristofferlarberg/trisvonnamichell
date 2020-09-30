@@ -4,7 +4,7 @@ import styled from "styled-components";
 const HeaderContainer = styled.header`
   position: fixed;
   top: 0;
-  width: 100%;
+  width: calc(100% - 12px);
   height: auto;
   background-color: none;
   display: flex;
@@ -20,7 +20,7 @@ const WorkTitle = styled.h2`
   margin-top: 0;
   text-align: center;
   color: white;
-  border-bottom: 4px solid white;
+  border-bottom: 4px solid #fffe;
 `;
 
 function Header(props) {

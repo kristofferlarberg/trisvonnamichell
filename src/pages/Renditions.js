@@ -15,7 +15,7 @@ import testbg3 from "../graphics/testbg-3.jpg";
 const Main = styled.main`
   height: 100vh;
   box-sizing: border-box;
-  overflow: auto;
+  overflow-y: scroll;
 /*   background-color: #d3b975;
   background-image: url(${testbg3});
   background-repeat: no-repeat;
@@ -47,6 +47,7 @@ const DescriptionPreview = styled.div`
 
 const DescriptionPreviewText = styled.h5`
   margin: 0;
+  margin-bottom: ${(props) => (props.open && "1rem")};
 `;
 
 const Bullet = styled.h2`
@@ -117,12 +118,12 @@ const Renditions = ({ match }) => {
         />
         <Header
           text={doc.work_title[0].text}
-          //   <RichText
-          //     key="b"
-          //     render={doc.work_title}
-          //     linkResolver={linkResolver}
-          //   />
-          // }
+        //   <RichText
+        //     key="b"
+        //     render={doc.work_title}
+        //     linkResolver={linkResolver}
+        //   />
+        // }
         />
         <ContentContainer>
           <Script
@@ -172,11 +173,7 @@ const Renditions = ({ match }) => {
                     key={"b" + i}
                     alt={image.rendition_image_caption[0].text}
                   />,
-                  <RichText
-                    key={"c" + i}
-                    render={image.rendition_image_caption}
-                    linkResolver={linkResolver}
-                  />,
+                  <DescriptionPreviewText key={"c" + i} open={true}>{image.rendition_image_caption[0].text}</DescriptionPreviewText>,
                 ])}
               />
             ))}
