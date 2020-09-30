@@ -57,7 +57,7 @@ const HoverLine = styled.span`
     background-color: #ffffff77;
   }
 `;
-const WorkTitle = styled.h4`
+const WorkTitle = styled.h2`
   display: inline-block;
   position: relative;
   top: ${(lineHeight - 1.4 * 2 - 0.25 - 0.5 * 4) / 2}rem;

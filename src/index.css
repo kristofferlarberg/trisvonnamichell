@@ -24,8 +24,8 @@ body {
   padding: 0;
   /* background-color: white; */
   font-family: "Basier Square Regular", sans-serif;
-  font-size: 1rem;
-  line-height: 1.4rem;
+  font-size: 1.1rem;
+  line-height: 1.5rem;
   background-color: #d3b975;
   background-image: url("graphics/testbg-3.jpg");
   background-repeat: no-repeat;
@@ -36,27 +36,32 @@ body {
 h1 {
   font-family: "Basier Square Regular", sans-serif;
   font-size: 1.rem;
+  font-weight: 400;
 }
 
 h2 {
   font-family: "Basier Square Mono", sans-serif;
   font-size: 1.3rem;
+  font-weight: 400;
 }
 
 h3 {
   font-family: "Basier Square Regular", sans-serif;
-  font-size: 1.3rem;
+  font-size: 1.1rem;
+  font-weight: 400;
 }
 
 h4 {
   font-family: "Basier Square Mono", sans-serif;
   font-size: 1.4rem;
+  font-weight: 400;
 }
 
 h5 {
   font-family: "Basier Square Regular", sans-serif;
-  font-size: 1rem;
-  line-height: 1.5rem;
+  font-size: 0.9rem;
+  line-height: 1.4rem;
   color: black;
   margin: 0;
+  font-weight: 400;
 }
