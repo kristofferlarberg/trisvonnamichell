@@ -21,7 +21,9 @@ const Container = styled.div`
   background-color: grey;
   position: fixed;
   bottom: 1rem;
-  right: 1rem;
+  right: ${(props) => (props.position ? "1" : "-20")}rem;
+  transition: ${(props) =>
+    props.position ? "all 0.2s ease-out" : "all 0.3s ease-in"};
 `;
 
 const Button = styled.button`
@@ -40,8 +42,20 @@ const ButtonSymbol = styled.img`
   width: 40%;
   height: auto;
 `;
+const InvisibleButton = styled.button`
+  position: absolute;
+  left:0;
+  height: 60px;
+  width: 25px;
+  border: none;
+  background-color: Transparent;
+  &:focus{
+    outline: none;
+  }
+`;
 
 function RemoteControl(props) {
+
   const {
     adjustValue,
     currentValue,
@@ -72,7 +86,8 @@ function RemoteControl(props) {
   }
 
   return (
-    <Container>
+    <Container position={props.position}>
+      <InvisibleButton onClick={props.handleClick} position={props.position} />
       <Button onClick={openNext}>
         <ButtonSymbol src={ButtonOne} alt="Open next section" />
       </Button>
