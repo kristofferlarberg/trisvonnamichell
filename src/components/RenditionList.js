@@ -2,11 +2,11 @@ import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 
 const ListSection = styled.section`
-  padding: 2rem 4rem 4rem 4rem;
+  margin-bottom: 5px;
+  padding: 2rem;
   display: flex;
   flex-direction: column;
-  border-bottom: 4px solid #e0e0e0;
-  background-color: white;
+  background-color: #fffe;
 `;
 
 const OpenImages = styled.section`
@@ -14,7 +14,6 @@ const OpenImages = styled.section`
   flex-direction: column;
   border: 0;
   outline: none;
-  background-color: white;
 `;
 
 const Title = styled.h3`
@@ -32,6 +31,8 @@ const PreviewDiv = styled.div`
   transition: 0.6s ease;
   overflow: hidden;
 `;
+const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop)
+
 
 const RenditionList = (props) => {
   const [active, setActive] = useState(false);
@@ -40,14 +41,21 @@ const RenditionList = (props) => {
   const content = useRef(null);
   const content2 = useRef(null);
 
+
   useEffect(() => {
+    const executeScroll = () => scrollToRef(content2)
+
     setActive(false);
     if (props.expandValue === props.renditionsLength * 2) setActive(true);
-    if (props.expandValue === props.id) setActive(true);
-
+    if (props.expandValue === props.id) {
+      setActive(true);
+      executeScroll(content2);
+      console.log(content2.current.offsetTop)
+    }
     setHeight(active === false ? "0px" : `${content.current.scrollHeight}px`);
     setHeight2(active === true ? "0px" : `${content2.current.scrollHeight}px`);
   }, [props.renditionsLength, props.expandValue, props.id, active]);
+
 
   return (
     <>

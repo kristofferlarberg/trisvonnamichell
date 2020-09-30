@@ -22,35 +22,39 @@ body {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  background-color: #e0e0e0;
-  font-family: 'Basier Square Regular', sans-serif;
+  /* background-color: white; */
+  font-family: "Basier Square Regular", sans-serif;
   font-size: 1rem;
   line-height: 1.4rem;
-  overflow-y: scroll;
+  background-color: #d3b975;
+  background-image: url("graphics/testbg-3.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-blend-mode: lighten;
 }
 
 h1 {
-  font-family: 'Basier Square Regular', sans-serif;
-  font-size: 2rem;
+  font-family: "Basier Square Regular", sans-serif;
+  font-size: 1.rem;
 }
 
 h2 {
-  font-family: 'Basier Square Mono', sans-serif;
-  font-size: 1.5rem;
+  font-family: "Basier Square Mono", sans-serif;
+  font-size: 1.3rem;
 }
 
 h3 {
-  font-family: 'Basier Square Regular', sans-serif;
+  font-family: "Basier Square Regular", sans-serif;
   font-size: 1.3rem;
 }
 
 h4 {
-  font-family: 'Basier Square Mono', sans-serif;
+  font-family: "Basier Square Mono", sans-serif;
   font-size: 1.4rem;
 }
 
 h5 {
-  font-family: 'Basier Square Regular', sans-serif;
+  font-family: "Basier Square Regular", sans-serif;
   font-size: 1rem;
   line-height: 1.5rem;
   color: black;
