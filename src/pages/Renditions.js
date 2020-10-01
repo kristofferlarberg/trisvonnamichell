@@ -113,7 +113,8 @@ const Renditions = ({ match }) => {
 
   function executeScroll(ref) {
     if (ref) {
-      let margin = ref.current.offsetTop === 150 ? 200 : 150;
+      console.log(ref.current.offsetTop)
+      let margin = ref.current.offsetTop === 152 ? 202 : 152;
       setTimeout(() => window.scrollTo(0, ref.current.offsetTop - margin), 1000);
     }
   }
