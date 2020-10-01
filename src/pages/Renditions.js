@@ -13,9 +13,8 @@ import testbg2 from "../graphics/testbg-2.jpg";
 import testbg3 from "../graphics/testbg-3.jpg";
 
 const Main = styled.main`
-  height: 100vh;
+  height: 100%;
   box-sizing: border-box;
-  overflow-y: scroll;
 /*   background-color: #d3b975;
   background-image: url(${testbg3});
   background-repeat: no-repeat;
@@ -57,6 +56,7 @@ const Image = styled.img`
   width: 100%;
 `;
 
+
 const Renditions = ({ match }) => {
   const [doc, setDocData] = useState(null);
   const [notFound, toggleNotFound] = useState(false);
@@ -64,6 +64,8 @@ const Renditions = ({ match }) => {
   const [toggleScript, toggleScriptState] = useState(true);
   const [toggleRemote, toggleRemoteState] = useState(true);
   const [mainHeight, setMainHeight] = useState(true);
+  let renditionsRefs = []
+
 
   // const [rendArray, setRendArray] = useState(null);
 
@@ -109,6 +111,22 @@ const Renditions = ({ match }) => {
     toggleRemoteState(!toggleRemote);
   }
 
+  function executeScroll(ref) {
+    if (ref) {
+      let margin = ref.current.offsetTop === 150 ? 200 : 150;
+      setTimeout(() => window.scrollTo(0, ref.current.offsetTop - margin), 1000);
+    }
+  }
+
+  function openRendition(value) {
+    setExpandValue(value + expandValue)
+    executeScroll(renditionsRefs[value + expandValue]);
+  }
+
+  function refList(ref) {
+    //console.log(ref);
+    renditionsRefs.push(ref);
+  }
 
   // function handleClick() {
   //   toggleScriptState(!toggleScript);
@@ -122,7 +140,7 @@ const Renditions = ({ match }) => {
           position={toggleRemote}
           currentValue={expandValue}
           renditionsLength={doc.results.length}
-          adjustValue={(value) => setExpandValue(value + expandValue)}
+          adjustValue={(value) => openRendition(value)}
           currentScriptValue={toggleScript}
           toggleScriptRemote={(value) => toggleScriptState(value)}
         />
@@ -148,47 +166,51 @@ const Renditions = ({ match }) => {
             }
           />
           <ListContainer position={!toggleScript}>
-            {doc.results.map((item, i) => (
-              <RenditionList
-                key={"a" + i}
-                renditionsLength={doc.results.length}
-                expandValue={expandValue}
-                id={i}
-                // rendArray={rendArray}
-                title={item.data.rendition_title[0].text}
-                year={item.data.rendition_year}
-                //   <RichText
-                //     key={i}
-                //     render={item.data.rendition_title}
-                //     linkResolver={linkResolver}
-                //   />
-                // }
-                descriptionPreview={item.data.rendition_images.map(
-                  (image, i) => (
-                    <DescriptionPreview key={"d" + i}>
-                      <Bullet key={"e" + i}>&#8226;</Bullet>
-                      <DescriptionPreviewText>
-                        {image.rendition_image_caption[0].text}
-                        {/* <RichText
+            {doc.results.map((item, i) => {
+              return (
+                <RenditionList
+                  refList={refList}
+                  key={"a" + i}
+                  renditionsLength={doc.results.length}
+                  expandValue={expandValue}
+                  id={i}
+                  // rendArray={rendArray}
+                  title={item.data.rendition_title[0].text}
+                  year={item.data.rendition_year}
+                  //   <RichText
+                  //     key={i}
+                  //     render={item.data.rendition_title}
+                  //     linkResolver={linkResolver}
+                  //   />
+                  // }
+                  descriptionPreview={item.data.rendition_images.map(
+                    (image, i) => (
+                      <DescriptionPreview key={"d" + i}>
+                        <Bullet key={"e" + i}>&#8226;</Bullet>
+                        <DescriptionPreviewText>
+                          {image.rendition_image_caption[0].text}
+                          {/* <RichText
                           key={"c" + i}
                           render={image.rendition_image_caption}
                           linkResolver={linkResolver}
                         /> */}
-                      </DescriptionPreviewText>
-                    </DescriptionPreview>
-                  )
-                )}
-                img={item.data.rendition_images.map((image, i) => [
-                  <Image
-                    src={image.rendition_image.url}
-                    key={"b" + i}
-                    alt={image.rendition_image_caption[0].text}
-                  />,
-                  <DescriptionPreviewText key={"c" + i} open={true}>{image.rendition_image_caption[0].text}</DescriptionPreviewText>,
-                ])}
-              />
-            ))}
+                        </DescriptionPreviewText>
+                      </DescriptionPreview>
+                    )
+                  )}
+                  img={item.data.rendition_images.map((image, i) => [
+                    <Image
+                      src={image.rendition_image.url}
+                      key={"b" + i}
+                      alt={image.rendition_image_caption[0].text}
+                    />,
+                    <DescriptionPreviewText key={"c" + i} open={true}>{image.rendition_image_caption[0].text}</DescriptionPreviewText>,
+                  ])}
+                />
+              )
+            })}
           </ListContainer>
+
         </ContentContainer>
       </Main>
     );

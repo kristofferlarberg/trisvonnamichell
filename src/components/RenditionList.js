@@ -31,8 +31,6 @@ const PreviewDiv = styled.div`
   transition: 0.6s ease;
   overflow: hidden;
 `;
-const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop)
-
 
 const RenditionList = (props) => {
   const [active, setActive] = useState(false);
@@ -41,16 +39,11 @@ const RenditionList = (props) => {
   const content = useRef(null);
   const content2 = useRef(null);
 
-
   useEffect(() => {
-    const executeScroll = () => scrollToRef(content2)
-
+    props.refList(content2)
     setActive(false);
     if (props.expandValue === props.renditionsLength * 2) setActive(true);
-    if (props.expandValue === props.id) {
-      setActive(true);
-      executeScroll(content2);
-    }
+    if (props.expandValue === props.id) setActive(true);
     setHeight(active === false ? "0px" : `${content.current.scrollHeight}px`);
     setHeight2(active === true ? "0px" : `${content2.current.scrollHeight}px`);
   }, [props.renditionsLength, props.expandValue, props.id, active]);

@@ -18,7 +18,14 @@
   font-style: normal;
 }
 
+html{
+  overflow-y: scroll;
+  height:100%;
+  scroll-behavior: smooth;
+}
+
 body {
+  height:100%;
   box-sizing: border-box;
   margin: 0;
   padding: 0;
