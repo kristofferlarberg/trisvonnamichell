@@ -100,7 +100,7 @@ function RemoteControl(props) {
       <Button onClick={openAll}>
         <ButtonSymbol
           src={
-            currentValue !== renditionsLength * 2 ? ButtonThree : ButtonThreeP
+            !expandAll ? ButtonThree : ButtonThreeP
           }
           alt="Open all sections"
         />
