@@ -50,7 +50,7 @@ const DescriptionPreviewText = styled.h5`
 `;
 
 const Bullet = styled.h2`
-  margin: -0.3rem 1rem 0 0;
+  margin: -1.4rem 1rem 0 0;
 `;
 const Image = styled.img`
   width: 100%;
