@@ -22,7 +22,7 @@ const Title = styled.h3`
 
 const Details = styled.section`
   overflow: hidden;
-  transition: max-height 0.6s ease;
+  transition: max-height 0.3s ease;
   max-height: ${(props) => props.height};
 `;
 
