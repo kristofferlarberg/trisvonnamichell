@@ -57,6 +57,7 @@ const InvisibleButton = styled.button`
 function RemoteControl(props) {
 
   const {
+    expandAll,
     adjustValue,
     currentValue,
     renditionsLength,
@@ -65,20 +66,22 @@ function RemoteControl(props) {
   } = props;
 
   function openNext() {
-    if (currentValue < renditionsLength - 1) return adjustValue(1);
+    if (currentValue < renditionsLength - 1) {
+      return adjustValue(1)
+    }
   }
 
   function openPrevious() {
-    if (currentValue > -1 && currentValue !== renditionsLength * 2)
-      return adjustValue(-1);
+    if (!expandAll && currentValue > -1) return adjustValue(-1);
+    if (expandAll && currentValue > 0) return adjustValue(-1);
   }
 
   function openAll() {
-    return adjustValue(renditionsLength * 2 - currentValue);
+    if (!expandAll) return adjustValue(999);
   }
 
   function closeAll() {
-    return adjustValue(-1 - currentValue);
+    return adjustValue(-2);
   }
 
   function toggleScript() {

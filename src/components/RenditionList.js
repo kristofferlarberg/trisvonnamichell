@@ -42,8 +42,8 @@ const RenditionList = (props) => {
   useEffect(() => {
     props.refList(content2)
     setActive(false);
-    if (props.expandValue === props.renditionsLength * 2) setActive(true);
-    if (props.expandValue === props.id) setActive(true);
+    console.log("OPENALL in list: " + props.openAll)
+    if (props.openAll || props.expandValue === props.id) setActive(true);
     setHeight(active === false ? "0px" : `${content.current.scrollHeight}px`);
     setHeight2(active === true ? "0px" : `${content2.current.scrollHeight}px`);
   }, [props.renditionsLength, props.expandValue, props.id, active]);

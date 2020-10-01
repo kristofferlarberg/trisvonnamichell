@@ -63,6 +63,7 @@ const Renditions = ({ match }) => {
   const [expandValue, setExpandValue] = useState(-1);
   const [toggleScript, toggleScriptState] = useState(true);
   const [toggleRemote, toggleRemoteState] = useState(true);
+  const [openAll, setOpenAll] = useState(false);
   const [mainHeight, setMainHeight] = useState(true);
   let renditionsRefs = []
 
@@ -107,6 +108,7 @@ const Renditions = ({ match }) => {
 
     //expandValue > -1 ? setMainHeight("")
   }, [uid]); // Skip the Effect hook if the UID hasn't changed
+
   function handleClick() {
     toggleRemoteState(!toggleRemote);
   }
@@ -120,9 +122,33 @@ const Renditions = ({ match }) => {
   }
 
   function openRendition(value) {
-    setExpandValue(value + expandValue)
+    if (value === 999) {
+      setOpenAll(true)
+      value = 1
+    }
+    if (value === -2) setOpenAll(false)
+    setExpandValue(value === -2 ? -1 : value + expandValue)
     executeScroll(renditionsRefs[value + expandValue]);
   }
+
+
+  //   console.log(value)
+  //   if (value === 999) {
+  //     value = 0
+  //     setOpenAll(true)
+  //     setExpandValue(-1)
+  //   } else if (value === -2) {
+  //     setOpenAll(false)
+  //     setExpandValue(-1)
+  //     setScrollValue(-1)
+  //   } else {
+  //     setExpandValue(expandValue + value)
+  //     setScrollValue(scrollValue + value)
+  //   }
+
+  //   executeScroll(renditionsRefs[scrollValue + value])
+
+  // }
 
   function refList(ref) {
     //console.log(ref);
@@ -137,6 +163,7 @@ const Renditions = ({ match }) => {
     return (
       <Main>
         <RemoteControl
+          expandAll={openAll}
           handleClick={handleClick}
           position={toggleRemote}
           currentValue={expandValue}
@@ -170,6 +197,7 @@ const Renditions = ({ match }) => {
             {doc.results.map((item, i) => {
               return (
                 <RenditionList
+                  openAll={openAll}
                   refList={refList}
                   key={"a" + i}
                   renditionsLength={doc.results.length}
