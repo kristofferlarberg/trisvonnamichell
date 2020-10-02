@@ -8,6 +8,7 @@ import RenditionList from "../components/RenditionList";
 import Script from "../components/Script";
 import Header from "../components/Header";
 import RemoteControl from "../components/RemoteControl";
+import Clock from "../components/Clock";
 import testbg from "../graphics/testbg.jpg";
 import testbg2 from "../graphics/testbg-2.jpg";
 import testbg3 from "../graphics/testbg-3.jpg";
@@ -139,6 +140,7 @@ const Renditions = ({ match }) => {
 
     return (
       <Main>
+        <Clock />
         <RemoteControl
           expandAll={openAll}
           handleClick={handleClick}
@@ -151,12 +153,12 @@ const Renditions = ({ match }) => {
         />
         <Header
           text={`${doc.work_title[0].text} ${doc.work_year_from}–${doc.work_year_to}`}
-        //   <RichText
-        //     key="b"
-        //     render={doc.work_title}
-        //     linkResolver={linkResolver}
-        //   />
-        // }
+          //   <RichText
+          //     key="b"
+          //     render={doc.work_title}
+          //     linkResolver={linkResolver}
+          //   />
+          // }
         />
         <ContentContainer>
           <Script
@@ -210,13 +212,14 @@ const Renditions = ({ match }) => {
                       key={"b" + i}
                       alt={image.rendition_image_caption[0].text}
                     />,
-                    <DescriptionPreviewText key={"c" + i} open={true}>{image.rendition_image_caption[0].text}</DescriptionPreviewText>,
+                    <DescriptionPreviewText key={"c" + i} open={true}>
+                      {image.rendition_image_caption[0].text}
+                    </DescriptionPreviewText>,
                   ])}
                 />
-              )
+              );
             })}
           </ListContainer>
-
         </ContentContainer>
       </Main>
     );
