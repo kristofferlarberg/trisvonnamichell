@@ -121,6 +121,7 @@ const Renditions = ({ match }) => {
   }
 
   function openRendition(value) {
+    console.log(value)
     if (value === 999) {
       setOpenAll(true)
       // value = expandValue > 0 ? -1 : 1

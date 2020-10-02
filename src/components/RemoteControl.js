@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useHistory } from 'react-router-dom';
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import ButtonOne from "../graphics/1.svg";
@@ -57,6 +58,8 @@ font-weight:600;
 
 function RemoteControl(props) {
 
+  // const [keyPressed, setKeyPressed] = setState(false);
+
   const {
     expandAll,
     adjustValue,
@@ -65,6 +68,37 @@ function RemoteControl(props) {
     currentScriptValue,
     toggleScriptRemote,
   } = props;
+
+  const history = useHistory();
+
+
+  useEffect(() => {
+    document.addEventListener("keyup", handleKeyDown);
+    return function cleanup() {
+      document.removeEventListener("keyup", handleKeyDown);
+      ;
+    };
+  });
+
+  function handleKeyDown(event) {
+    switch (event.keyCode) {
+      case 40: openNext()
+        break;
+      case 39: openAll()
+        break;
+      case 37: closeAll()
+        break;
+      case 38: openPrevious()
+        break;
+      case 82: props.handleClick()
+        break;
+      case 84: toggleScript()
+        break;
+      case 27: history.push('/');
+        break;
+      default: break;
+    }
+  }
 
   function openNext() {
     if (currentValue < renditionsLength - 1) {

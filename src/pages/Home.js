@@ -39,12 +39,12 @@ const Preview = styled.img`
   position: relative;
   left: ${(props) => props.left}%;
   width: ${(props) => props.width}%;
-  height: ${lineHeight}rem;
+  height: 100%;
   object-fit: cover;
 `;
 const WorkLink = styled.a`
   position: relative;
-  top: calc(-15rem - 6px);
+  top: calc(-15rem - 6.333333px);
   height: ${lineHeight}rem;
   text-decoration: none;
   color: inherit;
