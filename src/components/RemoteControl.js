@@ -43,6 +43,7 @@ const ButtonSymbol = styled.img`
   height: auto;
 `;
 const InvisibleButton = styled.button`
+font-weight:600;
   position: absolute;
   left:0;
   height: 60px;
@@ -90,7 +91,7 @@ function RemoteControl(props) {
 
   return (
     <Container position={props.position}>
-      <InvisibleButton onClick={props.handleClick} position={props.position} />
+      <InvisibleButton onClick={props.handleClick} position={props.position}>::<br />::</InvisibleButton>
       <Button onClick={openNext}>
         <ButtonSymbol src={ButtonOne} alt="Open next section" />
       </Button>

@@ -115,49 +115,25 @@ const Renditions = ({ match }) => {
 
   function executeScroll(ref) {
     if (ref) {
-      console.log(ref.current.offsetTop)
       let margin = ref.current.offsetTop === 152 ? 202 : 152;
-      setTimeout(() => window.scrollTo(0, ref.current.offsetTop - margin), 400);
+      setTimeout(() => window.scrollTo(0, ref.current.offsetTop - margin), openAll ? 100 : 300);
     }
   }
 
   function openRendition(value) {
     if (value === 999) {
       setOpenAll(true)
-      value = 1
+      // value = expandValue > 0 ? -1 : 1
+      value = expandValue + 1 === doc.results.length ? -1 : 1
     }
     if (value === -2) setOpenAll(false)
     setExpandValue(value === -2 ? -1 : value + expandValue)
     executeScroll(renditionsRefs[value + expandValue]);
   }
-
-
-  //   console.log(value)
-  //   if (value === 999) {
-  //     value = 0
-  //     setOpenAll(true)
-  //     setExpandValue(-1)
-  //   } else if (value === -2) {
-  //     setOpenAll(false)
-  //     setExpandValue(-1)
-  //     setScrollValue(-1)
-  //   } else {
-  //     setExpandValue(expandValue + value)
-  //     setScrollValue(scrollValue + value)
-  //   }
-
-  //   executeScroll(renditionsRefs[scrollValue + value])
-
-  // }
-
   function refList(ref) {
-    //console.log(ref);
     renditionsRefs.push(ref);
   }
 
-  // function handleClick() {
-  //   toggleScriptState(!toggleScript);
-  // }
   if (doc) {
 
     return (

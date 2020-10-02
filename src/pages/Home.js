@@ -86,8 +86,6 @@ const Home = ({ match }) => {
           let width = item.data.work_year_to - item.data.work_year_from + 1;
           let min_year = item.data.work_year_from;
           let max_year = item.data.work_year_to;
-          console.log(max_year)
-          console.log(result.max_year)
           // let width = result.max_year - item.data.work_year_from + 1;
           // let max_width = width;
 
@@ -96,7 +94,6 @@ const Home = ({ match }) => {
             min_year = min_year < result.min_year ? min_year : result.min_year;
             max_year = max_year > result.max_year ? max_year : result.max_year;
           }
-          console.log(max_year)
 
           return [
             (result.results[i].link = {
@@ -129,7 +126,6 @@ const Home = ({ match }) => {
   }, [uid]); // Skip the Effect hook if the UID hasn't changed
 
   if (doc) {
-    console.log(doc)
     return (
       <div>
         <Nav>
@@ -141,7 +137,6 @@ const Home = ({ match }) => {
         {/* <RichText render={doc.data.description} linkResolver={linkResolver} /> */}
         {doc.results.map((item, i) => {
           let timelineWidth = (doc.max_year - doc.min_year + 1)
-          console.log(i + ": " + item.data.work_preview_image.url)
           return (<Line key={"a" + i}>
             <Preview
               key={"e" + i}
