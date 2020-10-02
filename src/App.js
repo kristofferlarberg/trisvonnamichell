@@ -5,6 +5,7 @@ import { apiEndpoint } from "./prismic-configuration";
 import { NotFound } from "./pages";
 import Home from "./pages/Home";
 import Renditions from "./pages/Renditions";
+import Clock from "./components/Clock";
 
 /**
  * Main application componenet
