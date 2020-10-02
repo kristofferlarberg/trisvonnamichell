@@ -33,17 +33,18 @@ const Line = styled.section`
   background-color: #e0e0e0;
   margin-bottom: 5px;
   height: ${lineHeight}rem;
+  
 `;
 const Preview = styled.img`
   position: relative;
   left: ${(props) => props.left}%;
   width: ${(props) => props.width}%;
-  height: ${lineHeight}rem;
+  height: 100%;
   object-fit: cover;
 `;
 const WorkLink = styled.a`
   position: relative;
-  top: -${(props) => lineHeight + 1 / props.numberOfWorks}rem;
+  top: calc(-15rem - 6.333333px);
   height: ${lineHeight}rem;
   text-decoration: none;
   color: inherit;
@@ -54,7 +55,7 @@ const HoverLine = styled.span`
   height: ${lineHeight}rem;
   transition-duration: 0.4s;
   &:hover {
-    background-color: #ffffff77;
+    background-color: #fff7;
   }
 `;
 const WorkTitle = styled.h2`
@@ -83,14 +84,17 @@ const Home = ({ match }) => {
       if (result) {
         result.results.map((item, i) => {
           let width = item.data.work_year_to - item.data.work_year_from + 1;
-          let max_width = width;
           let min_year = item.data.work_year_from;
           let max_year = item.data.work_year_to;
+          // let width = result.max_year - item.data.work_year_from + 1;
+          // let max_width = width;
+
           if (i > 0) {
-            max_width = width > result.max_width ? width : result.max_width;
+            // max_width = width > result.max_width ? width : result.max_width;
             min_year = min_year < result.min_year ? min_year : result.min_year;
-            max_year = max_year < result.max_year ? max_year : result.max_year;
+            max_year = max_year > result.max_year ? max_year : result.max_year;
           }
+
           return [
             (result.results[i].link = {
               id: item.id,
@@ -102,7 +106,7 @@ const Home = ({ match }) => {
               type: item.type,
             }),
             (result.results[i].image_width = width),
-            (result.max_width = max_width),
+            // (result.max_width = max_width),
             (result.min_year = min_year),
             (result.max_year = max_year),
           ];
@@ -131,19 +135,20 @@ const Home = ({ match }) => {
 
         {/* This is how to render a Rich Text field into your template as HTML */}
         {/* <RichText render={doc.data.description} linkResolver={linkResolver} /> */}
-        {doc.results.map((item, i) => (
-          <Line key={"a" + i}>
+        {doc.results.map((item, i) => {
+          let timelineWidth = (doc.max_year - doc.min_year + 1)
+          return (<Line key={"a" + i}>
             <Preview
               key={"e" + i}
               src={item.data.work_preview_image.url}
               className="link_img"
               alt={item.data.work_title[0].text}
-              width={(item.image_width / doc.max_width) * 100}
+              width={(item.image_width / timelineWidth) * 100}
               left={
-                ((item.data.work_year_from - doc.min_year) / doc.max_width) *
+                ((item.data.work_year_from - doc.min_year) / timelineWidth) *
                 100
               }
-              // style={{ "width": `${item.image_width / doc.max_width * 100}%` }}
+            // style={{ "width": `${item.image_width / doc.max_width * 100}%` }}
             />
             <WorkLink
               numberOfWorks={doc.results.length}
@@ -161,7 +166,8 @@ const Home = ({ match }) => {
               </HoverLine>
             </WorkLink>
           </Line>
-        ))}
+          )
+        })}
       </div>
     );
   } else if (notFound) {

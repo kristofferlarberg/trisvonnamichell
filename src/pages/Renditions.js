@@ -64,6 +64,7 @@ const Renditions = ({ match }) => {
   const [expandValue, setExpandValue] = useState(-1);
   const [toggleScript, toggleScriptState] = useState(true);
   const [toggleRemote, toggleRemoteState] = useState(true);
+  const [openAll, setOpenAll] = useState(false);
   const [mainHeight, setMainHeight] = useState(true);
   let renditionsRefs = []
 
@@ -108,37 +109,40 @@ const Renditions = ({ match }) => {
 
     //expandValue > -1 ? setMainHeight("")
   }, [uid]); // Skip the Effect hook if the UID hasn't changed
+
   function handleClick() {
     toggleRemoteState(!toggleRemote);
   }
 
   function executeScroll(ref) {
     if (ref) {
-      console.log(ref.current.offsetTop)
       let margin = ref.current.offsetTop === 152 ? 202 : 152;
-      setTimeout(() => window.scrollTo(0, ref.current.offsetTop - margin), 400);
+      setTimeout(() => window.scrollTo(0, ref.current.offsetTop - margin), openAll ? 100 : 300);
     }
   }
 
   function openRendition(value) {
-    setExpandValue(value + expandValue)
+    console.log(value)
+    if (value === 999) {
+      setOpenAll(true)
+      // value = expandValue > 0 ? -1 : 1
+      value = expandValue + 1 === doc.results.length ? -1 : 1
+    }
+    if (value === -2) setOpenAll(false)
+    setExpandValue(value === -2 ? -1 : value + expandValue)
     executeScroll(renditionsRefs[value + expandValue]);
   }
-
   function refList(ref) {
-    //console.log(ref);
     renditionsRefs.push(ref);
   }
 
-  // function handleClick() {
-  //   toggleScriptState(!toggleScript);
-  // }
   if (doc) {
 
     return (
       <Main>
         <Clock />
         <RemoteControl
+          expandAll={openAll}
           handleClick={handleClick}
           position={toggleRemote}
           currentValue={expandValue}
@@ -172,6 +176,7 @@ const Renditions = ({ match }) => {
             {doc.results.map((item, i) => {
               return (
                 <RenditionList
+                  openAll={openAll}
                   refList={refList}
                   key={"a" + i}
                   renditionsLength={doc.results.length}

@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useHistory } from 'react-router-dom';
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import ButtonOne from "../graphics/1.svg";
@@ -43,6 +44,7 @@ const ButtonSymbol = styled.img`
   height: auto;
 `;
 const InvisibleButton = styled.button`
+font-weight:600;
   position: absolute;
   left:0;
   height: 60px;
@@ -56,7 +58,10 @@ const InvisibleButton = styled.button`
 
 function RemoteControl(props) {
 
+  // const [keyPressed, setKeyPressed] = setState(false);
+
   const {
+    expandAll,
     adjustValue,
     currentValue,
     renditionsLength,
@@ -64,21 +69,54 @@ function RemoteControl(props) {
     toggleScriptRemote,
   } = props;
 
+  const history = useHistory();
+
+
+  useEffect(() => {
+    document.addEventListener("keyup", handleKeyDown);
+    return function cleanup() {
+      document.removeEventListener("keyup", handleKeyDown);
+      ;
+    };
+  });
+
+  function handleKeyDown(event) {
+    switch (event.keyCode) {
+      case 40: openNext()
+        break;
+      case 39: openAll()
+        break;
+      case 37: closeAll()
+        break;
+      case 38: openPrevious()
+        break;
+      case 82: props.handleClick()
+        break;
+      case 84: toggleScript()
+        break;
+      case 27: history.push('/');
+        break;
+      default: break;
+    }
+  }
+
   function openNext() {
-    if (currentValue < renditionsLength - 1) return adjustValue(1);
+    if (currentValue < renditionsLength - 1) {
+      return adjustValue(1)
+    }
   }
 
   function openPrevious() {
-    if (currentValue > -1 && currentValue !== renditionsLength * 2)
-      return adjustValue(-1);
+    if (!expandAll && currentValue > -1) return adjustValue(-1);
+    if (expandAll && currentValue > 0) return adjustValue(-1);
   }
 
   function openAll() {
-    return adjustValue(renditionsLength * 2 - currentValue);
+    if (!expandAll) return adjustValue(999);
   }
 
   function closeAll() {
-    return adjustValue(-1 - currentValue);
+    return adjustValue(-2);
   }
 
   function toggleScript() {
@@ -87,7 +125,7 @@ function RemoteControl(props) {
 
   return (
     <Container position={props.position}>
-      <InvisibleButton onClick={props.handleClick} position={props.position} />
+      <InvisibleButton onClick={props.handleClick} position={props.position}>::<br />::</InvisibleButton>
       <Button onClick={openNext}>
         <ButtonSymbol src={ButtonOne} alt="Open next section" />
       </Button>
@@ -97,7 +135,7 @@ function RemoteControl(props) {
       <Button onClick={openAll}>
         <ButtonSymbol
           src={
-            currentValue !== renditionsLength * 2 ? ButtonThree : ButtonThreeP
+            !expandAll ? ButtonThree : ButtonThreeP
           }
           alt="Open all sections"
         />
