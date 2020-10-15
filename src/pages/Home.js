@@ -96,7 +96,7 @@ const Ruler = styled(Ends)`
 const Home = ({ match }) => {
   const [doc, setDocData] = useState(null);
   const [notFound, toggleNotFound] = useState(false);
-  const imgix = "&sat=-50&exp=5&invert=true&monochrome=c5c&con=-10"
+  const imgix = "&sat=-50&exp=5&invert=true&monochrome=c5c&con=-80"
 
   const uid = match.params.uid;
 

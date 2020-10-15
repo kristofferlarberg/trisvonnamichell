@@ -66,7 +66,7 @@ const Renditions = ({ match }) => {
   const [openAll, setOpenAll] = useState(false);
   const [mainHeight, setMainHeight] = useState(true);
   let renditionsRefs = []
-  const imgix = "&exp=20&duotone=8d8%2C000&con=10"
+  const imgix = "&sat=-50&exp=5&invert=true&monochrome=c5c&con=-80"
 
   // const [rendArray, setRendArray] = useState(null);
 
