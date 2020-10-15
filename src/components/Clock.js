@@ -11,7 +11,7 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   border-radius: 15px;
-  background-color: grey;
+  // background-color: grey;
   position: fixed;
   bottom: 1rem;
   z-index: 1;
@@ -54,7 +54,8 @@ const Timer = () => {
       clearInterval(intervalSecond);
     }
     setActive(true);
-    return () => clearInterval(intervalSecond);
+    return () =>
+      clearInterval(intervalSecond);
   }, [active, hours, minutes, seconds]);
 
   return (

@@ -14,14 +14,13 @@ import testbg2 from "../graphics/testbg-2.jpg";
 import testbg3 from "../graphics/testbg-3.jpg";
 
 const Main = styled.main`
-  height: 100%;
+  height: 100vh;
   box-sizing: border-box;
-/*   background-color: #d3b975;
-  background-image: url(${testbg3});
+  background-attachment: fixed;
+  background-image: url(${(props) => (props.img)});
   background-repeat: no-repeat;
   background-size: cover;
-  background-blend-mode: color; */
-`;
+  `;
 
 const ContentContainer = styled.div`
   display: flex;
@@ -67,7 +66,7 @@ const Renditions = ({ match }) => {
   const [openAll, setOpenAll] = useState(false);
   const [mainHeight, setMainHeight] = useState(true);
   let renditionsRefs = []
-
+  const imgix = "&exp=20&duotone=8d8%2C000&con=10"
 
   // const [rendArray, setRendArray] = useState(null);
 
@@ -94,6 +93,7 @@ const Renditions = ({ match }) => {
         result.work_title = category.data.work_title;
         result.work_year_from = category.data.work_year_from;
         result.work_year_to = category.data.work_year_to;
+        result.work_image = category.data.work_preview_image.url;
         // We use the State hook to save the document
         // setRendArray(result.results);
         return setDocData(result);
@@ -137,9 +137,8 @@ const Renditions = ({ match }) => {
   }
 
   if (doc) {
-
     return (
-      <Main>
+      <Main img={doc.work_image + imgix}>
         <Clock />
         <RemoteControl
           expandAll={openAll}
@@ -153,12 +152,12 @@ const Renditions = ({ match }) => {
         />
         <Header
           text={`${doc.work_title[0].text} ${doc.work_year_from}–${doc.work_year_to}`}
-          //   <RichText
-          //     key="b"
-          //     render={doc.work_title}
-          //     linkResolver={linkResolver}
-          //   />
-          // }
+        //   <RichText
+        //     key="b"
+        //     render={doc.work_title}
+        //     linkResolver={linkResolver}
+        //   />
+        // }
         />
         <ContentContainer>
           <Script

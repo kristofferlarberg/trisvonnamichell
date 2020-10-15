@@ -32,10 +32,10 @@ const Title = styled.h1`
 
 const Line = styled.section`
   background-color: #454;
-  background-image:  url(${props => props.img});
+  background-image: url(${props => props.img});
   background-repeat: no-repeat;
   background-size: cover;
-  background-blend-mode: lighten;
+  // background-blend-mode: lighten;
   margin-bottom: 5px;
   height: ${lineHeight}rem;
   width: 85%;
@@ -96,6 +96,7 @@ const Ruler = styled(Ends)`
 const Home = ({ match }) => {
   const [doc, setDocData] = useState(null);
   const [notFound, toggleNotFound] = useState(false);
+  const imgix = "&sat=-50&exp=5&invert=true&monochrome=c5c&con=-10"
 
   const uid = match.params.uid;
 
@@ -165,7 +166,7 @@ const Home = ({ match }) => {
           let timelineWidth = (doc.max_year - doc.min_year + 1)
           return (<LineContainer><Ruler>—<br />—<br />—<br />—<br />—<br />—<br />—<br />—<br />—<br />——<br />—</Ruler>
             <Ends><br /><br /><br /><br />|<br />|<br />|<br /><br /><br /><br /><br />|<br />|<br />|</Ends>
-            <Line img={item.data.work_preview_image.url} key={"a" + i}>
+            <Line img={item.data.work_preview_image.url + imgix} key={"a" + i}>
               <Preview
                 key={"e" + i}
                 src={item.data.work_preview_image.url}
