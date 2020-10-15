@@ -8,7 +8,7 @@ import RenditionList from "../components/RenditionList";
 import Script from "../components/Script";
 import Header from "../components/Header";
 import RemoteControl from "../components/RemoteControl";
-import Clock from "../components/Clock";
+import NewClock from "../components/NewClock";
 import testbg from "../graphics/testbg.jpg";
 import testbg2 from "../graphics/testbg-2.jpg";
 import testbg3 from "../graphics/testbg-3.jpg";
@@ -139,7 +139,7 @@ const Renditions = ({ match }) => {
   if (doc) {
     return (
       <Main img={doc.work_image + imgix}>
-        <Clock />
+        <NewClock />
         <RemoteControl
           expandAll={openAll}
           handleClick={handleClick}
