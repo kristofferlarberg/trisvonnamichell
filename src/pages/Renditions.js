@@ -3,26 +3,20 @@ import { RichText } from "prismic-reactjs";
 import { client, linkResolver } from "../prismic-configuration";
 import NotFound from "./NotFound";
 import Prismic from "prismic-javascript";
-import styled from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 import RenditionList from "../components/RenditionList";
 import Script from "../components/Script";
 import Header from "../components/Header";
 import RemoteControl from "../components/RemoteControl";
-import Clock from "../components/Clock";
-import testbg from "../graphics/testbg.jpg";
-import testbg2 from "../graphics/testbg-2.jpg";
-import testbg3 from "../graphics/testbg-3.jpg";
+import NewClock from "../components/NewClock";
 
-const Main = styled.main`
-  height: 100%;
-  box-sizing: border-box;
-/*   background-color: #d3b975;
-  background-image: url(${testbg3});
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-blend-mode: color; */
-`;
-
+const GlobalStyle = createGlobalStyle`
+  body {
+    background-attachment: fixed;
+    background-image: url(${(props) => (props.img)});
+    background-repeat: no-repeat;
+    background-size: cover;
+  `
 const ContentContainer = styled.div`
   display: flex;
   box-sizing: border-box;
@@ -65,9 +59,8 @@ const Renditions = ({ match }) => {
   const [toggleScript, toggleScriptState] = useState(true);
   const [toggleRemote, toggleRemoteState] = useState(true);
   const [openAll, setOpenAll] = useState(false);
-  const [mainHeight, setMainHeight] = useState(true);
   let renditionsRefs = []
-
+  const imgix = "&sat=-50&exp=5&invert=true&monochrome=c5c&con=-80"
 
   // const [rendArray, setRendArray] = useState(null);
 
@@ -94,6 +87,7 @@ const Renditions = ({ match }) => {
         result.work_title = category.data.work_title;
         result.work_year_from = category.data.work_year_from;
         result.work_year_to = category.data.work_year_to;
+        result.work_image = category.data.work_preview_image.url;
         // We use the State hook to save the document
         // setRendArray(result.results);
         return setDocData(result);
@@ -106,8 +100,6 @@ const Renditions = ({ match }) => {
       }
     };
     fetchData();
-
-    //expandValue > -1 ? setMainHeight("")
   }, [uid]); // Skip the Effect hook if the UID hasn't changed
 
   function handleClick() {
@@ -137,10 +129,10 @@ const Renditions = ({ match }) => {
   }
 
   if (doc) {
-
     return (
-      <Main>
-        <Clock />
+      <>
+        <GlobalStyle img={doc.work_image + imgix} />
+        <NewClock />
         <RemoteControl
           expandAll={openAll}
           handleClick={handleClick}
@@ -153,12 +145,12 @@ const Renditions = ({ match }) => {
         />
         <Header
           text={`${doc.work_title[0].text} ${doc.work_year_from}–${doc.work_year_to}`}
-          //   <RichText
-          //     key="b"
-          //     render={doc.work_title}
-          //     linkResolver={linkResolver}
-          //   />
-          // }
+        //   <RichText
+        //     key="b"
+        //     render={doc.work_title}
+        //     linkResolver={linkResolver}
+        //   />
+        // }
         />
         <ContentContainer>
           <Script
@@ -221,7 +213,7 @@ const Renditions = ({ match }) => {
             })}
           </ListContainer>
         </ContentContainer>
-      </Main>
+      </>
     );
   } else if (notFound) {
     return <NotFound />;

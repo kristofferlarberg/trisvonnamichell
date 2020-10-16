@@ -33,11 +33,11 @@ body {
   font-family: "Basier Square Regular", sans-serif;
   font-size: 1.05rem;
   line-height: 1.5rem;
-  background-color: #d3b975;
-  background-image: url("graphics/testbg-3.jpg");
+  background-color: #111;
+  /* background-image: url("graphics/testbg-3.jpg");
   background-repeat: no-repeat;
   background-size: cover;
-  background-blend-mode: lighten;
+  background-blend-mode: darken; */
 }
 
 h1 {

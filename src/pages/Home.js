@@ -5,7 +5,7 @@ import NotFound from "./NotFound";
 import Prismic from "prismic-javascript";
 import styled from "styled-components";
 
-const lineHeight = 15;
+const lineHeight = 17;
 
 const Nav = styled.nav`
   padding: 1rem 1.5rem 1rem 1.5rem;
@@ -30,10 +30,14 @@ const Title = styled.h1`
 `;
 
 const Line = styled.section`
-  background-color: #e0e0e0;
+  background-color: #454;
+  background-image: url(${props => props.img});
+  background-repeat: no-repeat;
+  background-size: cover;
+  // background-blend-mode: lighten;
   margin-bottom: 5px;
   height: ${lineHeight}rem;
-  
+  width: 85%;
 `;
 const Preview = styled.img`
   position: relative;
@@ -44,7 +48,7 @@ const Preview = styled.img`
 `;
 const WorkLink = styled.a`
   position: relative;
-  top: calc(-15rem - 6.333333px);
+  top: calc(-17rem - 6.333333px);
   height: ${lineHeight}rem;
   text-decoration: none;
   color: inherit;
@@ -55,7 +59,7 @@ const HoverLine = styled.span`
   height: ${lineHeight}rem;
   transition-duration: 0.4s;
   &:hover {
-    background-color: #fff7;
+    background-color: #8888;
   }
 `;
 const WorkTitle = styled.h2`
@@ -66,10 +70,32 @@ const WorkTitle = styled.h2`
   padding: 0.5rem 0.8rem 0.5rem 0.8rem;
   background-color: #fff;
 `;
+const LineContainer = styled.section`
+  width: calc(100vw - 40px);
+  display: flex;
+  margin-left: -20px;
+`
+const Ends = styled.section`
+  background-color: #000;
+  height: ${lineHeight}rem;
+  margin-bottom: 5px;
+  width: 5%;
+  min-width: 30px;
+  color: #555;
+  text-align:center;
+  line-height: 0.9rem;
+`
+const Ruler = styled(Ends)`
+  background-color: transparent;
+  text-align: right;
+  letter-spacing:-3px;
+  line-height: 1.55rem;
+`
 
 const Home = ({ match }) => {
   const [doc, setDocData] = useState(null);
   const [notFound, toggleNotFound] = useState(false);
+  const imgix = "&sat=-50&exp=5&invert=true&monochrome=c5c&con=-80"
 
   const uid = match.params.uid;
 
@@ -137,35 +163,39 @@ const Home = ({ match }) => {
         {/* <RichText render={doc.data.description} linkResolver={linkResolver} /> */}
         {doc.results.map((item, i) => {
           let timelineWidth = (doc.max_year - doc.min_year + 1)
-          return (<Line key={"a" + i}>
-            <Preview
-              key={"e" + i}
-              src={item.data.work_preview_image.url}
-              className="link_img"
-              alt={item.data.work_title[0].text}
-              width={(item.image_width / timelineWidth) * 100}
-              left={
-                ((item.data.work_year_from - doc.min_year) / timelineWidth) *
-                100
-              }
-            // style={{ "width": `${item.image_width / doc.max_width * 100}%` }}
-            />
-            <WorkLink
-              numberOfWorks={doc.results.length}
-              href={Link.url(item.link, linkResolver)}
-              key={i}
-            >
-              <HoverLine key={"d" + i}>
-                <WorkTitle key={"b" + i}>
-                  {item.data.work_title[0].text}
-                </WorkTitle>
-                <br />
-                <WorkTitle key={"c" + i}>
-                  {item.data.work_year_from}–{item.data.work_year_to}
-                </WorkTitle>
-              </HoverLine>
-            </WorkLink>
-          </Line>
+          return (<LineContainer><Ruler>—<br />—<br />—<br />—<br />—<br />—<br />—<br />—<br />—<br />——<br />—</Ruler>
+            <Ends><br /><br /><br /><br />|<br />|<br />|<br /><br /><br /><br /><br />|<br />|<br />|</Ends>
+            <Line img={item.data.work_preview_image.url + imgix} key={"a" + i}>
+              <Preview
+                key={"e" + i}
+                src={item.data.work_preview_image.url}
+                className="link_img"
+                alt={item.data.work_title[0].text}
+                width={(item.image_width / timelineWidth) * 100}
+                left={
+                  ((item.data.work_year_from - doc.min_year) / timelineWidth) *
+                  100
+                }
+              // style={{ "width": `${item.image_width / doc.max_width * 100}%` }}
+              />
+              <WorkLink
+                numberOfWorks={doc.results.length}
+                href={Link.url(item.link, linkResolver)}
+                key={i}
+              >
+                <HoverLine key={"d" + i}>
+                  <WorkTitle key={"b" + i}>
+                    {item.data.work_title[0].text}
+                  </WorkTitle>
+                  <br />
+                  <WorkTitle key={"c" + i}>
+                    {item.data.work_year_from}–{item.data.work_year_to}
+                  </WorkTitle>
+                </HoverLine>
+              </WorkLink>
+            </Line>
+            <Ends><br /><br /><br /><br />|<br />|<br />|<br /><br /><br /><br /><br />|<br />|<br />|</Ends>
+          </LineContainer>
           )
         })}
       </div>
