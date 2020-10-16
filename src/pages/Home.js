@@ -31,7 +31,7 @@ const Title = styled.h1`
 
 const Line = styled.section`
   background-color: #454;
-  background-image: url(${props => props.img});
+  background-image: url(${(props) => props.img});
   background-repeat: no-repeat;
   background-size: cover;
   // background-blend-mode: lighten;
@@ -74,7 +74,7 @@ const LineContainer = styled.section`
   width: calc(100vw - 40px);
   display: flex;
   margin-left: -20px;
-`
+`;
 const Ends = styled.section`
   background-color: #000;
   height: ${lineHeight}rem;
@@ -82,20 +82,22 @@ const Ends = styled.section`
   width: 5%;
   min-width: 30px;
   color: #555;
-  text-align:center;
+  text-align: center;
   line-height: 0.9rem;
-`
+`;
 const Ruler = styled(Ends)`
   background-color: transparent;
   text-align: right;
-  letter-spacing:-3px;
+  letter-spacing: -3px;
   line-height: 1.55rem;
-`
+`;
+
+export const imgix =
+  "&sat=-50&exp=0&invert=true&monochrome=c5c&con=-20&monochrome=%23862e9c";
 
 const Home = ({ match }) => {
   const [doc, setDocData] = useState(null);
   const [notFound, toggleNotFound] = useState(false);
-  const imgix = "&sat=-50&exp=5&invert=true&monochrome=c5c&con=-80"
 
   const uid = match.params.uid;
 
@@ -162,41 +164,69 @@ const Home = ({ match }) => {
         {/* This is how to render a Rich Text field into your template as HTML */}
         {/* <RichText render={doc.data.description} linkResolver={linkResolver} /> */}
         {doc.results.map((item, i) => {
-          let timelineWidth = (doc.max_year - doc.min_year + 1)
-          return (<LineContainer><Ruler>—<br />—<br />—<br />—<br />—<br />—<br />—<br />—<br />—<br />——<br />—</Ruler>
-            <Ends><br /><br /><br /><br />|<br />|<br />|<br /><br /><br /><br /><br />|<br />|<br />|</Ends>
-            <Line img={item.data.work_preview_image.url + imgix} key={"a" + i}>
-              <Preview
-                key={"e" + i}
-                src={item.data.work_preview_image.url}
-                className="link_img"
-                alt={item.data.work_title[0].text}
-                width={(item.image_width / timelineWidth) * 100}
-                left={
-                  ((item.data.work_year_from - doc.min_year) / timelineWidth) *
-                  100
-                }
-              // style={{ "width": `${item.image_width / doc.max_width * 100}%` }}
-              />
-              <WorkLink
-                numberOfWorks={doc.results.length}
-                href={Link.url(item.link, linkResolver)}
-                key={i}
+          let timelineWidth = doc.max_year - doc.min_year + 1;
+          return (
+            <LineContainer>
+              <Ruler>
+                —<br />—<br />—<br />—<br />—<br />—<br />—<br />—<br />—<br />
+                ——
+                <br />—
+              </Ruler>
+              <Ends>
+                <br />
+                <br />
+                <br />
+                <br />|<br />|<br />|<br />
+                <br />
+                <br />
+                <br />
+                <br />|<br />|<br />|
+              </Ends>
+              <Line
+                img={item.data.work_preview_image.url + imgix}
+                key={"a" + i}
               >
-                <HoverLine key={"d" + i}>
-                  <WorkTitle key={"b" + i}>
-                    {item.data.work_title[0].text}
-                  </WorkTitle>
-                  <br />
-                  <WorkTitle key={"c" + i}>
-                    {item.data.work_year_from}–{item.data.work_year_to}
-                  </WorkTitle>
-                </HoverLine>
-              </WorkLink>
-            </Line>
-            <Ends><br /><br /><br /><br />|<br />|<br />|<br /><br /><br /><br /><br />|<br />|<br />|</Ends>
-          </LineContainer>
-          )
+                <Preview
+                  key={"e" + i}
+                  src={item.data.work_preview_image.url}
+                  className="link_img"
+                  alt={item.data.work_title[0].text}
+                  width={(item.image_width / timelineWidth) * 100}
+                  left={
+                    ((item.data.work_year_from - doc.min_year) /
+                      timelineWidth) *
+                    100
+                  }
+                  // style={{ "width": `${item.image_width / doc.max_width * 100}%` }}
+                />
+                <WorkLink
+                  numberOfWorks={doc.results.length}
+                  href={Link.url(item.link, linkResolver)}
+                  key={i}
+                >
+                  <HoverLine key={"d" + i}>
+                    <WorkTitle key={"b" + i}>
+                      {item.data.work_title[0].text}
+                    </WorkTitle>
+                    <br />
+                    <WorkTitle key={"c" + i}>
+                      {item.data.work_year_from}–{item.data.work_year_to}
+                    </WorkTitle>
+                  </HoverLine>
+                </WorkLink>
+              </Line>
+              <Ends>
+                <br />
+                <br />
+                <br />
+                <br />|<br />|<br />|<br />
+                <br />
+                <br />
+                <br />
+                <br />|<br />|<br />|
+              </Ends>
+            </LineContainer>
+          );
         })}
       </div>
     );

@@ -3,20 +3,15 @@ import { RichText } from "prismic-reactjs";
 import { client, linkResolver } from "../prismic-configuration";
 import NotFound from "./NotFound";
 import Prismic from "prismic-javascript";
-import styled, { createGlobalStyle } from "styled-components";
+import styled from "styled-components";
+import { GlobalStyle } from "../styles/global";
 import RenditionList from "../components/RenditionList";
 import Script from "../components/Script";
 import Header from "../components/Header";
 import RemoteControl from "../components/RemoteControl";
 import NewClock from "../components/NewClock";
+import {imgix} from "./Home"
 
-const GlobalStyle = createGlobalStyle`
-  body {
-    background-attachment: fixed;
-    background-image: url(${(props) => (props.img)});
-    background-repeat: no-repeat;
-    background-size: cover;
-  `
 const ContentContainer = styled.div`
   display: flex;
   box-sizing: border-box;
@@ -41,7 +36,7 @@ const DescriptionPreview = styled.div`
 
 const DescriptionPreviewText = styled.h5`
   margin: 0;
-  margin-bottom: ${(props) => (props.open && "1rem")};
+  margin-bottom: ${(props) => props.open && "1rem"};
 `;
 
 const Bullet = styled.h2`
@@ -51,7 +46,6 @@ const Image = styled.img`
   width: 100%;
 `;
 
-
 const Renditions = ({ match }) => {
   const [doc, setDocData] = useState(null);
   const [notFound, toggleNotFound] = useState(false);
@@ -59,9 +53,8 @@ const Renditions = ({ match }) => {
   const [toggleScript, toggleScriptState] = useState(true);
   const [toggleRemote, toggleRemoteState] = useState(true);
   const [openAll, setOpenAll] = useState(false);
-  let renditionsRefs = []
-  const imgix = "&sat=-50&exp=5&invert=true&monochrome=c5c&con=-80"
-
+  let renditionsRefs = [];
+/*   const imgix = "&sat=-50&exp=0&invert=true&monochrome=c5c&con=5&monochrome=%23862e9c"; */
   // const [rendArray, setRendArray] = useState(null);
 
   const uid = match.params.uid;
@@ -109,19 +102,22 @@ const Renditions = ({ match }) => {
   function executeScroll(ref) {
     if (ref) {
       let margin = ref.current.offsetTop === 152 ? 202 : 152;
-      setTimeout(() => window.scrollTo(0, ref.current.offsetTop - margin), openAll ? 100 : 300);
+      setTimeout(
+        () => window.scrollTo(0, ref.current.offsetTop - margin),
+        openAll ? 100 : 300
+      );
     }
   }
 
   function openRendition(value) {
-    console.log(value)
+    console.log(value);
     if (value === 999) {
-      setOpenAll(true)
+      setOpenAll(true);
       // value = expandValue > 0 ? -1 : 1
-      value = expandValue + 1 === doc.results.length ? -1 : 1
+      value = expandValue + 1 === doc.results.length ? -1 : 1;
     }
-    if (value === -2) setOpenAll(false)
-    setExpandValue(value === -2 ? -1 : value + expandValue)
+    if (value === -2) setOpenAll(false);
+    setExpandValue(value === -2 ? -1 : value + expandValue);
     executeScroll(renditionsRefs[value + expandValue]);
   }
   function refList(ref) {
@@ -145,12 +141,12 @@ const Renditions = ({ match }) => {
         />
         <Header
           text={`${doc.work_title[0].text} ${doc.work_year_from}–${doc.work_year_to}`}
-        //   <RichText
-        //     key="b"
-        //     render={doc.work_title}
-        //     linkResolver={linkResolver}
-        //   />
-        // }
+          //   <RichText
+          //     key="b"
+          //     render={doc.work_title}
+          //     linkResolver={linkResolver}
+          //   />
+          // }
         />
         <ContentContainer>
           <Script
