@@ -17,7 +17,6 @@ function NewClock() {
     const [seconds, setSeconds] = useState(savedTime[0] + 2);
     const [minutes, setMinutes] = useState(savedTime[1]);
     const [hours, setHours] = useState(savedTime[2]);
-    const [save, setSave] = useState(true)
 
     useEffect(() => {
         const time = setTimeout(() => {
@@ -35,7 +34,9 @@ function NewClock() {
                 setHours(tempHours);
             }
         }, 1000);
-        window.onbeforeunload = () => sessionStorage['time'] = JSON.stringify([seconds, minutes, hours]);
+        window.onbeforeunload = () => {
+            sessionStorage['time'] = JSON.stringify([seconds, minutes, hours]);
+        }
         return () => clearTimeout(time);
     });
 
