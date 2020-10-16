@@ -28,7 +28,7 @@ function NewClock() {
                 let tempSeconds = seconds + 1;
                 setSeconds(tempSeconds);
             }
-            if (minutes == 59) {
+            if (minutes === 59) {
                 let tempHours = hours + 1;
                 setMinutes(0);
                 setHours(tempHours);

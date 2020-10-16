@@ -9,9 +9,6 @@ import Script from "../components/Script";
 import Header from "../components/Header";
 import RemoteControl from "../components/RemoteControl";
 import NewClock from "../components/NewClock";
-import testbg from "../graphics/testbg.jpg";
-import testbg2 from "../graphics/testbg-2.jpg";
-import testbg3 from "../graphics/testbg-3.jpg";
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -20,17 +17,6 @@ const GlobalStyle = createGlobalStyle`
     background-repeat: no-repeat;
     background-size: cover;
   `
-
-
-// const Main = styled.main`
-//   height: 100vh;
-//   box-sizing: border-box;
-//   background-attachment: fixed;
-//   background-image: url(${(props) => (props.img)});
-//   background-repeat: no-repeat;
-//   background-size: cover;
-//   `;
-
 const ContentContainer = styled.div`
   display: flex;
   box-sizing: border-box;
@@ -73,7 +59,6 @@ const Renditions = ({ match }) => {
   const [toggleScript, toggleScriptState] = useState(true);
   const [toggleRemote, toggleRemoteState] = useState(true);
   const [openAll, setOpenAll] = useState(false);
-  const [mainHeight, setMainHeight] = useState(true);
   let renditionsRefs = []
   const imgix = "&sat=-50&exp=5&invert=true&monochrome=c5c&con=-80"
 
@@ -115,8 +100,6 @@ const Renditions = ({ match }) => {
       }
     };
     fetchData();
-
-    //expandValue > -1 ? setMainHeight("")
   }, [uid]); // Skip the Effect hook if the UID hasn't changed
 
   function handleClick() {

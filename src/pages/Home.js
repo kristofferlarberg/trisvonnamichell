@@ -4,7 +4,6 @@ import { client, linkResolver } from "../prismic-configuration";
 import NotFound from "./NotFound";
 import Prismic from "prismic-javascript";
 import styled from "styled-components";
-import testbg from "../graphics/testbg-3.jpg";
 
 const lineHeight = 17;
 

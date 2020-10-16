@@ -47,7 +47,6 @@ const RenditionList = (props) => {
     setHeight2(active === true ? "0px" : `${content2.current.scrollHeight}px`);
   }, [props.renditionsLength, props.expandValue, props.id, active]);
 
-
   return (
     <>
       <ListSection>
