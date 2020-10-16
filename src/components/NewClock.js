@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 const TimeContainer = styled.div`
-  position: absolute;
+  position: fixed;
   bottom: 0px;
   left: 30px;
   z-index:2;

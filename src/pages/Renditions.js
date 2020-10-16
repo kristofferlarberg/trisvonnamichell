@@ -3,7 +3,7 @@ import { RichText } from "prismic-reactjs";
 import { client, linkResolver } from "../prismic-configuration";
 import NotFound from "./NotFound";
 import Prismic from "prismic-javascript";
-import styled from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 import RenditionList from "../components/RenditionList";
 import Script from "../components/Script";
 import Header from "../components/Header";
@@ -13,14 +13,23 @@ import testbg from "../graphics/testbg.jpg";
 import testbg2 from "../graphics/testbg-2.jpg";
 import testbg3 from "../graphics/testbg-3.jpg";
 
-const Main = styled.main`
-  height: 100vh;
-  box-sizing: border-box;
-  background-attachment: fixed;
-  background-image: url(${(props) => (props.img)});
-  background-repeat: no-repeat;
-  background-size: cover;
-  `;
+const GlobalStyle = createGlobalStyle`
+  body {
+    background-attachment: fixed;
+    background-image: url(${(props) => (props.img)});
+    background-repeat: no-repeat;
+    background-size: cover;
+  `
+
+
+// const Main = styled.main`
+//   height: 100vh;
+//   box-sizing: border-box;
+//   background-attachment: fixed;
+//   background-image: url(${(props) => (props.img)});
+//   background-repeat: no-repeat;
+//   background-size: cover;
+//   `;
 
 const ContentContainer = styled.div`
   display: flex;
@@ -138,7 +147,8 @@ const Renditions = ({ match }) => {
 
   if (doc) {
     return (
-      <Main img={doc.work_image + imgix}>
+      <>
+        <GlobalStyle img={doc.work_image + imgix} />
         <NewClock />
         <RemoteControl
           expandAll={openAll}
@@ -220,7 +230,7 @@ const Renditions = ({ match }) => {
             })}
           </ListContainer>
         </ContentContainer>
-      </Main>
+      </>
     );
   } else if (notFound) {
     return <NotFound />;
