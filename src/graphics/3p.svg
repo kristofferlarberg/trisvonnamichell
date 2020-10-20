@@ -1,60 +1,15 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   id="Lager_1"
-   data-name="Lager 1"
-   viewBox="0 0 14.67 25.16"
-   version="1.1"
-   sodipodi:docname="3p.svg"
-   inkscape:version="0.92.4 (5da689c313, 2019-01-14)">
-  <metadata
-     id="metadata1430">
-    <rdf:RDF>
-      <cc:Work
-         rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title>Rityta 4</dc:title>
-      </cc:Work>
-    </rdf:RDF>
-  </metadata>
-  <defs
-     id="defs1428" />
-  <sodipodi:namedview
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1"
-     objecttolerance="10"
-     gridtolerance="10"
-     guidetolerance="10"
-     inkscape:pageopacity="0"
-     inkscape:pageshadow="2"
-     inkscape:window-width="733"
-     inkscape:window-height="480"
-     id="namedview1426"
-     showgrid="false"
-     inkscape:zoom="9.3799683"
-     inkscape:cx="7.335"
-     inkscape:cy="12.58"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
-     inkscape:window-maximized="0"
-     inkscape:current-layer="Lager_1" />
-  <title
-     id="title1419">Rityta 4</title>
-  <path
-     d="M7.33,12.7,0,0H14.67Z"
-     id="path1421"
-     style="fill:#e57000;fill-opacity:1" />
-  <path
-     d="M7.33,25.16,0,12.46H14.67Z"
-     id="path1423"
-     style="fill:#e57000;fill-opacity:1" />
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 23.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1"
+	 id="Lager_1" inkscape:version="0.92.4 (5da689c313, 2019-01-14)" sodipodi:docname="3p.svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:svg="http://www.w3.org/2000/svg"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 14.7 25.2"
+	 style="enable-background:new 0 0 14.7 25.2;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:none;stroke:#969696;stroke-width:1.5;stroke-miterlimit:10;}
+</style>
+<sodipodi:namedview  bordercolor="#666666" borderopacity="1" gridtolerance="10" guidetolerance="10" id="namedview1426" inkscape:current-layer="Lager_1" inkscape:cx="7.335" inkscape:cy="12.58" inkscape:pageopacity="0" inkscape:pageshadow="2" inkscape:window-height="480" inkscape:window-maximized="0" inkscape:window-width="733" inkscape:window-x="0" inkscape:window-y="0" inkscape:zoom="9.3799683" objecttolerance="10" pagecolor="#ffffff" showgrid="false">
+	</sodipodi:namedview>
+<title  id="title1419">Rityta 4</title>
+<path id="path1421" class="st0" d="M7.3,10.7L1.7,1h11.2L7.3,10.7z"/>
+<path id="path1423" class="st0" d="M7.3,23.2l-5.6-9.7h11.2L7.3,23.2z"/>
 </svg>

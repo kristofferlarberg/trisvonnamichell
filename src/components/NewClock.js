@@ -8,7 +8,7 @@ const TimeContainer = styled.div`
   z-index:2;
 `
 const Time = styled.h2`
-  font-size: 2.2rem;
+  font-size: 2rem;
   color: #000;
 `
 function NewClock() {

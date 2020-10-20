@@ -4,41 +4,29 @@ import { client, linkResolver } from "../prismic-configuration";
 import NotFound from "./NotFound";
 import Prismic from "prismic-javascript";
 import styled from "styled-components";
+import { GlobalStyle } from "../styles/global";
+
+import Nav from "../components/Nav";
 
 const lineHeight = 17;
 
-const Nav = styled.nav`
-  padding: 1rem 1.5rem 1rem 1.5rem;
-  margin: 0;
-  display: flex;
-  justify-content: space-between;
-  @media (max-width: 500px) {
-    margin-left: 0rem;
-    font-size: 2rem;
-    text-align: center;
-  }
-  @media (max-width: 400px) {
-    margin-left: 0rem;
-    font-size: 1.6rem;
-    text-align: center;
-  }
-`;
-
-const Title = styled.h1`
-  margin: 0;
-  color: white;
+const Main = styled.main`
+  margin: 2rem;
+  width: calc(100vw - 4rem);
+  height: auto;
 `;
 
 const Line = styled.section`
   background-color: #454;
-  background-image: url(${props => props.img});
+  background-image: url(${(props) => props.img});
   background-repeat: no-repeat;
   background-size: cover;
-  // background-blend-mode: lighten;
   margin-bottom: 5px;
   height: ${lineHeight}rem;
-  width: 85%;
+  width: 100%;
+  box-sizing: border-box;
 `;
+
 const Preview = styled.img`
   position: relative;
   left: ${(props) => props.left}%;
@@ -46,6 +34,7 @@ const Preview = styled.img`
   height: 100%;
   object-fit: cover;
 `;
+
 const WorkLink = styled.a`
   position: relative;
   top: calc(-17rem - 6.333333px);
@@ -53,49 +42,61 @@ const WorkLink = styled.a`
   text-decoration: none;
   color: inherit;
 `;
+
 const HoverLine = styled.span`
   display: block;
   text-align: center;
   height: ${lineHeight}rem;
   transition-duration: 0.4s;
   &:hover {
-    background-color: #8888;
+    background-color: #ccc8;
   }
 `;
+
 const WorkTitle = styled.h2`
   display: inline-block;
   position: relative;
   top: ${(lineHeight - 1.4 * 2 - 0.25 - 0.5 * 4) / 2}rem;
   margin: 0 0 0.25rem 0;
   padding: 0.5rem 0.8rem 0.5rem 0.8rem;
-  background-color: #fff;
+  background-color: var(--offwhite);
 `;
+
 const LineContainer = styled.section`
-  width: calc(100vw - 40px);
+  width: calc(100% - 4rem);
   display: flex;
-  margin-left: -20px;
-`
+  justify-content: center;
+  margin: 0 2rem;
+  box-sizing: border-box;
+`;
+
 const Ends = styled.section`
   background-color: #000;
   height: ${lineHeight}rem;
-  margin-bottom: 5px;
   width: 5%;
   min-width: 30px;
-  color: #555;
-  text-align:center;
+  color: var(--lightgrey);
+  text-align: center;
   line-height: 0.9rem;
-`
-const Ruler = styled(Ends)`
-  background-color: transparent;
-  text-align: right;
-  letter-spacing:-3px;
-  line-height: 1.55rem;
-`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+`;
+
+const VerticalLine = styled.div`
+  width: 1px;
+  height: 15%;
+  background-color: var(--lightgrey);
+`;
+
+export const imgix =
+  "&sat=-50&exp=0&invert=true&monochrome=c5c&con=-40&monochrome=%23862e9c";
 
 const Home = ({ match }) => {
   const [doc, setDocData] = useState(null);
   const [notFound, toggleNotFound] = useState(false);
-  const imgix = "&sat=-50&exp=5&invert=true&monochrome=c5c&con=-80"
 
   const uid = match.params.uid;
 
@@ -150,55 +151,61 @@ const Home = ({ match }) => {
     };
     fetchData();
   }, [uid]); // Skip the Effect hook if the UID hasn't changed
-
+  console.log(doc);
   if (doc) {
     return (
-      <div>
-        <Nav>
-          <Title>Tris Vonna-Michell</Title>
-          <Title>Works 2003–2015</Title>
-        </Nav>
-
+      <Main>
+        <GlobalStyle img={doc.work_image + imgix} />
+        <Nav title="Tris Vonna-Michell" years="Works 2003–2015" />
         {/* This is how to render a Rich Text field into your template as HTML */}
         {/* <RichText render={doc.data.description} linkResolver={linkResolver} /> */}
         {doc.results.map((item, i) => {
-          let timelineWidth = (doc.max_year - doc.min_year + 1)
-          return (<LineContainer><Ruler>—<br />—<br />—<br />—<br />—<br />—<br />—<br />—<br />—<br />——<br />—</Ruler>
-            <Ends><br /><br /><br /><br />|<br />|<br />|<br /><br /><br /><br /><br />|<br />|<br />|</Ends>
-            <Line img={item.data.work_preview_image.url + imgix} key={"a" + i}>
-              <Preview
-                key={"e" + i}
-                src={item.data.work_preview_image.url}
-                className="link_img"
-                alt={item.data.work_title[0].text}
-                width={(item.image_width / timelineWidth) * 100}
-                left={
-                  ((item.data.work_year_from - doc.min_year) / timelineWidth) *
-                  100
-                }
-              // style={{ "width": `${item.image_width / doc.max_width * 100}%` }}
-              />
-              <WorkLink
-                numberOfWorks={doc.results.length}
-                href={Link.url(item.link, linkResolver)}
-                key={i}
+          let timelineWidth = doc.max_year - doc.min_year + 1;
+          return (
+            <LineContainer>
+              <Ends>
+                <VerticalLine />
+              </Ends>
+              <Line
+                img={item.data.work_preview_image.url + imgix}
+                key={"a" + i}
               >
-                <HoverLine key={"d" + i}>
-                  <WorkTitle key={"b" + i}>
-                    {item.data.work_title[0].text}
-                  </WorkTitle>
-                  <br />
-                  <WorkTitle key={"c" + i}>
-                    {item.data.work_year_from}–{item.data.work_year_to}
-                  </WorkTitle>
-                </HoverLine>
-              </WorkLink>
-            </Line>
-            <Ends><br /><br /><br /><br />|<br />|<br />|<br /><br /><br /><br /><br />|<br />|<br />|</Ends>
-          </LineContainer>
-          )
+                <Preview
+                  key={"e" + i}
+                  src={item.data.work_preview_image.url}
+                  className="link_img"
+                  alt={item.data.work_title[0].text}
+                  width={(item.image_width / timelineWidth) * 100}
+                  left={
+                    ((item.data.work_year_from - doc.min_year) /
+                      timelineWidth) *
+                    100
+                  }
+                  // style={{ "width": `${item.image_width / doc.max_width * 100}%` }}
+                />
+                <WorkLink
+                  numberOfWorks={doc.results.length}
+                  href={Link.url(item.link, linkResolver)}
+                  key={i}
+                >
+                  <HoverLine key={"d" + i}>
+                    <WorkTitle key={"b" + i}>
+                      {item.data.work_title[0].text}
+                    </WorkTitle>
+                    <br />
+                    <WorkTitle key={"c" + i}>
+                      {item.data.work_year_from}–{item.data.work_year_to}
+                    </WorkTitle>
+                  </HoverLine>
+                </WorkLink>
+              </Line>
+              <Ends>
+                <VerticalLine />
+              </Ends>
+            </LineContainer>
+          );
         })}
-      </div>
+      </Main>
     );
   } else if (notFound) {
     return <NotFound />;
