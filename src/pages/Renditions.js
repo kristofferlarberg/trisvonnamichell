@@ -10,7 +10,7 @@ import Script from "../components/Script";
 import Header from "../components/Header";
 import RemoteControl from "../components/RemoteControl";
 import NewClock from "../components/NewClock";
-import {imgix} from "./Home"
+import { imgix } from "./Home";
 import { BlackCircle } from "../components/Circle";
 
 const ContentContainer = styled.div`
@@ -56,7 +56,7 @@ const Renditions = ({ match }) => {
   const [toggleRemote, toggleRemoteState] = useState(true);
   const [openAll, setOpenAll] = useState(false);
   let renditionsRefs = [];
-/*   const imgix = "&sat=-50&exp=0&invert=true&monochrome=c5c&con=5&monochrome=%23862e9c"; */
+  /*   const imgix = "&sat=-50&exp=0&invert=true&monochrome=c5c&con=5&monochrome=%23862e9c"; */
   // const [rendArray, setRendArray] = useState(null);
 
   const uid = match.params.uid;
@@ -142,7 +142,8 @@ const Renditions = ({ match }) => {
           toggleScriptRemote={(value) => toggleScriptState(value)}
         />
         <Header
-          text={`${doc.work_title[0].text} ${doc.work_year_from}–${doc.work_year_to}`}
+          text={`${doc.work_title[0].text}`}
+          year={`${doc.work_year_from}–${doc.work_year_to}`}
         />
         <ContentContainer>
           <Script
