@@ -92,7 +92,7 @@ const VerticalLine = styled.div`
 `;
 
 export const imgix =
-  "&sat=-50&exp=0&invert=true&monochrome=c5c&con=-35&monochrome=%23862e9c";
+  "&sat=-50&exp=0&invert=true&monochrome=c5c&con=-40&monochrome=%23862e9c";
 
 const Home = ({ match }) => {
   const [doc, setDocData] = useState(null);
