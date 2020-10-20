@@ -6,7 +6,7 @@ const ScriptBox = styled.section`
   width: 30vw;
   background-color: var(--offwhite);
   position: fixed;
-  left: ${(props) => (props.position ? "-30" : "4")}vw;
+  left: ${(props) => (props.position ? "-30" : "5")}vw;
   transition: ${(props) =>
     props.position ? "all 0.2s ease-out" : "all 0.3s ease-in"};
 `;

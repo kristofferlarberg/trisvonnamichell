@@ -6,34 +6,14 @@ import Prismic from "prismic-javascript";
 import styled from "styled-components";
 import { GlobalStyle } from "../styles/global";
 
-import { GreyCircle } from "../components/Circle";
-import PixelRuler from "../components/PixelRuler";
+import Nav from "../components/Nav";
 
 const lineHeight = 17;
 
-const Nav = styled.nav`
-  padding: 1rem 0.2rem 1rem 0.2rem;
-  margin: 0.2rem 4rem 2rem 4rem;
-  display: flex;
-  justify-content: space-between;
-  border-bottom: 4px solid var(--offwhite);
-  box-sizing: border-box;
-
-  @media (max-width: 500px) {
-    margin-left: 0rem;
-    font-size: 2rem;
-    text-align: center;
-  }
-  @media (max-width: 400px) {
-    margin-left: 0rem;
-    font-size: 1.6rem;
-    text-align: center;
-  }
-`;
-
-const Title = styled.h1`
-  margin: 0;
-  color: var(--offwhite);
+const Main = styled.main`
+  margin: 2rem;
+  width: calc(100vw - 4rem);
+  height: auto;
 `;
 
 const Line = styled.section`
@@ -41,10 +21,10 @@ const Line = styled.section`
   background-image: url(${(props) => props.img});
   background-repeat: no-repeat;
   background-size: cover;
-  // background-blend-mode: lighten;
   margin-bottom: 5px;
   height: ${lineHeight}rem;
-  width: 85%;
+  width: 100%;
+  box-sizing: border-box;
 `;
 
 const Preview = styled.img`
@@ -83,15 +63,16 @@ const WorkTitle = styled.h2`
 `;
 
 const LineContainer = styled.section`
-  width: calc(100vw - 4rem);
+  width: calc(100% - 4rem);
   display: flex;
-  margin: 0 1rem 0 1rem;
+  justify-content: center;
+  margin: 0 2rem;
+  box-sizing: border-box;
 `;
 
 const Ends = styled.section`
   background-color: #000;
   height: ${lineHeight}rem;
-  margin-bottom: 5px;
   width: 5%;
   min-width: 30px;
   color: var(--lightgrey);
@@ -101,24 +82,17 @@ const Ends = styled.section`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  box-sizing: border-box;
 `;
 
 const VerticalLine = styled.div`
-  width: 2px;
-  height: 50%;
+  width: 1px;
+  height: 15%;
   background-color: var(--lightgrey);
 `;
 
-const Ruler = styled(Ends)`
-  background-color: transparent;
-  text-align: right;
-  letter-spacing: -3px;
-  line-height: 1.55rem;
-  color: var(--lightgrey);
-`;
-
 export const imgix =
-  "&sat=-50&exp=0&invert=true&monochrome=c5c&con=-20&monochrome=%23862e9c";
+  "&sat=-50&exp=0&invert=true&monochrome=c5c&con=-35&monochrome=%23862e9c";
 
 const Home = ({ match }) => {
   const [doc, setDocData] = useState(null);
@@ -180,27 +154,17 @@ const Home = ({ match }) => {
   console.log(doc);
   if (doc) {
     return (
-      <div>
-        <Nav>
-          <Title>Tris Vonna-Michell</Title>
-          <Title>Works 2003–2015</Title>
-        </Nav>
-
+      <Main>
+        <GlobalStyle img={doc.work_image + imgix} />
+        <Nav title="Tris Vonna-Michell" years="Works 2003–2015" />
         {/* This is how to render a Rich Text field into your template as HTML */}
         {/* <RichText render={doc.data.description} linkResolver={linkResolver} /> */}
         {doc.results.map((item, i) => {
           let timelineWidth = doc.max_year - doc.min_year + 1;
           return (
             <LineContainer>
-              <GlobalStyle img={doc.work_image + imgix} />
-              <Ruler>
-                {/*    —<br />—<br />—<br />—<br />—<br />—<br />—<br />—<br />—<br />
-                ——
-                <br />— */}
-                <PixelRuler/>
-              </Ruler>
               <Ends>
-                {/* <VerticalLine /> */}
+                <VerticalLine />
               </Ends>
               <Line
                 img={item.data.work_preview_image.url + imgix}
@@ -236,15 +200,12 @@ const Home = ({ match }) => {
                 </WorkLink>
               </Line>
               <Ends>
-                <GreyCircle />
-                <GreyCircle />
-                <GreyCircle />
-                <GreyCircle />
+                <VerticalLine />
               </Ends>
             </LineContainer>
           );
         })}
-      </div>
+      </Main>
     );
   } else if (notFound) {
     return <NotFound />;

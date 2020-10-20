@@ -11,14 +11,21 @@ import Header from "../components/Header";
 import RemoteControl from "../components/RemoteControl";
 import NewClock from "../components/NewClock";
 import { imgix } from "./Home";
-import { BlackCircle } from "../components/Circle";
+import { Circle } from "../components/Circle";
 
-const ContentContainer = styled.div`
+const Main = styled.main`
+  box-sizing: border-box;
+  width: calc(100vw - 4rem);
+  height: auto;
+  margin: 2rem;
+`;
+
+const Content = styled.div`
   display: flex;
   box-sizing: border-box;
+  margin-top: 8rem;
   width: 100%;
   height: auto;
-  padding-top: 5rem;
 `;
 
 const ListContainer = styled.div`
@@ -33,7 +40,7 @@ const ListContainer = styled.div`
 const DescriptionPreview = styled.div`
   display: flex;
   align-items: flex-start;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 `;
 
 const DescriptionPreviewText = styled.h5`
@@ -44,6 +51,7 @@ const DescriptionPreviewText = styled.h5`
 const Bullet = styled.h2`
   margin: -1.4rem 1rem 0 0;
 `;
+
 const Image = styled.img`
   width: 100%;
 `;
@@ -128,7 +136,7 @@ const Renditions = ({ match }) => {
 
   if (doc) {
     return (
-      <>
+      <Main>
         <GlobalStyle img={doc.work_image + imgix} />
         <NewClock />
         <RemoteControl
@@ -145,7 +153,7 @@ const Renditions = ({ match }) => {
           text={`${doc.work_title[0].text}`}
           year={`${doc.work_year_from}–${doc.work_year_to}`}
         />
-        <ContentContainer>
+        <Content>
           <Script
             // handleClick={handleClick}
             position={!toggleScript}
@@ -179,7 +187,7 @@ const Renditions = ({ match }) => {
                   descriptionPreview={item.data.rendition_images.map(
                     (image, i) => (
                       <DescriptionPreview key={"d" + i}>
-                        <BlackCircle />
+                        <Circle />
                         <DescriptionPreviewText>
                           {image.rendition_image_caption[0].text}
                         </DescriptionPreviewText>
@@ -200,8 +208,8 @@ const Renditions = ({ match }) => {
               );
             })}
           </ListContainer>
-        </ContentContainer>
-      </>
+        </Content>
+      </Main>
     );
   } else if (notFound) {
     return <NotFound />;
