@@ -11,6 +11,7 @@ import Header from "../components/Header";
 import RemoteControl from "../components/RemoteControl";
 import NewClock from "../components/NewClock";
 import {imgix} from "./Home"
+import { BlackCircle } from "../components/Circle";
 
 const ContentContainer = styled.div`
   display: flex;
@@ -31,7 +32,8 @@ const ListContainer = styled.div`
 
 const DescriptionPreview = styled.div`
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  margin-bottom: 2rem;
 `;
 
 const DescriptionPreviewText = styled.h5`
@@ -141,12 +143,6 @@ const Renditions = ({ match }) => {
         />
         <Header
           text={`${doc.work_title[0].text} ${doc.work_year_from}–${doc.work_year_to}`}
-          //   <RichText
-          //     key="b"
-          //     render={doc.work_title}
-          //     linkResolver={linkResolver}
-          //   />
-          // }
         />
         <ContentContainer>
           <Script
@@ -182,14 +178,9 @@ const Renditions = ({ match }) => {
                   descriptionPreview={item.data.rendition_images.map(
                     (image, i) => (
                       <DescriptionPreview key={"d" + i}>
-                        <Bullet key={"e" + i}>&#8226;</Bullet>
+                        <BlackCircle />
                         <DescriptionPreviewText>
                           {image.rendition_image_caption[0].text}
-                          {/* <RichText
-                          key={"c" + i}
-                          render={image.rendition_image_caption}
-                          linkResolver={linkResolver}
-                        /> */}
                         </DescriptionPreviewText>
                       </DescriptionPreview>
                     )

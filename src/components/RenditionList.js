@@ -1,12 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 
+import Circle from "../components/Circle";
+
 const ListSection = styled.section`
   margin-bottom: 5px;
   padding: 2rem;
   display: flex;
   flex-direction: column;
-  background-color: #fffe;
+  background-color: var(--offwhite);
 `;
 
 const OpenImages = styled.section`
@@ -51,7 +53,9 @@ const RenditionList = (props) => {
     <>
       <ListSection>
         <OpenImages>
-          <Title>{props.title} {props.year}</Title>
+          <Title>
+            {props.title} {props.year}
+          </Title>
           <PreviewDiv ref={content2} height2={height2}>
             {props.descriptionPreview}
           </PreviewDiv>

@@ -4,14 +4,21 @@ import { client, linkResolver } from "../prismic-configuration";
 import NotFound from "./NotFound";
 import Prismic from "prismic-javascript";
 import styled from "styled-components";
+import { GlobalStyle } from "../styles/global";
+
+import { GreyCircle } from "../components/Circle";
+import PixelRuler from "../components/PixelRuler";
 
 const lineHeight = 17;
 
 const Nav = styled.nav`
-  padding: 1rem 1.5rem 1rem 1.5rem;
-  margin: 0;
+  padding: 1rem 0.2rem 1rem 0.2rem;
+  margin: 0.2rem 4rem 2rem 4rem;
   display: flex;
   justify-content: space-between;
+  border-bottom: 4px solid var(--offwhite);
+  box-sizing: border-box;
+
   @media (max-width: 500px) {
     margin-left: 0rem;
     font-size: 2rem;
@@ -26,7 +33,7 @@ const Nav = styled.nav`
 
 const Title = styled.h1`
   margin: 0;
-  color: white;
+  color: var(--offwhite);
 `;
 
 const Line = styled.section`
@@ -39,6 +46,7 @@ const Line = styled.section`
   height: ${lineHeight}rem;
   width: 85%;
 `;
+
 const Preview = styled.img`
   position: relative;
   left: ${(props) => props.left}%;
@@ -46,6 +54,7 @@ const Preview = styled.img`
   height: 100%;
   object-fit: cover;
 `;
+
 const WorkLink = styled.a`
   position: relative;
   top: calc(-17rem - 6.333333px);
@@ -53,43 +62,59 @@ const WorkLink = styled.a`
   text-decoration: none;
   color: inherit;
 `;
+
 const HoverLine = styled.span`
   display: block;
   text-align: center;
   height: ${lineHeight}rem;
   transition-duration: 0.4s;
   &:hover {
-    background-color: #8888;
+    background-color: #ccc8;
   }
 `;
+
 const WorkTitle = styled.h2`
   display: inline-block;
   position: relative;
   top: ${(lineHeight - 1.4 * 2 - 0.25 - 0.5 * 4) / 2}rem;
   margin: 0 0 0.25rem 0;
   padding: 0.5rem 0.8rem 0.5rem 0.8rem;
-  background-color: #fff;
+  background-color: var(--offwhite);
 `;
+
 const LineContainer = styled.section`
-  width: calc(100vw - 40px);
+  width: calc(100vw - 4rem);
   display: flex;
-  margin-left: -20px;
+  margin: 0 1rem 0 1rem;
 `;
+
 const Ends = styled.section`
   background-color: #000;
   height: ${lineHeight}rem;
   margin-bottom: 5px;
   width: 5%;
   min-width: 30px;
-  color: #555;
+  color: var(--lightgrey);
   text-align: center;
   line-height: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
+
+const VerticalLine = styled.div`
+  width: 2px;
+  height: 50%;
+  background-color: var(--lightgrey);
+`;
+
 const Ruler = styled(Ends)`
   background-color: transparent;
   text-align: right;
   letter-spacing: -3px;
   line-height: 1.55rem;
+  color: var(--lightgrey);
 `;
 
 export const imgix =
@@ -152,7 +177,7 @@ const Home = ({ match }) => {
     };
     fetchData();
   }, [uid]); // Skip the Effect hook if the UID hasn't changed
-
+  console.log(doc);
   if (doc) {
     return (
       <div>
@@ -167,20 +192,15 @@ const Home = ({ match }) => {
           let timelineWidth = doc.max_year - doc.min_year + 1;
           return (
             <LineContainer>
+              <GlobalStyle img={doc.work_image + imgix} />
               <Ruler>
-                —<br />—<br />—<br />—<br />—<br />—<br />—<br />—<br />—<br />
+                {/*    —<br />—<br />—<br />—<br />—<br />—<br />—<br />—<br />—<br />
                 ——
-                <br />—
+                <br />— */}
+                <PixelRuler/>
               </Ruler>
               <Ends>
-                <br />
-                <br />
-                <br />
-                <br />|<br />|<br />|<br />
-                <br />
-                <br />
-                <br />
-                <br />|<br />|<br />|
+                {/* <VerticalLine /> */}
               </Ends>
               <Line
                 img={item.data.work_preview_image.url + imgix}
@@ -216,14 +236,10 @@ const Home = ({ match }) => {
                 </WorkLink>
               </Line>
               <Ends>
-                <br />
-                <br />
-                <br />
-                <br />|<br />|<br />|<br />
-                <br />
-                <br />
-                <br />
-                <br />|<br />|<br />|
+                <GreyCircle />
+                <GreyCircle />
+                <GreyCircle />
+                <GreyCircle />
               </Ends>
             </LineContainer>
           );

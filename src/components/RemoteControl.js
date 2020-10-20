@@ -19,9 +19,9 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   border-radius: 15px;
-  background-color: grey;
+  background-color: #111;
   position: fixed;
-  bottom: 1rem;
+  bottom: 0;
   right: ${(props) => (props.position ? "1" : "-20")}rem;
   transition: ${(props) =>
     props.position ? "all 0.2s ease-out" : "all 0.3s ease-in"};
@@ -31,12 +31,12 @@ const Button = styled.button`
   width: 50px;
   height: 40px;
   border: 0;
-  border-left: 1px solid black;
-  background-color: grey;
+  border-left: 1px solid var(--lightgrey);
+  background-color: #111;
 `;
 
 const LastButton = styled(Button)`
-  border-right: 1px solid black;
+  border-right: 1px solid var(--lightgrey); ;
 `;
 
 const ButtonSymbol = styled.img`
@@ -51,6 +51,7 @@ font-weight:600;
   width: 25px;
   border: none;
   background-color: Transparent;
+  color: var(--lightgrey);
   &:focus{
     outline: none;
   }
@@ -125,7 +126,11 @@ function RemoteControl(props) {
 
   return (
     <Container position={props.position}>
-      <InvisibleButton onClick={props.handleClick} position={props.position}>::<br />::</InvisibleButton>
+      <InvisibleButton onClick={props.handleClick} position={props.position}>
+        ::
+        <br />
+        ::
+      </InvisibleButton>
       <Button onClick={openNext}>
         <ButtonSymbol src={ButtonOne} alt="Open next section" />
       </Button>
@@ -134,9 +139,7 @@ function RemoteControl(props) {
       </Button>
       <Button onClick={openAll}>
         <ButtonSymbol
-          src={
-            !expandAll ? ButtonThree : ButtonThreeP
-          }
+          src={!expandAll ? ButtonThreeP : ButtonThree}
           alt="Open all sections"
         />
       </Button>

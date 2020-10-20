@@ -19,8 +19,8 @@ const WorkTitle = styled.h2`
   box-sizing: border-box;
   margin-top: 0;
   text-align: center;
-  color: white;
-  border-bottom: 4px solid #fffe;
+  color: var(--offwhite);
+  border-bottom: 4px solid var(--offwhite);
 `;
 
 function Header(props) {
