@@ -14,13 +14,14 @@ const Time = styled.h2`
 function NewClock() {
     let savedTime = [0, 0, 0]
     if (sessionStorage['time']) savedTime = JSON.parse(sessionStorage['time'])
-    const [seconds, setSeconds] = useState(savedTime[0] + 2);
+    if (savedTime[0] < 58) savedTime[0] += 2
+    const [seconds, setSeconds] = useState(savedTime[0]);
     const [minutes, setMinutes] = useState(savedTime[1]);
     const [hours, setHours] = useState(savedTime[2]);
 
     useEffect(() => {
         const time = setTimeout(() => {
-            if (seconds === 59) {
+            if (seconds >= 59) {
                 let tempMinutes = minutes + 1;
                 setSeconds(0);
                 setMinutes(tempMinutes);
@@ -28,7 +29,7 @@ function NewClock() {
                 let tempSeconds = seconds + 1;
                 setSeconds(tempSeconds);
             }
-            if (minutes === 59) {
+            if (minutes >= 59) {
                 let tempHours = hours + 1;
                 setMinutes(0);
                 setHours(tempHours);
