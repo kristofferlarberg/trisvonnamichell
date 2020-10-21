@@ -12,8 +12,15 @@ const lineHeight = 17;
 
 const Main = styled.main`
   margin: 2rem;
-  width: calc(100vw - 4rem);
+  width: calc(100% - 4rem);
   height: auto;
+`;
+
+const LineContainer = styled.section`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box;
 `;
 
 const Line = styled.section`
@@ -23,7 +30,7 @@ const Line = styled.section`
   background-size: cover;
   margin-bottom: 5px;
   height: ${lineHeight}rem;
-  width: 100%;
+  width: 90%;
   box-sizing: border-box;
 `;
 
@@ -62,13 +69,6 @@ const WorkTitle = styled.h2`
   background-color: var(--offwhite);
 `;
 
-const LineContainer = styled.section`
-  width: calc(100% - 4rem);
-  display: flex;
-  justify-content: center;
-  margin: 0 2rem;
-  box-sizing: border-box;
-`;
 
 const Ends = styled.section`
   background-color: #000;
@@ -92,7 +92,7 @@ const VerticalLine = styled.div`
 `;
 
 export const imgix =
-  "&sat=-50&exp=0&invert=true&monochrome=c5c&con=-40&monochrome=%23862e9c";
+  "&sat=-50&exp=0&invert=true&monochrome=c5c&con=-50&monochrome=%23862e9c";
 
 const Home = ({ match }) => {
   const [doc, setDocData] = useState(null);
@@ -181,7 +181,7 @@ const Home = ({ match }) => {
                       timelineWidth) *
                     100
                   }
-                  // style={{ "width": `${item.image_width / doc.max_width * 100}%` }}
+                // style={{ "width": `${item.image_width / doc.max_width * 100}%` }}
                 />
                 <WorkLink
                   numberOfWorks={doc.results.length}
