@@ -4,8 +4,11 @@
 	 id="Lager_1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:svg="http://www.w3.org/2000/svg"
 	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 21.2 24.9"
 	 style="enable-background:new 0 0 21.2 24.9;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#969696;}
+</style>
 <sodipodi:namedview  bordercolor="#666666" borderopacity="1" gridtolerance="10" guidetolerance="10" id="namedview2560" inkscape:current-layer="Lager_1" inkscape:cx="9.9000778" inkscape:cy="4.9507422" inkscape:pageopacity="0" inkscape:pageshadow="2" inkscape:window-height="918" inkscape:window-maximized="0" inkscape:window-width="1367" inkscape:window-x="0" inkscape:window-y="0" inkscape:zoom="18.227985" objecttolerance="10" pagecolor="#ffffff" showgrid="false">
 	</sodipodi:namedview>
 <title  id="title2555">Rityta 2</title>
-<path id="rect8536" inkscape:connector-curvature="0" d="M0,0v4.8h8.2v20H13v-20h8.2V0H0z"/>
+<path id="rect8536" inkscape:connector-curvature="0" class="st0" d="M0,0v4.8h8.2v20H13v-20h8.2V0H0z"/>
 </svg>

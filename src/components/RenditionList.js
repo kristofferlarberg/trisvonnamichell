@@ -6,7 +6,7 @@ const ListSection = styled.section`
   padding: 2rem;
   display: flex;
   flex-direction: column;
-  background-color: #fffe;
+  background-color: var(--offwhite);
 `;
 
 const OpenImages = styled.section`
@@ -51,7 +51,9 @@ const RenditionList = (props) => {
     <>
       <ListSection>
         <OpenImages>
-          <Title>{props.title} {props.year}</Title>
+          <Title>
+            {props.title} {props.year}
+          </Title>
           <PreviewDiv ref={content2} height2={height2}>
             {props.descriptionPreview}
           </PreviewDiv>

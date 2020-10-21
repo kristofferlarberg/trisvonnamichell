@@ -3,26 +3,29 @@ import { RichText } from "prismic-reactjs";
 import { client, linkResolver } from "../prismic-configuration";
 import NotFound from "./NotFound";
 import Prismic from "prismic-javascript";
-import styled, { createGlobalStyle } from "styled-components";
+import styled from "styled-components";
+import { GlobalStyle } from "../styles/global";
 import RenditionList from "../components/RenditionList";
 import Script from "../components/Script";
 import Header from "../components/Header";
 import RemoteControl from "../components/RemoteControl";
 import NewClock from "../components/NewClock";
+import { imgix } from "./Home";
+import { Circle } from "../components/Circle";
 
-const GlobalStyle = createGlobalStyle`
-  body {
-    background-attachment: fixed;
-    background-image: url(${(props) => (props.img)});
-    background-repeat: no-repeat;
-    background-size: cover;
-  `
-const ContentContainer = styled.div`
+const Main = styled.main`
+  box-sizing: border-box;
+  width: calc(100vw - 4rem);
+  height: auto;
+  margin: 2rem;
+`;
+
+const Content = styled.div`
   display: flex;
   box-sizing: border-box;
+  margin-top: 8rem;
   width: 100%;
   height: auto;
-  padding-top: 5rem;
 `;
 
 const ListContainer = styled.div`
@@ -36,21 +39,22 @@ const ListContainer = styled.div`
 
 const DescriptionPreview = styled.div`
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
 `;
 
 const DescriptionPreviewText = styled.h5`
   margin: 0;
-  margin-bottom: ${(props) => (props.open && "1rem")};
+  margin-bottom: ${(props) => props.open && "1rem"};
 `;
 
 const Bullet = styled.h2`
   margin: -1.4rem 1rem 0 0;
 `;
+
 const Image = styled.img`
   width: 100%;
 `;
-
 
 const Renditions = ({ match }) => {
   const [doc, setDocData] = useState(null);
@@ -59,9 +63,8 @@ const Renditions = ({ match }) => {
   const [toggleScript, toggleScriptState] = useState(true);
   const [toggleRemote, toggleRemoteState] = useState(true);
   const [openAll, setOpenAll] = useState(false);
-  let renditionsRefs = []
-  const imgix = "&sat=-50&exp=5&invert=true&monochrome=c5c&con=-80"
-
+  let renditionsRefs = [];
+  /*   const imgix = "&sat=-50&exp=0&invert=true&monochrome=c5c&con=5&monochrome=%23862e9c"; */
   // const [rendArray, setRendArray] = useState(null);
 
   const uid = match.params.uid;
@@ -109,19 +112,22 @@ const Renditions = ({ match }) => {
   function executeScroll(ref) {
     if (ref) {
       let margin = ref.current.offsetTop === 152 ? 202 : 152;
-      setTimeout(() => window.scrollTo(0, ref.current.offsetTop - margin), openAll ? 100 : 300);
+      setTimeout(
+        () => window.scrollTo(0, ref.current.offsetTop - margin),
+        openAll ? 100 : 300
+      );
     }
   }
 
   function openRendition(value) {
-    console.log(value)
+    console.log(value);
     if (value === 999) {
-      setOpenAll(true)
+      setOpenAll(true);
       // value = expandValue > 0 ? -1 : 1
-      value = expandValue + 1 === doc.results.length ? -1 : 1
+      value = expandValue + 1 === doc.results.length ? -1 : 1;
     }
-    if (value === -2) setOpenAll(false)
-    setExpandValue(value === -2 ? -1 : value + expandValue)
+    if (value === -2) setOpenAll(false);
+    setExpandValue(value === -2 ? -1 : value + expandValue);
     executeScroll(renditionsRefs[value + expandValue]);
   }
   function refList(ref) {
@@ -130,7 +136,7 @@ const Renditions = ({ match }) => {
 
   if (doc) {
     return (
-      <>
+      <Main>
         <GlobalStyle img={doc.work_image + imgix} />
         <NewClock />
         <RemoteControl
@@ -144,15 +150,10 @@ const Renditions = ({ match }) => {
           toggleScriptRemote={(value) => toggleScriptState(value)}
         />
         <Header
-          text={`${doc.work_title[0].text} ${doc.work_year_from}–${doc.work_year_to}`}
-        //   <RichText
-        //     key="b"
-        //     render={doc.work_title}
-        //     linkResolver={linkResolver}
-        //   />
-        // }
+          text={`${doc.work_title[0].text}`}
+          year={`${doc.work_year_from}–${doc.work_year_to}`}
         />
-        <ContentContainer>
+        <Content>
           <Script
             // handleClick={handleClick}
             position={!toggleScript}
@@ -186,14 +187,9 @@ const Renditions = ({ match }) => {
                   descriptionPreview={item.data.rendition_images.map(
                     (image, i) => (
                       <DescriptionPreview key={"d" + i}>
-                        <Bullet key={"e" + i}>&#8226;</Bullet>
+                        <Circle />
                         <DescriptionPreviewText>
                           {image.rendition_image_caption[0].text}
-                          {/* <RichText
-                          key={"c" + i}
-                          render={image.rendition_image_caption}
-                          linkResolver={linkResolver}
-                        /> */}
                         </DescriptionPreviewText>
                       </DescriptionPreview>
                     )
@@ -212,8 +208,8 @@ const Renditions = ({ match }) => {
               );
             })}
           </ListContainer>
-        </ContentContainer>
-      </>
+        </Content>
+      </Main>
     );
   } else if (notFound) {
     return <NotFound />;
