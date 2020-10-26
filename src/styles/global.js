@@ -6,7 +6,6 @@ export const GlobalStyle = createGlobalStyle`
 
   html{
     overflow-y: scroll;
-    height:100%;
     scroll-behavior: smooth;
     --lightgrey: #969696;
     --offwhite: #fffe;

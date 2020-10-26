@@ -111,7 +111,8 @@ const Renditions = ({ match }) => {
 
   function executeScroll(ref) {
     if (ref) {
-      let margin = ref.current.offsetTop === 152 ? 202 : 152;
+      console.log(ref.current.offsetTop)
+      let margin = ref.current.offsetTop === 200 ? 250 : 200;
       setTimeout(
         () => window.scrollTo(0, ref.current.offsetTop - margin),
         openAll ? 100 : 300
