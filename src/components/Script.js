@@ -3,12 +3,14 @@ import styled from "styled-components";
 
 const ScriptBox = styled.section`
   padding: 1.5rem;
-  width: 30vw;
+  width: 34vw;
   background-color: var(--offwhite);
   position: fixed;
-  left: ${(props) => (props.position ? "-30" : "5")}vw;
+  left: ${(props) => (props.position ? "-30" : "2")}rem;
   transition: ${(props) =>
     props.position ? "all 0.2s ease-out" : "all 0.3s ease-in"};
+  max-height: 65vh;
+  overflow-y: auto;
 `;
 // position: ${ props => props.position ? "relative" : "absolute" };
 

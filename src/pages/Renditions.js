@@ -30,7 +30,7 @@ const Content = styled.div`
 
 const ListContainer = styled.div`
   margin-left: ${(props) => (props.position ? "20" : "40")}vw;
-  margin-right: ${(props) => (props.position ? "20" : "4")}vw;
+  margin-right: ${(props) => (props.position ? "20" : "1")}rem;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -46,6 +46,7 @@ const DescriptionPreview = styled.div`
 const DescriptionPreviewText = styled.h5`
   margin: 0;
   margin-bottom: ${(props) => props.open && "1rem"};
+  width: 100%;
 `;
 
 const Bullet = styled.h2`
@@ -112,7 +113,7 @@ const Renditions = ({ match }) => {
   function executeScroll(ref) {
     if (ref) {
       console.log(ref.current.offsetTop)
-      let margin = ref.current.offsetTop === 200 ? 250 : 200;
+      let margin = ref.current.offsetTop === 200 ? 250 : 180;
       setTimeout(
         () => window.scrollTo(0, ref.current.offsetTop - margin),
         openAll ? 100 : 300
