@@ -50,8 +50,13 @@ const WorkLink = styled.a`
   color: inherit;
 `;
 
-const HoverLine = styled.span`
-  display: block;
+const HoverLine = styled.section`
+  display: flex;
+  top: 0;
+  position: relative;
+  flex-direction: column;
+  justify-content: center;
+  align-items:center;
   text-align: center;
   height: ${lineHeight}rem;
   transition-duration: 0.4s;
@@ -61,12 +66,16 @@ const HoverLine = styled.span`
 `;
 
 const WorkTitle = styled.h2`
-  display: inline-block;
-  position: relative;
-  top: ${(lineHeight - 1.4 * 2 - 0.25 - 0.5 * 4) / 2}rem;
+  display: block;
+  // top: ${(lineHeight - 1.4 * 2 - 0.25 - 0.5 * 4) / 2}rem;
+  max-width:80%;
+  width: auto;
   margin: 0 0 0.25rem 0;
   padding: 0.5rem 0.8rem 0.5rem 0.8rem;
   background-color: var(--offwhite);
+  &:last-child {
+    margin: 0;
+  }
 `;
 
 
@@ -192,7 +201,6 @@ const Home = ({ match }) => {
                     <WorkTitle key={"b" + i}>
                       {item.data.work_title[0].text}
                     </WorkTitle>
-                    <br />
                     <WorkTitle key={"c" + i}>
                       {item.data.work_year_from}–{item.data.work_year_to}
                     </WorkTitle>
