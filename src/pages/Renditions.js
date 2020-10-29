@@ -71,6 +71,7 @@ const Renditions = ({ match }) => {
   const uid = match.params.uid;
 
   useEffect(() => {
+    console.log(uid)
     const fetchData = async () => {
       //Get list of all the categories from prismic
       const categories = await client.query(
@@ -113,7 +114,7 @@ const Renditions = ({ match }) => {
   function executeScroll(ref) {
     if (ref) {
       console.log(ref.current.offsetTop)
-      let margin = ref.current.offsetTop === 200 ? 250 : 180;
+      let margin = ref.current.offsetTop === 200 ? 250 : 200;
       setTimeout(
         () => window.scrollTo(0, ref.current.offsetTop - margin),
         openAll ? 100 : 300

@@ -7,6 +7,7 @@ import styled from "styled-components";
 import { GlobalStyle } from "../styles/global";
 
 import Nav from "../components/Nav";
+import Renditions from "./Renditions";
 
 const lineHeight = 17;
 
@@ -101,7 +102,7 @@ const VerticalLine = styled.div`
 `;
 
 export const imgix =
-  "&sat=-50&exp=0&invert=true&monochrome=c5c&con=-50&monochrome=%23862e9c";
+  "&w=0.5&sat=-50&exp=0&invert=true&monochrome=c5c&con=-50&monochrome=%23862e9c";
 
 const Home = ({ match }) => {
   const [doc, setDocData] = useState(null);
