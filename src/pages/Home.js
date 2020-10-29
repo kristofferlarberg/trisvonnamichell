@@ -5,9 +5,7 @@ import NotFound from "./NotFound";
 import Prismic from "prismic-javascript";
 import styled from "styled-components";
 import { GlobalStyle } from "../styles/global";
-
 import Nav from "../components/Nav";
-import Renditions from "./Renditions";
 
 const lineHeight = 17;
 
@@ -107,6 +105,8 @@ export const imgix =
 const Home = ({ match }) => {
   const [doc, setDocData] = useState(null);
   const [notFound, toggleNotFound] = useState(false);
+  const [loaded, setLoaded] = useState(false);
+  const allLoaded = []
 
   const uid = match.params.uid;
 
@@ -161,60 +161,71 @@ const Home = ({ match }) => {
     };
     fetchData();
   }, [uid]); // Skip the Effect hook if the UID hasn't changed
+
+  function handleLoad(i) {
+    allLoaded[i] = true
+    console.log("Loaded")
+    if (allLoaded.length === doc.results.length) setLoaded(true)
+    setLoaded(true)
+  }
+
   console.log(doc);
   if (doc) {
     return (
-      <Main>
-        <GlobalStyle img={doc.work_image + imgix} />
-        <Nav title="Tris Vonna-Michell" years="Works 2003–2015" />
-        {/* This is how to render a Rich Text field into your template as HTML */}
-        {/* <RichText render={doc.data.description} linkResolver={linkResolver} /> */}
-        {doc.results.map((item, i) => {
-          let timelineWidth = doc.max_year - doc.min_year + 1;
-          return (
-            <LineContainer>
-              <Ends>
-                <VerticalLine />
-              </Ends>
-              <Line
-                img={item.data.work_preview_image.url + imgix}
-                key={"a" + i}
-              >
-                <Preview
-                  key={"e" + i}
-                  src={item.data.work_preview_image.url}
-                  className="link_img"
-                  alt={item.data.work_title[0].text}
-                  width={(item.image_width / timelineWidth) * 100}
-                  left={
-                    ((item.data.work_year_from - doc.min_year) /
-                      timelineWidth) *
-                    100
-                  }
-                // style={{ "width": `${item.image_width / doc.max_width * 100}%` }}
-                />
-                <WorkLink
-                  numberOfWorks={doc.results.length}
-                  href={Link.url(item.link, linkResolver)}
-                  key={i}
+      <>
+        <Main>
+          <GlobalStyle />
+          <Nav title="Tris Vonna-Michell" years="Works 2003–2015" />
+          {/* This is how to render a Rich Text field into your template as HTML */}
+          {/* <RichText render={doc.data.description} linkResolver={linkResolver} /> */}
+          {doc.results.map((item, i) => {
+            let timelineWidth = doc.max_year - doc.min_year + 1;
+            return (
+              <LineContainer key={i}>
+                <Ends>
+                  <VerticalLine />
+                </Ends>
+                <Line
+                  img={item.data.work_preview_image.url + imgix}
+                  key={"a" + i}
                 >
-                  <HoverLine key={"d" + i}>
-                    <WorkTitle key={"b" + i}>
-                      {item.data.work_title[0].text}
-                    </WorkTitle>
-                    <WorkTitle key={"c" + i}>
-                      {item.data.work_year_from}–{item.data.work_year_to}
-                    </WorkTitle>
-                  </HoverLine>
-                </WorkLink>
-              </Line>
-              <Ends>
-                <VerticalLine />
-              </Ends>
-            </LineContainer>
-          );
-        })}
-      </Main>
+                  <Preview
+                    key={"e" + i}
+                    onLoad={() => console.log("LOADED")}
+                    src={item.data.work_preview_image.url}
+                    className="link_img"
+                    alt={item.data.work_title[0].text}
+                    width={(item.image_width / timelineWidth) * 100}
+                    left={
+                      ((item.data.work_year_from - doc.min_year) /
+                        timelineWidth) *
+                      100
+                    }
+                  // style={{ "width": `${item.image_width / doc.max_width * 100}%` }}
+                  />
+                  <WorkLink
+                    numberOfWorks={doc.results.length}
+                    href={Link.url(item.link, linkResolver)}
+                    key={i}
+                  >
+                    <HoverLine key={"d" + i}>
+                      <WorkTitle key={"b" + i}>
+                        {item.data.work_title[0].text}
+                      </WorkTitle>
+                      <WorkTitle key={"c" + i}>
+                        {item.data.work_year_from}–{item.data.work_year_to}
+                      </WorkTitle>
+                    </HoverLine>
+                  </WorkLink>
+                </Line>
+                <Ends>
+                  <VerticalLine />
+                </Ends>
+              </LineContainer>
+            );
+          })}
+        </Main>
+      </>
     );
   } else if (notFound) {
     return <NotFound />;
