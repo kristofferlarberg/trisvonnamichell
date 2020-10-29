@@ -167,8 +167,6 @@ const Home = ({ match }) => {
 
   function handleLoad(i) {
     allLoaded[i] = true
-    console.log(allLoaded)
-    console.log(loaded)
     if (allLoaded.length === doc.results.length) {
       setTimeout(
         function () {
@@ -176,8 +174,6 @@ const Home = ({ match }) => {
         }, 1000)
     }
   }
-
-  console.log(doc);
   if (doc) {
     return (
       <>
