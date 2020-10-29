@@ -13,13 +13,16 @@ const Main = styled.main`
   margin: 2rem;
   width: calc(100% - 4rem);
   height: auto;
+  opacity: ${props => props.loaded ? "1" : "0"};
+  transition: opacity 0.5s ease-in;
 `;
 
 const LineContainer = styled.section`
-  width: 100%;
   display: flex;
+  width: 100%;
   justify-content: center;
   box-sizing: border-box;
+  opacity: 
 `;
 
 const Line = styled.section`
@@ -100,7 +103,7 @@ const VerticalLine = styled.div`
 `;
 
 export const imgix =
-  "&w=0.5&sat=-50&exp=0&invert=true&monochrome=c5c&con=-50&monochrome=%23862e9c";
+  "&w=0.75&sat=-50&exp=0&invert=true&monochrome=c5c&con=-50&monochrome=%23862e9c";
 
 const Home = ({ match }) => {
   const [doc, setDocData] = useState(null);
@@ -164,16 +167,22 @@ const Home = ({ match }) => {
 
   function handleLoad(i) {
     allLoaded[i] = true
-    console.log("Loaded")
-    if (allLoaded.length === doc.results.length) setLoaded(true)
-    setLoaded(true)
+    console.log(allLoaded)
+    console.log(loaded)
+    if (allLoaded.length === doc.results.length) {
+      setTimeout(
+        function () {
+          setLoaded(true)
+        }, 1000)
+    }
   }
 
   console.log(doc);
   if (doc) {
     return (
       <>
-        <Main>
+        {!loaded && <p style={{ "color": "#fff", "margin": "32px 0 0 32px" }}>Loading...</p>}
+        <Main loaded={loaded}>
           <GlobalStyle />
           <Nav title="Tris Vonna-Michell" years="Works 2003–2015" />
           {/* This is how to render a Rich Text field into your template as HTML */}
@@ -181,7 +190,7 @@ const Home = ({ match }) => {
           {doc.results.map((item, i) => {
             let timelineWidth = doc.max_year - doc.min_year + 1;
             return (
-              <LineContainer key={i}>
+              <LineContainer key={i} show={loaded}>
                 <Ends>
                   <VerticalLine />
                 </Ends>
@@ -191,7 +200,7 @@ const Home = ({ match }) => {
                 >
                   <Preview
                     key={"e" + i}
-                    onLoad={() => console.log("LOADED")}
+                    onLoad={() => handleLoad(i)}
                     src={item.data.work_preview_image.url}
                     className="link_img"
                     alt={item.data.work_title[0].text}
