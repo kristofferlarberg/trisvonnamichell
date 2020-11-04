@@ -13,8 +13,8 @@ const isMobile = /Android|webOS|iPhone|iPad|iPod/i.test(ua);
 const lineHeight = isMobile ? 10 : 17;
 
 const Main = styled.main`
-  margin: ${props => props.mobile ? "0" : "2rem"};
-  width: ${props => props.mobile ? "100%" : "calc(100% - 4rem)"};
+  margin: ${props => props.mobile ? "0 5px" : "0 2rem"};
+  width: ${props => props.mobile ? "calc(100% - 10px)" : "calc(100% - 4rem)"};
   height: auto;
   opacity: ${props => props.loaded ? "1" : "0"};
   transition: opacity 0.5s ease-in;
@@ -100,12 +100,13 @@ const Home = ({ match }) => {
         {!loaded && !isMobile && <p style={{ "color": "#fff", "margin": "32px 0 0 32px" }}>Loading...</p>}
         <Main loaded={isMobile ? true : loaded} mobile={isMobile}>
           <GlobalStyle />
-          <Nav title="Tris Vonna-Michell" years={`Works ${doc.min_year}–`} />
+          <Nav mobile={isMobile} title="Tris Vonna-Michell" years={`Works ${doc.min_year}–`} />
           {/* This is how to render a Rich Text field into your template as HTML */}
           {/* <RichText render={doc.data.description} linkResolver={linkResolver} /> */}
           {doc.results.map((item, i) => {
             let timelineWidth = doc.max_year - doc.min_year + 1;
             return <Lines
+              renditions={false}
               loaded={loaded}
               work_preview_image={item.data.work_preview_image.url}
               numberOfWorks={doc.results.length}

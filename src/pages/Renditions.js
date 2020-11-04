@@ -12,6 +12,10 @@ import RemoteControl from "../components/RemoteControl";
 import NewClock from "../components/NewClock";
 import { imgix } from "./Home";
 import { Circle } from "../components/Circle";
+import Nav from "../components/Nav";
+
+let ua = navigator.userAgent;
+const isMobile = /Android|webOS|iPhone|iPad|iPod/i.test(ua);
 
 const Main = styled.main`
   box-sizing: border-box;
@@ -62,8 +66,9 @@ const Renditions = ({ match }) => {
   const [notFound, toggleNotFound] = useState(false);
   const [expandValue, setExpandValue] = useState(-1);
   const [toggleScript, toggleScriptState] = useState(true);
-  const [toggleRemote, toggleRemoteState] = useState(true);
+  // const [toggleRemote, toggleRemoteState] = useState(true);
   const [openAll, setOpenAll] = useState(false);
+  const [mouseUp, setMouseUp] = useState(false)
   let renditionsRefs = [];
   /*   const imgix = "&sat=-50&exp=0&invert=true&monochrome=c5c&con=5&monochrome=%23862e9c"; */
   // const [rendArray, setRendArray] = useState(null);
@@ -106,9 +111,9 @@ const Renditions = ({ match }) => {
     fetchData();
   }, [uid]); // Skip the Effect hook if the UID hasn't changed
 
-  function handleClick() {
-    toggleRemoteState(!toggleRemote);
-  }
+  // function handleClick() {
+  //   toggleRemoteState(!toggleRemote);
+  // }
 
   function executeScroll(ref) {
     if (ref) {
@@ -140,18 +145,21 @@ const Renditions = ({ match }) => {
         <GlobalStyle img={doc.work_image + imgix} />
         <NewClock />
         <RemoteControl
+          mouseUp={mouseUp}
           expandAll={openAll}
-          handleClick={handleClick}
-          position={toggleRemote}
+          // handleClick={handleClick}
+          // position={toggleRemote}
           currentValue={expandValue}
           renditionsLength={doc.results.length}
           adjustValue={(value) => openRendition(value)}
           currentScriptValue={toggleScript}
           toggleScriptRemote={(value) => toggleScriptState(value)}
         />
-        <Header
-          text={`${doc.work_title[0].text}`}
-          year={`${doc.work_year_from}–${doc.work_year_to}`}
+        <Nav
+          renditions={true}
+          mobile={isMobile}
+          title={`${doc.work_title[0].text}`}
+          years={`${doc.work_year_from}–${doc.work_year_to}`}
         />
         <Content>
           <Script

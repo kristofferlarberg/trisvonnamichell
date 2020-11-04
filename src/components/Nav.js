@@ -2,32 +2,26 @@ import React from "react";
 import styled from "styled-components";
 
 const NavBar = styled.nav`
-  width: 100%;
-  margin: 1rem 0 2rem 0;
+  position: ${(props) => props.renditions ? "fixed" : "static"};
+  top:${(props) => props.renditions && "0"};
+  height: 5.5rem;
+  width: ${(props) => props.renditions ? "calc(100% - 4rem)" : "100%"};
   display: flex;
+  flex-direction: ${(props) => props.mobile ? "column" : "row"};
   justify-content: space-between;
-  box-sizing: border-box;
-
-  @media (max-width: 500px) {
-    margin-left: 0rem;
-    font-size: 2rem;
-    text-align: center;
-  }
-  @media (max-width: 400px) {
-    margin-left: 0rem;
-    font-size: 1.6rem;
-    text-align: center;
-  }
+  align-items: center;
+  text-align: ${(props) => props.mobile ? "center" : "left"};
+  border-bottom: ${(props) => props.renditions && "4px solid var(--offwhite)"};
 `;
 
-const Title = styled.h1`
+const Title = styled.h2`
   margin: 0;
   color: var(--offwhite);
 `;
 
 function Nav(props) {
   return (
-    <NavBar>
+    <NavBar mobile={props.mobile} renditions={props.renditions}>
       <Title>{props.title}</Title>
       <Title>{props.years}</Title>
     </NavBar>

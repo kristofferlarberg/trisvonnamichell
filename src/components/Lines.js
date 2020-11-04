@@ -1,15 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Link } from "prismic-reactjs";
-import { client, linkResolver } from "../prismic-configuration";
-import Prismic from "prismic-javascript";
+import { linkResolver } from "../prismic-configuration";
 import styled from "styled-components";
-import { GlobalStyle } from "../styles/global";
 import { imgix } from "../pages/Home";
 
 let ua = navigator.userAgent;
 const isMobile = /Android|webOS|iPhone|iPad|iPod/i.test(ua);
 const lineHeight = isMobile ? 10 : 17;
-
 
 const LineContainer = styled.section`
   display: flex;
@@ -28,6 +25,8 @@ const Line = styled.section`
 `;
 
 const Preview = styled.img`
+  border-right: 1px solid black;
+  border-left: 1px solid black;
   position: relative;
   display: block;
   left: ${(props) => props.width > 0 ? props.left : 0}%;
@@ -97,7 +96,7 @@ const Lines = (props) => {
 
         <LineContainer key={props.i + "a"} show={props.loaded}>
             <Line key={props.i + "b"}
-                img={props.work_preview_image}
+                img={props.work_preview_image + imgix}
             >
                 <WorkLink key={props.i + "c"}
                     numberOfWorks={props.numberOfWorks}
