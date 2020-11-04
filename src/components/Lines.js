@@ -128,7 +128,6 @@ const Lines = (props) => {
                     alt={props.work_title}
                     width={props.width}
                     left={props.left}
-                // style={{ "width": `${props.image_width / doc.max_width * 100}%` }}
                 />
                 <WorkLink key={props.i + "d"}
                     numberOfWorks={props.numberOfWorks}

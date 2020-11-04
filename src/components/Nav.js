@@ -14,7 +14,8 @@ const NavBar = styled.nav`
   border-bottom: ${(props) => props.renditions && "4px solid var(--offwhite)"};
 `;
 
-const Title = styled.h2`
+const Title = styled.h1`
+  font-size: ${(props) => props.renditions && "1.3rem"};
   margin: 0;
   color: var(--offwhite);
 `;

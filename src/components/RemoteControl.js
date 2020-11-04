@@ -57,23 +57,20 @@ font-weight:600;
   }
 `;
 const Constraint = styled.section`
-position: fixed;
-top:0;
-width: 100%;
-height: calc(100vh - 3rem);
-z-index:9;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: calc(100vh - 3rem);
+  z-index: 9;
 `
 
 function RemoteControl(props) {
-
-  // const [keyPressed, setKeyPressed] = setState(false);
 
   const {
     expandAll,
     adjustValue,
     currentValue,
     renditionsLength,
-    currentScriptValue,
     toggleScriptRemote,
   } = props;
 
@@ -91,19 +88,17 @@ function RemoteControl(props) {
       document.removeEventListener("keyup", handleKeyDown);
       ;
     };
-  }, [position]);
+  });
 
-  // Update the current position if mouse is down
   const onMouseMove = (event) => {
     if (pressed) {
-      let x = event.clientX - ref.current.offsetLeft - 13
-      let y = event.clientY - ref.current.offsetTop - 30
+      let x = event.clientX - ref.current.offsetLeft - 14
+      let y = event.clientY - ref.current.offsetTop - 34
       setPosition({
         x, y
       })
     }
   }
-
 
   function handleKeyDown(event) {
     switch (event.keyCode) {
@@ -119,7 +114,7 @@ function RemoteControl(props) {
         x: 0, y: 0
       })
         break;
-      case 84: toggleScript()
+      case 84: toggleScript();
         break;
       case 27: history.push('/');
         break;
@@ -147,11 +142,12 @@ function RemoteControl(props) {
   }
 
   function toggleScript() {
-    return toggleScriptRemote(!currentScriptValue);
+    return toggleScriptRemote();
   }
 
   return (
-    <Constraint onMouseMove={pressed ? onMouseMove : undefined}
+    <Constraint
+      onMouseMove={pressed ? onMouseMove : undefined}
       onMouseUp={() => setPressed(false)}
     >
       <Container

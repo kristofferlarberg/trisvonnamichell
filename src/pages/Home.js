@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "prismic-reactjs";
-import { client, linkResolver } from "../prismic-configuration";
+import { client } from "../prismic-configuration";
 import NotFound from "./NotFound";
 import Prismic from "prismic-javascript";
 import styled from "styled-components";
@@ -10,7 +9,6 @@ import Lines from "../components/Lines";
 
 let ua = navigator.userAgent;
 const isMobile = /Android|webOS|iPhone|iPad|iPod/i.test(ua);
-const lineHeight = isMobile ? 10 : 17;
 
 const Main = styled.main`
   margin: ${props => props.mobile ? "0 5px" : "0 2rem"};
@@ -66,7 +64,6 @@ const Home = ({ match }) => {
               type: item.type,
             }),
             (result.results[i].image_width = width),
-            // (result.max_width = max_width),
             (result.min_year = min_year),
             (result.max_year = max_year),
           ];

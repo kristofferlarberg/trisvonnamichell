@@ -12,7 +12,6 @@ const ScriptBox = styled.section`
   max-height: 65vh;
   overflow-y: auto;
 `;
-// position: ${ props => props.position ? "relative" : "absolute" };
 
 function Script(props) {
   return (
