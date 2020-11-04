@@ -6,107 +6,25 @@ import Prismic from "prismic-javascript";
 import styled from "styled-components";
 import { GlobalStyle } from "../styles/global";
 import Nav from "../components/Nav";
+import Lines from "../components/Lines";
 
-const lineHeight = 17;
+let ua = navigator.userAgent;
+const isMobile = /Android|webOS|iPhone|iPad|iPod/i.test(ua);
+const lineHeight = isMobile ? 10 : 17;
 
 const Main = styled.main`
-  margin: 2rem;
-  width: calc(100% - 4rem);
+  margin: ${props => props.mobile ? "0" : "2rem"};
+  width: ${props => props.mobile ? "100%" : "calc(100% - 4rem)"};
   height: auto;
   opacity: ${props => props.loaded ? "1" : "0"};
   transition: opacity 0.5s ease-in;
-`;
-
-const LineContainer = styled.section`
-  display: flex;
-  width: 100%;
-  justify-content: center;
-  box-sizing: border-box;
-  opacity: 
-`;
-
-const Line = styled.section`
-  background-color: #454;
-  background-image: url(${(props) => props.img});
-  background-repeat: no-repeat;
-  background-size: cover;
-  margin-bottom: 5px;
-  height: ${lineHeight}rem;
-  width: 90%;
-  box-sizing: border-box;
-`;
-
-const Preview = styled.img`
-  position: relative;
-  display: block;
-  left: ${(props) => props.width > 0 ? props.left : 0}%;
-  width: ${(props) => props.width > 0 ? props.width : "100"}%;
-  height: 100%;
-  object-fit: cover;
-`;
-
-const WorkLink = styled.a`
-  position: relative;
-  top: calc(-17rem);
-  height: ${lineHeight}rem;
-  text-decoration: none;
-  color: inherit;
-`;
-
-const HoverLine = styled.section`
-  display: flex;
-  top: 0;
-  position: relative;
-  flex-direction: column;
-  justify-content: center;
-  align-items:center;
-  text-align: center;
-  height: ${lineHeight}rem;
-  transition-duration: 0.4s;
-  &:hover {
-    background-color: #ccc8;
-  }
-`;
-
-const WorkTitle = styled.h2`
-  display: block;
-  // top: ${(lineHeight - 1.4 * 2 - 0.25 - 0.5 * 4) / 2}rem;
-  max-width:80%;
-  width: auto;
-  margin: 0 0 0.25rem 0;
-  padding: 0.5rem 0.8rem 0.5rem 0.8rem;
-  background-color: var(--offwhite);
-  &:last-child {
-    margin: 0;
-  }
-`;
-
-
-const Ends = styled.section`
-  background-color: #000;
-  height: ${lineHeight}rem;
-  width: 5%;
-  min-width: 30px;
-  color: var(--lightgrey);
-  text-align: center;
-  line-height: 0.9rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  box-sizing: border-box;
-`;
-
-const VerticalLine = styled.div`
-  width: 1px;
-  height: 15%;
-  background-color: var(--lightgrey);
 `;
 
 export const imgix =
   "&w=0.75&sat=-50&exp=0&invert=true&monochrome=c5c&con=-50&monochrome=%23862e9c";
 
 const Home = ({ match }) => {
+
   const [doc, setDocData] = useState(null);
   const [notFound, toggleNotFound] = useState(false);
   const [loaded, setLoaded] = useState(false);
@@ -116,6 +34,7 @@ const Home = ({ match }) => {
 
   // Get the categories from Prismic
   useEffect(() => {
+    console.log(isMobile)
     const fetchData = async () => {
       const result = await client.query(
         Prismic.Predicates.at("document.type", "work")
@@ -178,57 +97,27 @@ const Home = ({ match }) => {
   if (doc) {
     return (
       <>
-        {!loaded && <p style={{ "color": "#fff", "margin": "32px 0 0 32px" }}>Loading...</p>}
-        <Main loaded={loaded}>
+        {!loaded && !isMobile && <p style={{ "color": "#fff", "margin": "32px 0 0 32px" }}>Loading...</p>}
+        <Main loaded={isMobile ? true : loaded} mobile={isMobile}>
           <GlobalStyle />
-          <Nav title="Tris Vonna-Michell" years="Works 2003–2015" />
+          <Nav title="Tris Vonna-Michell" years={`Works ${doc.min_year}–`} />
           {/* This is how to render a Rich Text field into your template as HTML */}
           {/* <RichText render={doc.data.description} linkResolver={linkResolver} /> */}
           {doc.results.map((item, i) => {
             let timelineWidth = doc.max_year - doc.min_year + 1;
-            return (
-              <LineContainer key={i} show={loaded}>
-                <Ends>
-                  <VerticalLine />
-                </Ends>
-                <Line
-                  img={item.data.work_preview_image.url + imgix}
-                  key={"a" + i}
-                >
-                  <Preview
-                    key={"e" + i}
-                    onLoad={() => handleLoad(i)}
-                    src={item.data.work_preview_image.url}
-                    className="link_img"
-                    alt={item.data.work_title[0].text}
-                    width={(item.image_width / timelineWidth) * 100}
-                    left={
-                      ((item.data.work_year_from - doc.min_year) /
-                        timelineWidth) *
-                      100
-                    }
-                  // style={{ "width": `${item.image_width / doc.max_width * 100}%` }}
-                  />
-                  <WorkLink
-                    numberOfWorks={doc.results.length}
-                    href={Link.url(item.link, linkResolver)}
-                    key={i}
-                  >
-                    <HoverLine key={"d" + i}>
-                      <WorkTitle key={"b" + i}>
-                        {item.data.work_title[0].text}
-                      </WorkTitle>
-                      <WorkTitle key={"c" + i}>
-                        {item.data.work_year_from}–{item.data.work_year_to}
-                      </WorkTitle>
-                    </HoverLine>
-                  </WorkLink>
-                </Line>
-                <Ends>
-                  <VerticalLine />
-                </Ends>
-              </LineContainer>
-            );
+            return <Lines
+              loaded={loaded}
+              work_preview_image={item.data.work_preview_image.url}
+              numberOfWorks={doc.results.length}
+              link={item.link}
+              work_title={item.data.work_title[0].text}
+              work_year_from={item.data.work_year_from}
+              work_year_to={item.data.work_year_to}
+              handleLoad={() => handleLoad(i)}
+              width={(item.image_width / timelineWidth) * 100}
+              left={((item.data.work_year_from - doc.min_year) / timelineWidth) * 100}
+              key={i}
+            />
           })}
         </Main>
       </>
