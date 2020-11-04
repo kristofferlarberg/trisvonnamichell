@@ -91,7 +91,7 @@ function RemoteControl(props) {
   });
 
   const onMouseMove = (event) => {
-    if (pressed) {
+    if (pressed && event.clientX < window.innerWidth - 30) {
       let x = event.clientX - ref.current.offsetLeft - 14
       let y = event.clientY - ref.current.offsetTop - 34
       setPosition({
@@ -147,6 +147,7 @@ function RemoteControl(props) {
 
   return (
     <Constraint
+      onMouseLeave={() => setPressed(false)}
       onMouseMove={pressed ? onMouseMove : undefined}
       onMouseUp={() => setPressed(false)}
     >
