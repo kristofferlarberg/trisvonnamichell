@@ -38,15 +38,16 @@ const Line = styled.section`
 
 const Preview = styled.img`
   position: relative;
-  left: ${(props) => props.left}%;
-  width: ${(props) => props.width}%;
+  display: block;
+  left: ${(props) => props.width > 0 ? props.left : 0}%;
+  width: ${(props) => props.width > 0 ? props.width : "100"}%;
   height: 100%;
   object-fit: cover;
 `;
 
 const WorkLink = styled.a`
   position: relative;
-  top: calc(-17rem - 6.333333px);
+  top: calc(-17rem);
   height: ${lineHeight}rem;
   text-decoration: none;
   color: inherit;
