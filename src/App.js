@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { Helmet } from "react-helmet";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch, HashRouter } from "react-router-dom";
 import { apiEndpoint } from "./prismic-configuration";
 import { NotFound } from "./pages";
 import Home from "./pages/Home";
@@ -23,12 +23,14 @@ const App = (props) => {
           src={`//static.cdn.prismic.io/prismic.js?repo=${repoName}&new=true`}
         />
       </Helmet>
-      <BrowserRouter>
+      <BrowserRouter basename='/tris'>
+        {/* <HashRouter> */}
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/:uid" component={Renditions} />
-          <Route component={NotFound} />
+          {/* <Route component={NotFound} /> */}
         </Switch>
+        {/* </HashRouter> */}
       </BrowserRouter>
     </Fragment>
   );

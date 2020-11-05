@@ -7,11 +7,14 @@ import styled from "styled-components";
 import { GlobalStyle } from "../styles/global";
 import RenditionList from "../components/RenditionList";
 import Script from "../components/Script";
-import Header from "../components/Header";
 import RemoteControl from "../components/RemoteControl";
 import NewClock from "../components/NewClock";
 import { imgix } from "./Home";
 import { Circle } from "../components/Circle";
+import Nav from "../components/Nav";
+
+let ua = navigator.userAgent;
+const isMobile = /Android|webOS|iPhone|iPad|iPod/i.test(ua);
 
 const Main = styled.main`
   box-sizing: border-box;
@@ -62,11 +65,9 @@ const Renditions = ({ match }) => {
   const [notFound, toggleNotFound] = useState(false);
   const [expandValue, setExpandValue] = useState(-1);
   const [toggleScript, toggleScriptState] = useState(true);
-  const [toggleRemote, toggleRemoteState] = useState(true);
   const [openAll, setOpenAll] = useState(false);
   let renditionsRefs = [];
   /*   const imgix = "&sat=-50&exp=0&invert=true&monochrome=c5c&con=5&monochrome=%23862e9c"; */
-  // const [rendArray, setRendArray] = useState(null);
 
   const uid = match.params.uid;
 
@@ -93,12 +94,11 @@ const Renditions = ({ match }) => {
         result.work_year_to = category.data.work_year_to;
         result.work_image = category.data.work_preview_image.url;
         // We use the State hook to save the document
-        // setRendArray(result.results);
         return setDocData(result);
       } else {
         // Otherwise show an error message
         console.warn(
-          "Blog document not found. Make sure it exists in your Prismic repository"
+          "Document not found. Make sure it exists in your Prismic repository"
         );
         toggleNotFound(true);
       }
@@ -106,14 +106,9 @@ const Renditions = ({ match }) => {
     fetchData();
   }, [uid]); // Skip the Effect hook if the UID hasn't changed
 
-  function handleClick() {
-    toggleRemoteState(!toggleRemote);
-  }
-
   function executeScroll(ref) {
     if (ref) {
-      console.log(ref.current.offsetTop)
-      let margin = ref.current.offsetTop === 200 ? 250 : 180;
+      let margin = ref.current.offsetTop === 200 ? 250 : 200;
       setTimeout(
         () => window.scrollTo(0, ref.current.offsetTop - margin),
         openAll ? 100 : 300
@@ -122,7 +117,6 @@ const Renditions = ({ match }) => {
   }
 
   function openRendition(value) {
-    console.log(value);
     if (value === 999) {
       setOpenAll(true);
       // value = expandValue > 0 ? -1 : 1
@@ -143,21 +137,19 @@ const Renditions = ({ match }) => {
         <NewClock />
         <RemoteControl
           expandAll={openAll}
-          handleClick={handleClick}
-          position={toggleRemote}
           currentValue={expandValue}
           renditionsLength={doc.results.length}
           adjustValue={(value) => openRendition(value)}
-          currentScriptValue={toggleScript}
-          toggleScriptRemote={(value) => toggleScriptState(value)}
+          toggleScriptRemote={() => toggleScriptState(!toggleScript)}
         />
-        <Header
-          text={`${doc.work_title[0].text}`}
-          year={`${doc.work_year_from}–${doc.work_year_to}`}
+        <Nav
+          renditions={true}
+          mobile={isMobile}
+          title={doc.work_title[0].text}
+          years={`${doc.work_year_from}–${doc.work_year_to}`}
         />
         <Content>
           <Script
-            // handleClick={handleClick}
             position={!toggleScript}
             text={
               <RichText
@@ -177,7 +169,6 @@ const Renditions = ({ match }) => {
                   renditionsLength={doc.results.length}
                   expandValue={expandValue}
                   id={i}
-                  // rendArray={rendArray}
                   title={item.data.rendition_title[0].text}
                   year={item.data.rendition_year}
                   //   <RichText

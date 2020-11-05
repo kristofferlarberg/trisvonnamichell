@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useHistory } from 'react-router-dom';
 import styled from "styled-components";
 import { Link } from "react-router-dom";
@@ -22,10 +22,9 @@ const Container = styled.div`
   background-color: #111;
   position: fixed;
   bottom: 0;
-  right: ${(props) => (props.position ? "1" : "-20")}rem;
-  transition: ${(props) =>
-    props.position ? "all 0.2s ease-out" : "all 0.3s ease-in"};
-`;
+  right: 1rem;
+  transition-duration:${props => props.pressed ? "0" : "0.5s"};
+ `;
 
 const Button = styled.button`
   width: 50px;
@@ -44,6 +43,7 @@ const ButtonSymbol = styled.img`
   height: auto;
 `;
 const InvisibleButton = styled.button`
+cursor: move;
 font-weight:600;
   position: absolute;
   left:0;
@@ -56,30 +56,49 @@ font-weight:600;
     outline: none;
   }
 `;
+const Constraint = styled.section`
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: calc(100vh - 3rem);
+  z-index: 9;
+`
 
 function RemoteControl(props) {
-
-  // const [keyPressed, setKeyPressed] = setState(false);
 
   const {
     expandAll,
     adjustValue,
     currentValue,
     renditionsLength,
-    currentScriptValue,
     toggleScriptRemote,
   } = props;
 
   const history = useHistory();
-
+  const [pressed, setPressed] = useState(false)
+  const [position, setPosition] = useState({ x: 0, y: 0 })
+  const ref = useRef()
 
   useEffect(() => {
+    if (ref.current) {
+      ref.current.style.transform = `translate(${position.x}px, ${position.y}px)`
+    }
     document.addEventListener("keyup", handleKeyDown);
     return function cleanup() {
       document.removeEventListener("keyup", handleKeyDown);
       ;
     };
   });
+
+  const onMouseMove = (event) => {
+    if (pressed && event.clientX < window.innerWidth - 30) {
+      let x = event.clientX - ref.current.offsetLeft - 14
+      let y = event.clientY - ref.current.offsetTop - 34
+      setPosition({
+        x, y
+      })
+    }
+  }
 
   function handleKeyDown(event) {
     switch (event.keyCode) {
@@ -91,9 +110,11 @@ function RemoteControl(props) {
         break;
       case 38: openPrevious()
         break;
-      case 82: props.handleClick()
+      case 82: setPosition({
+        x: 0, y: 0
+      })
         break;
-      case 84: toggleScript()
+      case 84: toggleScript();
         break;
       case 27: history.push('/');
         break;
@@ -121,40 +142,49 @@ function RemoteControl(props) {
   }
 
   function toggleScript() {
-    return toggleScriptRemote(!currentScriptValue);
+    return toggleScriptRemote();
   }
 
   return (
-    <Container position={props.position}>
-      <InvisibleButton onClick={props.handleClick} position={props.position}>
-        ::
-        <br />
-        ::
+    <Constraint
+      onMouseLeave={() => setPressed(false)}
+      onMouseMove={pressed ? onMouseMove : undefined}
+      onMouseUp={() => setPressed(false)}
+    >
+      <Container
+        pressed={pressed}
+        ref={ref}
+      >
+        <InvisibleButton
+          onMouseDown={() => setPressed(true)}
+        >
+          ::<br />::
       </InvisibleButton>
-      <Button onClick={openNext}>
-        <ButtonSymbol src={ButtonOne} alt="Open next section" />
-      </Button>
-      <Button onClick={openPrevious}>
-        <ButtonSymbol src={ButtonTwo} alt="Open previous section" />
-      </Button>
-      <Button onClick={openAll}>
-        <ButtonSymbol
-          src={!expandAll ? ButtonThreeP : ButtonThree}
-          alt="Open all sections"
-        />
-      </Button>
-      <Button onClick={closeAll}>
-        <ButtonSymbol src={ButtonFour} alt="Close all sections" />
-      </Button>
-      <Button onClick={toggleScript}>
-        <ButtonSymbol src={ButtonSix} alt="Open/close script" />
-      </Button>
-      <Link to="/">
-        <LastButton>
-          <ButtonSymbol src={ButtonFive} alt="Go back to home" />
-        </LastButton>
-      </Link>
-    </Container>
+        <Button onClick={openNext}>
+          <ButtonSymbol src={ButtonOne} alt="Open next section" />
+        </Button>
+        <Button onClick={openPrevious}>
+          <ButtonSymbol src={ButtonTwo} alt="Open previous section" />
+        </Button>
+        <Button onClick={openAll}>
+          <ButtonSymbol
+            src={!expandAll ? ButtonThreeP : ButtonThree}
+            alt="Open all sections"
+          />
+        </Button>
+        <Button onClick={closeAll}>
+          <ButtonSymbol src={ButtonFour} alt="Close all sections" />
+        </Button>
+        <Button onClick={toggleScript}>
+          <ButtonSymbol src={ButtonSix} alt="Open/close script" />
+        </Button>
+        <Link to="/">
+          <LastButton>
+            <ButtonSymbol src={ButtonFive} alt="Go back to home" />
+          </LastButton>
+        </Link>
+      </Container>
+    </Constraint>
   );
 }
 
