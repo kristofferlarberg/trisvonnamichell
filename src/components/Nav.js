@@ -18,13 +18,15 @@ const Title = styled.h1`
   font-size: ${(props) => props.renditions && "1.3rem"};
   margin: 0;
   color: var(--offwhite);
+  text-align: ${props => props.years && "right"}; 
+  flex: ${props => props.years && !props.mobile && "0 0 9rem"}; 
 `;
 
 function Nav(props) {
   return (
     <NavBar mobile={props.mobile} renditions={props.renditions}>
       <Title>{props.title}</Title>
-      <Title years={"true"}>{props.years}</Title>
+      <Title mobile={props.mobile} years={"true"}>{props.years}</Title>
     </NavBar>
   );
 }
