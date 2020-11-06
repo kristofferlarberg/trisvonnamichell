@@ -16,8 +16,12 @@ const OpenImages = styled.section`
   outline: none;
 `;
 
+const TitleContainer = styled.header`
+margin: 0 0 1rem 0;
+`;
+
 const Title = styled.h3`
-  margin: 0 0 1rem 0;
+  margin: 0;
 `;
 
 const Details = styled.section`
@@ -40,7 +44,7 @@ const RenditionList = (props) => {
   const content2 = useRef(null);
 
   useEffect(() => {
-    props.refList(content2)
+    props.refList(content2);
     setActive(false);
     if (props.openAll || props.expandValue === props.id) setActive(true);
     setHeight(active === false ? "0px" : `${content.current.scrollHeight}px`);
@@ -51,9 +55,10 @@ const RenditionList = (props) => {
     <>
       <ListSection>
         <OpenImages>
-          <Title>
-            {props.title} {props.year}
-          </Title>
+          <TitleContainer>
+            <Title>{props.title}</Title>
+            <Title>{props.year}</Title>
+          </TitleContainer>
           <PreviewDiv ref={content2} height2={height2}>
             {props.descriptionPreview}
           </PreviewDiv>

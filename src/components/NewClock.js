@@ -3,13 +3,17 @@ import styled from 'styled-components';
 
 const TimeContainer = styled.div`
   position: fixed;
-  bottom: 0px;
-  left: 30px;
-  z-index:2;
-`
+  height: 60px;
+  bottom: 0;
+  left: 0;
+  margin: 1rem 2rem;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+`;
 const Time = styled.h2`
-  font-size: 2rem;
-  color: #000;
+  font-size: 1.6rem;
+  margin: 0;
 `
 function NewClock() {
     let savedTime = [0, 0, 0]

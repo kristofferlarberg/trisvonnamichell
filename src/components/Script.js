@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const ScriptBox = styled.section`
-  padding: 1.5rem;
+  padding: 0.9rem 1.5rem 1.5rem 1.5rem;
   width: 34vw;
   background-color: var(--offwhite);
   position: fixed;
