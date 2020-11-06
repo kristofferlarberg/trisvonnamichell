@@ -35,8 +35,7 @@ const Container = styled.div`
   bottom: 0;
   right: 1rem;
   z-index: 9;
-
-  transition-duration:${props => props.pressed ? "0" : "0.5s"};
+  transition:${props => props.pressed ? "0" : "transform 0.25s ease-in"};
  `;
 
 const Button = styled.button`
@@ -87,7 +86,6 @@ function RemoteControl(props) {
   const ref = useRef()
 
   useEffect(() => {
-    console.log(overRemote)
     if (ref.current) {
       ref.current.style.transform = `translate(${position.x}px, ${position.y}px)`
     }
