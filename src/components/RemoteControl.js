@@ -23,7 +23,7 @@ const Constraint = styled.section`
 `;
 const Container = styled.div`
   padding: 5px;
-  margin: 1rem;
+  margin: 1rem 2rem;
   width: 295px;
   height: 60px;
   display: flex;
@@ -33,7 +33,7 @@ const Container = styled.div`
   background-color: #111;
   position: fixed;
   bottom: 0;
-  right: 1rem;
+  right: 0;
   z-index: 9;
   transition: ${(props) => (props.pressed ? "0" : "transform 0.25s ease-in")};
 `;
