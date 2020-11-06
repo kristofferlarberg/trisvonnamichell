@@ -10,7 +10,7 @@ const ScriptBox = styled.section`
   left: ${(props) => (props.position ? "-34vw" : "2rem")};
   transition: ${(props) =>
     props.position ? "all 0.2s ease-out" : "all 0.3s ease-in"};
-  max-height: 65vh;
+  max-height: 69vh;
   overflow-y: auto;
   @media (max-width: 900px){
     padding:0 0.9rem;
@@ -27,15 +27,12 @@ const ScriptBox = styled.section`
       position: absolute;
       left:0;
       bottom: 0;
-      height: 25vh;
+      height: 12vh;
       width: 100%;
       background: linear-gradient(rgba(0,0,0,0), var(--offwhite));
       pointer-events: none;
     }
     `}
-
-
-    
   }
 `;
 
@@ -45,7 +42,7 @@ function Script(props) {
 
   return (
     <ScriptBox openScript={openScript}
-      onClick={() => { props.mobile && setOpenScript(!openScript); props.mobile && window.scrollTo(0, 0) }}
+      onClick={() => { setOpenScript(!openScript); props.mobile && window.scrollTo(0, 0) }}
       position={props.position}>
       {props.text}
     </ScriptBox>

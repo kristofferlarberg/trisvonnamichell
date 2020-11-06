@@ -7,6 +7,9 @@ const ListSection = styled.section`
   display: flex;
   flex-direction: column;
   background-color: var(--offwhite);
+  &:last-child{
+    margin-bottom: ${props => props.mobile && "100px"};
+  }
 `;
 
 const OpenImages = styled.section`
