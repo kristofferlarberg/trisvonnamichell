@@ -6,16 +6,17 @@ const TimeContainer = styled.div`
   height: 60px;
   bottom: 0;
   left: 0;
-  margin: 1rem 2rem;
+  margin: ${props => props.mobile ? "1rem" : "1rem 2rem"};
   z-index: 2;
   display: flex;
-  align-items: center;
+  align-items: center; 
+  }
 `;
 const Time = styled.h2`
   font-size: 1.6rem;
   margin: 0;
 `
-function NewClock() {
+function NewClock(props) {
     let savedTime = [0, 0, 0]
     if (sessionStorage['time']) savedTime = JSON.parse(sessionStorage['time'])
     if (savedTime[0] < 58) savedTime[0] += 2
@@ -46,7 +47,7 @@ function NewClock() {
     });
 
     return (
-        <TimeContainer>
+        <TimeContainer mobile={props.mobile}>
             <Time>
                 {hours < 10 ? `0${hours}` : hours}:
             {minutes < 10 ? `0${minutes}` : minutes}:

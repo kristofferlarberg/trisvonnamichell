@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import { RichText } from "prismic-reactjs";
 import { client, linkResolver } from "../prismic-configuration";
 import NotFound from "./NotFound";
@@ -18,26 +19,39 @@ const isMobile = /Android|webOS|iPhone|iPad|iPod/i.test(ua);
 
 const Main = styled.main`
   box-sizing: border-box;
-  width: calc(100vw - 4rem);
+  width: ${isMobile ? "100%" : "calc(100% - 4rem)"};
   height: auto;
-  margin: 2rem;
+  margin: ${isMobile ? "0" : "2rem"};
 `;
 
 const Content = styled.div`
-  display: flex;
   box-sizing: border-box;
-  margin-top: 8rem;
+  margin-top: ${isMobile ? "7rem" : "8rem"};
   width: 100%;
   height: auto;
+  display:flex;
+  justify-content: ${(props) => (props.position ? "center" : "flex-end")};
+  transition: all 0.3s ease-in;
+  @media (max-width: 900px){
+    flex-direction: column; 
+  }
+  
 `;
 
-const ListContainer = styled.div`
-  margin-left: ${(props) => (props.position ? "20" : "40")}vw;
-  margin-right: ${(props) => (props.position ? "20" : "1")}rem;
+const ListContainer = styled.div`  
+  padding: 0;
   display: flex;
   flex-direction: column;
-  width: 100%;
-  transition: all 0.2s ease-in;
+  margin-left: ${(props) => (props.position ? "20" : "40")}vw;
+  margin-right: ${(props) => (props.position ? "20" : "0")}vw;
+  transition: all 0.3s ease-in;
+  @media (max-width: 1280px){
+    margin-left: ${(props) => (props.position ? "10" : "40")}vw;
+    margin-right: ${(props) => (props.position ? "10" : "0")}vw; 
+  }
+  @media (max-width: 900px){
+    margin: 0; 
+  }
 `;
 
 const DescriptionPreview = styled.div`
@@ -60,6 +74,16 @@ const Image = styled.img`
   width: 100%;
 `;
 
+const Square = styled.div`
+  position: fixed;
+  right: 1rem;
+  bottom: 2rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  background-color: #000;
+  z-index: 2;
+`
+
 const Renditions = ({ match }) => {
   const [doc, setDocData] = useState(null);
   const [notFound, toggleNotFound] = useState(false);
@@ -67,6 +91,8 @@ const Renditions = ({ match }) => {
   const [toggleScript, toggleScriptState] = useState(true);
   const [openAll, setOpenAll] = useState(false);
   let renditionsRefs = [];
+  const history = useHistory();
+
   /*   const imgix = "&sat=-50&exp=0&invert=true&monochrome=c5c&con=5&monochrome=%23862e9c"; */
 
   const uid = match.params.uid;
@@ -124,7 +150,7 @@ const Renditions = ({ match }) => {
     }
     if (value === -2) setOpenAll(false);
     setExpandValue(value === -2 ? -1 : value + expandValue);
-    executeScroll(renditionsRefs[value + expandValue]);
+    executeScroll(renditionsRefs[0]);
   }
   function refList(ref) {
     renditionsRefs.push(ref);
@@ -134,22 +160,26 @@ const Renditions = ({ match }) => {
     return (
       <Main>
         <GlobalStyle img={doc.work_image + imgix} />
-        <NewClock />
-        <RemoteControl
-          expandAll={openAll}
-          currentValue={expandValue}
-          renditionsLength={doc.results.length}
-          adjustValue={(value) => openRendition(value)}
-          toggleScriptRemote={() => toggleScriptState(!toggleScript)}
-        />
+        <NewClock mobile={isMobile} />
+        {isMobile ?
+          <Square onClick={() => history.push("/")} />
+          : <RemoteControl
+            expandAll={openAll}
+            currentValue={expandValue}
+            renditionsLength={doc.results.length}
+            adjustValue={(value) => openRendition(value)}
+            toggleScriptRemote={() => toggleScriptState(!toggleScript)}
+          />}
         <Nav
           renditions={true}
           mobile={isMobile}
           title={doc.work_title[0].text}
           years={`${doc.work_year_from}–${doc.work_year_to}`}
         />
-        <Content>
+        <Content position={!toggleScript}
+        >
           <Script
+            mobile={isMobile}
             position={!toggleScript}
             text={
               <RichText
@@ -163,6 +193,7 @@ const Renditions = ({ match }) => {
             {doc.results.map((item, i) => {
               return (
                 <RenditionList
+                  mobile={isMobile}
                   openAll={openAll}
                   refList={refList}
                   key={"a" + i}

@@ -99,7 +99,7 @@ function RemoteControl(props) {
 
   const onMouseMove = (event) => {
     if (pressed && event.clientX < window.innerWidth - 30) {
-      let x = event.clientX - ref.current.offsetLeft - 14;
+      let x = event.clientX - ref.current.offsetLeft - 20;
       let y = event.clientY - ref.current.offsetTop - 34;
       setPosition({
         x,

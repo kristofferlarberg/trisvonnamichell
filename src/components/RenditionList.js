@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const ListSection = styled.section`
   margin-bottom: 5px;
-  padding: 2rem;
+  padding: ${props => props.mobile ? "0.9rem" : "2rem"};
   display: flex;
   flex-direction: column;
   background-color: var(--offwhite);
@@ -17,7 +17,7 @@ const OpenImages = styled.section`
 `;
 
 const TitleContainer = styled.header`
-margin: 0 0 1rem 0;
+  margin-bottom: 20px;
 `;
 
 const Title = styled.h3`
@@ -46,14 +46,14 @@ const RenditionList = (props) => {
   useEffect(() => {
     props.refList(content2);
     setActive(false);
-    if (props.openAll || props.expandValue === props.id) setActive(true);
+    if (props.openAll || props.expandValue === props.id || props.mobile) setActive(true);
     setHeight(active === false ? "0px" : `${content.current.scrollHeight}px`);
     setHeight2(active === true ? "0px" : `${content2.current.scrollHeight}px`);
   }, [props.renditionsLength, props.expandValue, props.id, active]);
 
   return (
     <>
-      <ListSection>
+      <ListSection mobile={props.mobile}>
         <OpenImages>
           <TitleContainer>
             <Title>{props.title}</Title>

@@ -19,7 +19,7 @@ const Main = styled.main`
 `;
 
 export const imgix =
-  "&w=0.75&sat=-50&exp=0&invert=true&monochrome=c5c&con=-50&monochrome=%23862e9c";
+  "&w=0.5&sat=-50&exp=0&invert=true&monochrome=c5c&con=-50&monochrome=%23862e9c";
 
 const Home = ({ match }) => {
 
