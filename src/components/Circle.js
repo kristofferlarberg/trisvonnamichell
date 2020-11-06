@@ -6,7 +6,7 @@ const CircleStyle = styled.svg`
   fill: black;
   width: 20px;
   height: 20px;
-  margin-top: 0.45rem;
+  margin-top: 0.54rem;
 `;
 
 export const Circle = () => (

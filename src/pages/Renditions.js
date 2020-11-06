@@ -46,7 +46,7 @@ const DescriptionPreview = styled.div`
   margin-bottom: 1.5rem;
 `;
 
-const DescriptionPreviewText = styled.h5`
+const DescriptionPreviewText = styled.h4`
   margin: 0;
   margin-bottom: ${(props) => props.open && "1rem"};
   width: 100%;
