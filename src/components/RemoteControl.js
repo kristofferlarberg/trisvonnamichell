@@ -10,6 +10,17 @@ import ButtonFour from "../graphics/4.svg";
 import ButtonFive from "../graphics/5.svg";
 import ButtonSix from "../graphics/6.svg";
 
+const Constraint = styled.section`
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: calc(100vh - 3rem);
+  pointer-events: ${props => props.overRemote ? "auto" : "none"};
+  z-index: 9;
+  & > div{
+    pointer-events:auto;
+  }
+`
 const Container = styled.div`
   padding: 5px;
   margin: 1rem;
@@ -23,6 +34,8 @@ const Container = styled.div`
   position: fixed;
   bottom: 0;
   right: 1rem;
+  z-index: 9;
+
   transition-duration:${props => props.pressed ? "0" : "0.5s"};
  `;
 
@@ -43,8 +56,8 @@ const ButtonSymbol = styled.img`
   height: auto;
 `;
 const InvisibleButton = styled.button`
-cursor: move;
-font-weight:600;
+  cursor: move;
+  font-weight:600;
   position: absolute;
   left:0;
   height: 60px;
@@ -56,13 +69,6 @@ font-weight:600;
     outline: none;
   }
 `;
-const Constraint = styled.section`
-  position: fixed;
-  top: 0;
-  width: 100%;
-  height: calc(100vh - 3rem);
-  z-index: 9;
-`
 
 function RemoteControl(props) {
 
@@ -77,9 +83,11 @@ function RemoteControl(props) {
   const history = useHistory();
   const [pressed, setPressed] = useState(false)
   const [position, setPosition] = useState({ x: 0, y: 0 })
+  const [overRemote, setOverRemote] = useState(false);
   const ref = useRef()
 
   useEffect(() => {
+    console.log(overRemote)
     if (ref.current) {
       ref.current.style.transform = `translate(${position.x}px, ${position.y}px)`
     }
@@ -146,45 +154,51 @@ function RemoteControl(props) {
   }
 
   return (
-    <Constraint
-      onMouseLeave={() => setPressed(false)}
-      onMouseMove={pressed ? onMouseMove : undefined}
-      onMouseUp={() => setPressed(false)}
-    >
-      <Container
-        pressed={pressed}
-        ref={ref}
+    <>
+      <Constraint
+        overRemote={overRemote}
+        onMouseMove={onMouseMove}
+        onMouseUp={() => { setOverRemote(false); setPressed(false) }}
+        onMouseLeave={() => { setOverRemote(false); setPressed(false) }}
       >
-        <InvisibleButton
-          onMouseDown={() => setPressed(true)}
+        <Container
+          onMouseOver={() => setOverRemote(true)}
+          onMouseLeave={() => { !pressed && setOverRemote(false) }}
+          pressed={pressed}
+          ref={ref}
         >
-          ::<br />::
+          <InvisibleButton
+            onMouseDown={() => setPressed(true)}
+          >
+            ::<br />::
       </InvisibleButton>
-        <Button onClick={openNext}>
-          <ButtonSymbol src={ButtonOne} alt="Open next section" />
-        </Button>
-        <Button onClick={openPrevious}>
-          <ButtonSymbol src={ButtonTwo} alt="Open previous section" />
-        </Button>
-        <Button onClick={openAll}>
-          <ButtonSymbol
-            src={!expandAll ? ButtonThreeP : ButtonThree}
-            alt="Open all sections"
-          />
-        </Button>
-        <Button onClick={closeAll}>
-          <ButtonSymbol src={ButtonFour} alt="Close all sections" />
-        </Button>
-        <Button onClick={toggleScript}>
-          <ButtonSymbol src={ButtonSix} alt="Open/close script" />
-        </Button>
-        <Link to="/">
-          <LastButton>
-            <ButtonSymbol src={ButtonFive} alt="Go back to home" />
-          </LastButton>
-        </Link>
-      </Container>
-    </Constraint>
+          <Button onClick={openNext}>
+            <ButtonSymbol src={ButtonOne} alt="Open next section" />
+          </Button>
+          <Button onClick={openPrevious}>
+            <ButtonSymbol src={ButtonTwo} alt="Open previous section" />
+          </Button>
+          <Button onClick={openAll}>
+            <ButtonSymbol
+              src={!expandAll ? ButtonThreeP : ButtonThree}
+              alt="Open all sections"
+            />
+          </Button>
+          <Button onClick={closeAll}>
+            <ButtonSymbol src={ButtonFour} alt="Close all sections" />
+          </Button>
+          <Button onClick={toggleScript}>
+            <ButtonSymbol src={ButtonSix} alt="Open/close script" />
+          </Button>
+          <Link to="/">
+            <LastButton>
+              <ButtonSymbol src={ButtonFive} alt="Go back to home" />
+            </LastButton>
+          </Link>
+        </Container>
+      </Constraint>
+
+    </>
   );
 }
 
