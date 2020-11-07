@@ -91,7 +91,7 @@ const VerticalLine = styled.div`
 `;
 
 const Lines = (props) => {
-
+    let scaleDown = props.width < 100 && props.width > 25 ? `&w=${Math.round(props.width) / 100}` : "";
     return (isMobile ?
 
         <LineContainer key={props.i + "a"} show={props.loaded}>
@@ -123,7 +123,7 @@ const Lines = (props) => {
             >
                 <Preview key={props.i + "c"}
                     onLoad={props.handleLoad}
-                    src={props.work_preview_image}
+                    src={props.work_preview_image + scaleDown}
                     className="link_img"
                     alt={props.work_title}
                     width={props.width}
