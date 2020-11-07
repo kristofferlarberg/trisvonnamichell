@@ -15,7 +15,8 @@ import { Circle } from "../components/Circle";
 import Nav from "../components/Nav";
 
 let ua = navigator.userAgent;
-const isMobile = /Android|webOS|iPhone|iPad|iPod/i.test(ua);
+const isMobile = true
+// /Android|webOS|iPhone|iPad|iPod/i.test(ua);
 
 const Main = styled.main`
   box-sizing: border-box;
@@ -178,7 +179,7 @@ const Renditions = ({ match }) => {
     }
   }
 
-  if (doc) {
+  if (doc && numberOfImages) {
     return (
       <>
         {!loaded && <p style={{ "color": "#fff", "margin": "32px" }}>Loading...</p>}
@@ -217,6 +218,7 @@ const Renditions = ({ match }) => {
               {doc.results.map((item, i) => {
                 return (
                   <RenditionList
+                    loaded={loaded}
                     mobile={isMobile}
                     openAll={openAll}
                     refList={refList}
