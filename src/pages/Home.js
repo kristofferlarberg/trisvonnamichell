@@ -32,12 +32,12 @@ const Home = ({ match }) => {
 
   // Get the categories from Prismic
   useEffect(() => {
-    console.log(isMobile)
     const fetchData = async () => {
       const result = await client.query(
-        Prismic.Predicates.at("document.type", "work")
+        Prismic.Predicates.at("document.type", "work"),
+        { orderings: '[my.work.order]' }
       );
-
+      //Sort by latest work - my.work.work_year_to desc
       //Create the link object and add to result
       if (result) {
         result.results.map((item, i) => {
