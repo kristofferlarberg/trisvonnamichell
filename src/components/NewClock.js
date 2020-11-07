@@ -10,8 +10,8 @@ const TimeContainer = styled.div`
   z-index: 2;
   display: flex;
   align-items: center; 
-  }
 `;
+
 const Time = styled.h2`
   font-size: 1.6rem;
   margin: 0;

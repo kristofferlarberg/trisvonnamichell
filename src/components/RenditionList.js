@@ -2,13 +2,13 @@ import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 
 const ListSection = styled.section`
-  margin-bottom: 5px;
-  padding: ${props => props.mobile ? "0.9rem" : "2rem"};
+  margin: 0 0.3rem 1rem 0.3rem;
+  padding: ${(props) => (props.mobile ? "0.9rem" : "2rem")};
   display: flex;
   flex-direction: column;
   background-color: var(--offwhite);
-  &:last-child{
-    margin-bottom: ${props => props.mobile && "100px"};
+  &:last-child {
+    margin-bottom: ${(props) => props.mobile && "100px"};
   }
 `;
 
