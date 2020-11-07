@@ -15,8 +15,7 @@ import { Circle } from "../components/Circle";
 import Nav from "../components/Nav";
 
 let ua = navigator.userAgent;
-const isMobile = true
-// /Android|webOS|iPhone|iPad|iPod/i.test(ua);
+const isMobile = /Android|webOS|iPhone|iPad|iPod/i.test(ua);
 
 const Main = styled.main`
   box-sizing: border-box;
