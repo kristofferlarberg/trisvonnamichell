@@ -5,10 +5,10 @@ const NavBar = styled.nav`
   position: ${(props) => props.renditions ? "fixed" : "static"};
   top:${(props) => props.renditions && "0"};
   height: 5.5rem;
-  width: ${(props) => props.renditions ? "calc(100% - 4rem)" : "100%"};
+  width: ${(props) => props.renditions ? (props.mobile ? "100%" : "calc(100% - 4rem)") : "100%"};
   display: flex;
   flex-direction: ${(props) => props.mobile ? "column" : "row"};
-  justify-content: space-between;
+  justify-content: ${(props) => props.mobile ? "center" : "space-between"};
   align-items: center;
   text-align: ${(props) => props.mobile ? "center" : "left"};
   border-bottom: ${(props) => props.renditions && "4px solid var(--offwhite)"};
@@ -18,13 +18,15 @@ const Title = styled.h1`
   font-size: ${(props) => props.renditions && "1.3rem"};
   margin: 0;
   color: var(--offwhite);
+  text-align: ${props => props.years && "right"}; 
+  flex: ${props => props.years && !props.mobile && "0 0 9rem"}; 
 `;
 
 function Nav(props) {
   return (
     <NavBar mobile={props.mobile} renditions={props.renditions}>
       <Title>{props.title}</Title>
-      <Title>{props.years}</Title>
+      <Title mobile={props.mobile} years={"true"}>{props.years}</Title>
     </NavBar>
   );
 }

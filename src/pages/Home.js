@@ -19,7 +19,7 @@ const Main = styled.main`
 `;
 
 export const imgix =
-  "&w=0.75&sat=-50&exp=0&invert=true&monochrome=c5c&con=-50&monochrome=%23862e9c";
+  "&w=0.5&sat=-50&exp=0&invert=true&monochrome=c5c&con=-50&monochrome=%23862e9c";
 
 const Home = ({ match }) => {
 
@@ -30,14 +30,13 @@ const Home = ({ match }) => {
 
   const uid = match.params.uid;
 
-  // Get the categories from Prismic
+  // Get the categories from Prismic and sort by order field or latest work
   useEffect(() => {
-    console.log(isMobile)
     const fetchData = async () => {
       const result = await client.query(
-        Prismic.Predicates.at("document.type", "work")
+        Prismic.Predicates.at("document.type", "work"),
+        { orderings: '[my.work.order, my.work.work_year_to desc]' }
       );
-
       //Create the link object and add to result
       if (result) {
         result.results.map((item, i) => {
