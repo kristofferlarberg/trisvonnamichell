@@ -51,8 +51,8 @@ const RenditionList = (props) => {
     setActive(false);
     if (props.openAll || props.expandValue === props.id || props.mobile) setActive(true);
     setHeight(active === false ? "0px" : `${content.current.scrollHeight}px`);
-    setHeight2(active === true ? "0px" : `${content2.current.scrollHeight}px`);
-  }, [props.renditionsLength, props.expandValue, props.id, active]);
+    setHeight2(active === true && props.loaded ? "0px" : `${content2.current.scrollHeight}px`);
+  }, [props.renditionsLength, props.expandValue, props.loaded, props.id, active]);
 
   return (
     <>

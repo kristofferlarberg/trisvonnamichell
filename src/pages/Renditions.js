@@ -196,7 +196,7 @@ const Renditions = ({ match }) => {
     }
   }
 
-  if (doc) {
+  if (doc && numberOfImages) {
     return (
       <>
         {!loaded && <p style={{ color: "#fff", margin: "32px" }}>Loading...</p>}
@@ -240,6 +240,7 @@ const Renditions = ({ match }) => {
               {doc.results.map((item, i) => {
                 return (
                   <RenditionList
+                    loaded={loaded}
                     mobile={isMobile}
                     openAll={openAll}
                     refList={refList}
