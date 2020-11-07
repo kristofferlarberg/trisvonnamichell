@@ -30,14 +30,13 @@ const Home = ({ match }) => {
 
   const uid = match.params.uid;
 
-  // Get the categories from Prismic
+  // Get the categories from Prismic and sort by order field or latest work
   useEffect(() => {
     const fetchData = async () => {
       const result = await client.query(
         Prismic.Predicates.at("document.type", "work"),
-        { orderings: '[my.work.order]' }
+        { orderings: '[my.work.order, my.work.work_year_to desc]' }
       );
-      //Sort by latest work - my.work.work_year_to desc
       //Create the link object and add to result
       if (result) {
         result.results.map((item, i) => {
