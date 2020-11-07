@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
+let ua = navigator.userAgent;
+const isMobile = /Android|webOS|iPhone|iPad|iPod/i.test(ua);
+
 const Container = styled.div`
   padding: 5px;
-  margin: 1rem;
+  margin: ${isMobile ? "0.3rem" : "1rem"};
   width: 150px;
   height: 60px;
   display: flex;
@@ -11,13 +14,9 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   border-radius: 15px;
-  // background-color: grey;
   position: fixed;
   bottom: 1rem;
   z-index: 1;
-  /*   right: ${(props) => (props.position ? "1" : "-20")}rem;
-  transition: ${(props) =>
-    props.position ? "all 0.2s ease-out" : "all 0.3s ease-in"}; */
 `;
 
 const Time = styled.h2`
@@ -54,8 +53,7 @@ const Timer = () => {
       clearInterval(intervalSecond);
     }
     setActive(true);
-    return () =>
-      clearInterval(intervalSecond);
+    return () => clearInterval(intervalSecond);
   }, [active, hours, minutes, seconds]);
 
   return (

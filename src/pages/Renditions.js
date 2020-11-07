@@ -13,6 +13,7 @@ import NewClock from "../components/NewClock";
 import { imgix } from "./Home";
 import { Circle } from "../components/Circle";
 import Nav from "../components/Nav";
+import ButtonFive from "../graphics/5.svg";
 
 let ua = navigator.userAgent;
 const isMobile = /Android|webOS|iPhone|iPad|iPod/i.test(ua);
@@ -22,69 +23,79 @@ const Main = styled.main`
   width: ${isMobile ? "100%" : "calc(100% - 4rem)"};
   height: auto;
   margin: ${isMobile ? "0" : "2rem"};
-  opacity: ${props => props.loaded ? "1" : "0"};
+  opacity: ${(props) => (props.loaded ? "1" : "0")};
   transition: opacity 0.5s ease-in;
 `;
 
 const Content = styled.div`
   box-sizing: border-box;
-  margin-top: ${isMobile ? "7rem" : "8rem"};
+  margin-top: ${isMobile ? "6.3rem" : "8rem"};
   width: 100%;
   height: auto;
-  display:flex;
+  display: flex;
   justify-content: ${(props) => (props.position ? "center" : "flex-end")};
   transition: all 0.3s ease-in;
-  @media (max-width: 900px){
-    flex-direction: column; 
+  @media (max-width: 900px) {
+    flex-direction: column;
   }
-  
 `;
 
-const ListContainer = styled.div`  
+const ListContainer = styled.div`
   padding: 0;
   display: flex;
   flex-direction: column;
   margin-left: ${(props) => (props.position ? "20" : "40")}vw;
   margin-right: ${(props) => (props.position ? "20" : "0")}vw;
   transition: all 0.3s ease-in;
-  @media (max-width: 1280px){
+  @media (max-width: 1280px) {
     margin-left: ${(props) => (props.position ? "10" : "40")}vw;
-    margin-right: ${(props) => (props.position ? "10" : "0")}vw; 
+    margin-right: ${(props) => (props.position ? "10" : "0")}vw;
   }
-  @media (max-width: 900px){
-    margin: 0; 
+  @media (max-width: 900px) {
+    margin: 0;
   }
 `;
 
 const DescriptionPreview = styled.div`
   display: flex;
   align-items: flex-start;
-  margin-bottom: 1.5rem;
-`;
-
-const DescriptionPreviewText = styled.h4`
-  margin: 0;
-  margin-bottom: ${(props) => props.open && "1rem"};
-  width: 100%;
-`;
-
-const Bullet = styled.h2`
-  margin: -1.4rem 1rem 0 0;
+  margin-bottom: ${(props) => (props.open ? "1rem" : "1.5rem")};
 `;
 
 const Image = styled.img`
   width: 100%;
 `;
 
-const Square = styled.div`
+const StopContainer = styled.div`
   position: fixed;
-  right: 1rem;
-  bottom: 2rem;
-  width: 1.5rem;
-  height: 1.5rem;
-  background-color: #000;
+  right: 0;
+  bottom: 0;
   z-index: 2;
-`
+  padding: 2px;
+  margin: 0.3rem;
+  width: 45px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background-color: #111;
+`;
+
+const StopButton = styled.button`
+  width: 35px;
+  height: 30px;
+  padding: 6px 5px 5px 5px;
+  border: 0;
+  border-left: 1px solid var(--lightgrey);
+  border-right: 1px solid var(--lightgrey);
+  background-color: #111;
+`;
+
+const StopButtonSymbol = styled.img`
+  width: 60%;
+  height: auto;
+`;
 
 const Renditions = ({ match }) => {
   const [doc, setDocData] = useState(null);
@@ -93,7 +104,7 @@ const Renditions = ({ match }) => {
   const [toggleScript, toggleScriptState] = useState(true);
   const [openAll, setOpenAll] = useState(false);
   const [loaded, setLoaded] = useState(false);
-  const allLoaded = []
+  const allLoaded = [];
 
   const [numberOfImages, setNumberOfImages] = useState(0);
   let renditionsRefs = [];
@@ -105,7 +116,6 @@ const Renditions = ({ match }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-
       //Get list of all the categories from prismic
       const categories = await client.query(
         Prismic.Predicates.at("document.type", "work")
@@ -127,11 +137,11 @@ const Renditions = ({ match }) => {
         result.work_year_to = category.data.work_year_to;
         result.work_image = category.data.work_preview_image.url;
         // We use the State hook to save the document
-        let tempNumberOfImages = 0
-        result.results.map(item => {
-          tempNumberOfImages += item.data.rendition_images.length
-        })
-        setNumberOfImages(tempNumberOfImages)
+        let tempNumberOfImages = 0;
+        result.results.map((item) => {
+          tempNumberOfImages += item.data.rendition_images.length;
+        });
+        setNumberOfImages(tempNumberOfImages);
         return setDocData(result);
       } else {
         // Otherwise show an error message
@@ -169,39 +179,43 @@ const Renditions = ({ match }) => {
   }
 
   function handleLoad(i) {
-    allLoaded.push(true)
+    allLoaded.push(true);
     if (allLoaded.length === numberOfImages) {
-      setTimeout(
-        function () {
-          setLoaded(true)
-        }, 1000)
+      setTimeout(function () {
+        setLoaded(true);
+      }, 1000);
     }
   }
-
+  console.log(doc);
   if (doc && numberOfImages) {
     return (
       <>
-        {!loaded && <p style={{ "color": "#fff", "margin": "32px" }}>Loading...</p>}
+        {!loaded && <p style={{ color: "#fff", margin: "32px" }}>Loading...</p>}
         <Main loaded={loaded}>
           <GlobalStyle img={doc.work_image + imgix} />
           <NewClock mobile={isMobile} />
-          {isMobile ?
-            <Square onClick={() => history.push("/")} />
-            : <RemoteControl
+          {isMobile ? (
+            <StopContainer>
+              <StopButton onClick={() => history.push("/")}>
+                <StopButtonSymbol src={ButtonFive} alt="Back to Homepage" />
+              </StopButton>
+            </StopContainer>
+          ) : (
+            <RemoteControl
               expandAll={openAll}
               currentValue={expandValue}
               renditionsLength={doc.results.length}
               adjustValue={(value) => openRendition(value)}
               toggleScriptRemote={() => toggleScriptState(!toggleScript)}
-            />}
+            />
+          )}
           <Nav
             renditions={true}
             mobile={isMobile}
             title={doc.work_title[0].text}
             years={`${doc.work_year_from}–${doc.work_year_to}`}
           />
-          <Content position={!toggleScript}
-          >
+          <Content position={!toggleScript}>
             <Script
               mobile={isMobile}
               position={!toggleScript}
@@ -227,19 +241,14 @@ const Renditions = ({ match }) => {
                     id={i}
                     title={item.data.rendition_title[0].text}
                     year={item.data.rendition_year}
-                    //   <RichText
-                    //     key={i}
-                    //     render={item.data.rendition_title}
-                    //     linkResolver={linkResolver}
-                    //   />
-                    // }
                     descriptionPreview={item.data.rendition_images.map(
                       (image, i) => (
                         <DescriptionPreview key={"d" + i}>
                           <Circle />
-                          <DescriptionPreviewText>
-                            {image.rendition_image_caption[0].text}
-                          </DescriptionPreviewText>
+                          <RichText
+                            render={image.rendition_image_caption}
+                            linkResolver={linkResolver}
+                          />
                         </DescriptionPreview>
                       )
                     )}
@@ -250,9 +259,13 @@ const Renditions = ({ match }) => {
                         key={"b" + i}
                         alt={image.rendition_image_caption[0].text}
                       />,
-                      <DescriptionPreviewText key={"c" + i} open={true}>
-                        {image.rendition_image_caption[0].text}
-                      </DescriptionPreviewText>,
+                      <DescriptionPreview>
+                        <RichText
+                          key={"c" + i}
+                          render={image.rendition_image_caption}
+                          linkResolver={linkResolver}
+                        />
+                      </DescriptionPreview>,
                     ])}
                   />
                 );

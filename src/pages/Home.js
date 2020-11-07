@@ -11,10 +11,11 @@ let ua = navigator.userAgent;
 const isMobile = /Android|webOS|iPhone|iPad|iPod/i.test(ua);
 
 const Main = styled.main`
-  margin: ${props => props.mobile ? "0 5px" : "0 2rem"};
-  width: ${props => props.mobile ? "calc(100% - 10px)" : "calc(100% - 4rem)"};
+  margin: ${(props) => (props.mobile ? "0 5px" : "0 2rem")};
+  width: ${(props) =>
+    props.mobile ? "calc(100% - 10px)" : "calc(100% - 4rem)"};
   height: auto;
-  opacity: ${props => props.loaded ? "1" : "0"};
+  opacity: ${(props) => (props.loaded ? "1" : "0")};
   transition: opacity 0.5s ease-in;
 `;
 
@@ -22,11 +23,15 @@ export const imgix =
   "&w=0.5&sat=-50&exp=0&invert=true&monochrome=c5c&con=-50&monochrome=%23862e9c";
 
 const Home = ({ match }) => {
-
   const [doc, setDocData] = useState(null);
   const [notFound, toggleNotFound] = useState(false);
   const [loaded, setLoaded] = useState(false);
-  const allLoaded = []
+  const allLoaded = [];
+  const [email, setEmail] = useState(false);
+
+  const toggleTitle = () => {
+    setEmail(!email);
+  };
 
   const uid = match.params.uid;
 
@@ -35,7 +40,7 @@ const Home = ({ match }) => {
     const fetchData = async () => {
       const result = await client.query(
         Prismic.Predicates.at("document.type", "work"),
-        { orderings: '[my.work.order, my.work.work_year_to desc]' }
+        { orderings: "[my.work.order, my.work.work_year_to desc]" }
       );
       //Create the link object and add to result
       if (result) {
@@ -82,39 +87,50 @@ const Home = ({ match }) => {
   }, [uid]); // Skip the Effect hook if the UID hasn't changed
 
   function handleLoad(i) {
-    allLoaded[i] = true
+    allLoaded[i] = true;
     if (allLoaded.length === doc.results.length) {
-      setTimeout(
-        function () {
-          setLoaded(true)
-        }, 1000)
+      setTimeout(function () {
+        setLoaded(true);
+      }, 1000);
     }
   }
+  console.log(email);
   if (doc) {
     return (
       <>
-        {!loaded && !isMobile && <p style={{ "color": "#fff", "margin": "32px 0 0 32px" }}>Loading...</p>}
+        {!loaded && !isMobile && (
+          <p style={{ color: "#fff", margin: "32px 0 0 32px" }}>Loading...</p>
+        )}
         <Main loaded={isMobile ? true : loaded} mobile={isMobile}>
           <GlobalStyle />
-          <Nav mobile={isMobile} title="Tris Vonna-Michell" years={`Works ${doc.min_year}–`} />
-          {/* This is how to render a Rich Text field into your template as HTML */}
-          {/* <RichText render={doc.data.description} linkResolver={linkResolver} /> */}
+          <Nav
+            mobile={isMobile}
+            title={!email ? "Tris Vonna-Michell" : "studiotvm@protonmail.com"}
+            years={`Works ${doc.min_year}–`}
+            onClick={toggleTitle}
+          />
+          
           {doc.results.map((item, i) => {
             let timelineWidth = doc.max_year - doc.min_year + 1;
-            return <Lines
-              renditions={false}
-              loaded={loaded}
-              work_preview_image={item.data.work_preview_image.url}
-              numberOfWorks={doc.results.length}
-              link={item.link}
-              work_title={item.data.work_title[0].text}
-              work_year_from={item.data.work_year_from}
-              work_year_to={item.data.work_year_to}
-              handleLoad={() => handleLoad(i)}
-              width={(item.image_width / timelineWidth) * 100}
-              left={((item.data.work_year_from - doc.min_year) / timelineWidth) * 100}
-              key={i}
-            />
+            return (
+              <Lines
+                renditions={false}
+                loaded={loaded}
+                work_preview_image={item.data.work_preview_image.url}
+                numberOfWorks={doc.results.length}
+                link={item.link}
+                work_title={item.data.work_title[0].text}
+                work_year_from={item.data.work_year_from}
+                work_year_to={item.data.work_year_to}
+                handleLoad={() => handleLoad(i)}
+                width={(item.image_width / timelineWidth) * 100}
+                left={
+                  ((item.data.work_year_from - doc.min_year) / timelineWidth) *
+                  100
+                }
+                key={i}
+              />
+            );
           })}
         </Main>
       </>
