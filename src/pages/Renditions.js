@@ -29,7 +29,7 @@ const Main = styled.main`
 
 const Content = styled.div`
   box-sizing: border-box;
-  margin-top: ${isMobile ? "7rem" : "8rem"};
+  margin-top: ${isMobile ? "6.3rem" : "8rem"};
   width: 100%;
   height: auto;
   display: flex;
@@ -59,13 +59,7 @@ const ListContainer = styled.div`
 const DescriptionPreview = styled.div`
   display: flex;
   align-items: flex-start;
-  margin-bottom: 1.5rem;
-`;
-
-const DescriptionPreviewText = styled.h4`
-  margin: 0;
-  margin-bottom: ${(props) => props.open && "1rem"};
-  width: 100%;
+  margin-bottom: ${(props) => (props.open ? "1rem" : "1.5rem")};
 `;
 
 const Image = styled.img`
@@ -76,25 +70,22 @@ const StopContainer = styled.div`
   position: fixed;
   right: 0;
   bottom: 0;
-  width: 1.5rem;
-  height: 1.5rem;
-  background-color: #000;
   z-index: 2;
-  padding: 5px;
-  margin: 1rem;
-  width: 66px;
-  height: 60px;
+  padding: 2px;
+  margin: 0.3rem;
+  width: 45px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 15px;
+  border-radius: 10px;
   background-color: #111;
 `;
 
 const StopButton = styled.button`
-  width: 50px;
-  height: 40px;
-  padding: 5px 8px;
+  width: 35px;
+  height: 30px;
+  padding: 6px 5px 5px 5px;
   border: 0;
   border-left: 1px solid var(--lightgrey);
   border-right: 1px solid var(--lightgrey);
@@ -102,7 +93,7 @@ const StopButton = styled.button`
 `;
 
 const StopButtonSymbol = styled.img`
-  width: 40%;
+  width: 60%;
   height: auto;
 `;
 
@@ -195,7 +186,7 @@ const Renditions = ({ match }) => {
       }, 1000);
     }
   }
-
+  console.log(doc);
   if (doc && numberOfImages) {
     return (
       <>
@@ -250,19 +241,14 @@ const Renditions = ({ match }) => {
                     id={i}
                     title={item.data.rendition_title[0].text}
                     year={item.data.rendition_year}
-                    //   <RichText
-                    //     key={i}
-                    //     render={item.data.rendition_title}
-                    //     linkResolver={linkResolver}
-                    //   />
-                    // }
                     descriptionPreview={item.data.rendition_images.map(
                       (image, i) => (
                         <DescriptionPreview key={"d" + i}>
                           <Circle />
-                          <DescriptionPreviewText>
-                            {image.rendition_image_caption[0].text}
-                          </DescriptionPreviewText>
+                          <RichText
+                            render={image.rendition_image_caption}
+                            linkResolver={linkResolver}
+                          />
                         </DescriptionPreview>
                       )
                     )}
@@ -273,9 +259,13 @@ const Renditions = ({ match }) => {
                         key={"b" + i}
                         alt={image.rendition_image_caption[0].text}
                       />,
-                      <DescriptionPreviewText key={"c" + i} open={true}>
-                        {image.rendition_image_caption[0].text}
-                      </DescriptionPreviewText>,
+                      <DescriptionPreview>
+                        <RichText
+                          key={"c" + i}
+                          render={image.rendition_image_caption}
+                          linkResolver={linkResolver}
+                        />
+                      </DescriptionPreview>,
                     ])}
                   />
                 );

@@ -53,6 +53,47 @@ h4 {
   margin: 0;
   font-weight: 400;
   line-height: 1.6rem;
+  width: 100%;
+}
+
+h5 {
+  font-family: "PT-Regular", sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.4rem;
+  color: black;
+  margin: 0;
+  font-weight: 400;
+  line-height: 1.6rem;
+  width: 100%;
+}
+
+@media (max-width: 900px) {
+
+  body {
+    font-size: 0.9rem;
+    line-height: 1.4rem;
+  }
+  
+  h1 {
+    font-family: "PT-Regular", sans-serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    letter-spacing: -0.2px;
+  }
+
+  h2 {
+    font-size: 1rem;
+  } 
+
+  h3 {
+    font-size: 1rem;
+  } 
+
+  h4 {
+    font-size: 0.8rem;
+    line-height: 1.3rem;
+  }
+
 }
 
 `;

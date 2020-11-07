@@ -13,6 +13,7 @@ const ScriptBox = styled.section`
   max-height: 69vh;
   overflow-y: auto;
   @media (max-width: 900px) {
+    cursor: ns-resize;
     padding: 0 0.9rem;
     position: relative;
     left: 0;
@@ -39,13 +40,17 @@ const ScriptBox = styled.section`
 `;
 
 function Script(props) {
-
-  const [openScript, setOpenScript] = useState(false)
+  const [openScript, setOpenScript] = useState(false);
 
   return (
-    <ScriptBox openScript={openScript}
-      onClick={() => { setOpenScript(!openScript); props.mobile && window.scrollTo(0, 0) }}
-      position={props.position}>
+    <ScriptBox
+      openScript={openScript}
+      onClick={() => {
+        setOpenScript(!openScript);
+        props.mobile && window.scrollTo(0, 0);
+      }}
+      position={props.position}
+    >
       {props.text}
     </ScriptBox>
   );
