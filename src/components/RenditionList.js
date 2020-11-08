@@ -6,6 +6,7 @@ const ListSection = styled.section`
   display: flex;
   flex-direction: column;
   background-color: var(--offwhite);
+  margin-bottom: 1rem;
   &:last-child {
     margin-bottom: ${(props) => props.mobile && "55px"};
   }
