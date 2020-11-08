@@ -2,14 +2,17 @@ import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 
 const ListSection = styled.section`
-  margin: 0 0.3rem 1rem 0.3rem;
   padding: ${(props) => (props.mobile ? "0.9rem" : "2rem")};
   display: flex;
   flex-direction: column;
   background-color: var(--offwhite);
+  margin-bottom: 1rem;
   &:last-child {
-    margin-bottom: ${(props) => props.mobile && "100px"};
+    margin-bottom: ${(props) => props.mobile && "55px"};
   }
+  @media (max-width: 900px) {
+    margin: 0 0.3rem 1rem 0.3rem;
+  }  
 `;
 
 const OpenImages = styled.section`
@@ -47,7 +50,8 @@ const RenditionList = (props) => {
   const content2 = useRef(null);
 
   useEffect(() => {
-    props.refList(content2);
+    props.refClosedList(content2.current.scrollHeight);
+    props.refOpenList(content.current.scrollHeight);
     setActive(false);
     if (props.openAll || props.expandValue === props.id || props.mobile) setActive(true);
     setHeight(active === false ? "0px" : `${content.current.scrollHeight}px`);
