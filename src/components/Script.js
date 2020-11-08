@@ -12,16 +12,19 @@ const ScriptBox = styled.section`
     props.position ? "all 0.2s ease-out" : "all 0.3s ease-in"};
   max-height: 69vh;
   overflow-y: auto;
-  @media (max-width: 900px){
-    padding:0 0.9rem;
+  @media (max-width: 900px) {
+    cursor: ns-resize;
+    padding: 0 0.9rem;
     position: relative;
     left: 0;
-    width: 100%; 
-    margin-bottom: 5px;
+    width: calc(100% - 0.6rem);
+    margin: 0 0.3rem 0.6rem 0.3rem;
     height: auto;
-    max-height: ${props => props.openScript ? "fit-content" : "27vh"};
+    max-height: ${(props) => (props.openScript ? "fit-content" : "27vh")};
     overflow-y: hidden;
-    ${({ openScript }) => !openScript && `
+    ${({ openScript }) =>
+      !openScript &&
+      `
       &:after {
       content: "";
       position: absolute;
@@ -37,13 +40,17 @@ const ScriptBox = styled.section`
 `;
 
 function Script(props) {
-
-  const [openScript, setOpenScript] = useState(false)
+  const [openScript, setOpenScript] = useState(false);
 
   return (
-    <ScriptBox openScript={openScript}
-      onClick={() => { setOpenScript(!openScript); props.mobile && window.scrollTo(0, 0) }}
-      position={props.position}>
+    <ScriptBox
+      openScript={openScript}
+      onClick={() => {
+        setOpenScript(!openScript);
+        props.mobile && window.scrollTo(0, 0);
+      }}
+      position={props.position}
+    >
       {props.text}
     </ScriptBox>
   );
