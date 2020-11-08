@@ -157,8 +157,6 @@ const Renditions = ({ match }) => {
 
   function executeScroll(ref) {
     let tempRef = 0
-    console.log(closedRenditionsRefs)
-    console.log(openRenditionsRefs)
     if (ref !== 0) {
       if (openAll) {
         for (let i = 0; i < ref; i++) {
@@ -206,7 +204,6 @@ const Renditions = ({ match }) => {
       }, 1000);
     }
   }
-  console.log(doc);
   if (doc && numberOfImages) {
     return (
       <>
@@ -221,14 +218,14 @@ const Renditions = ({ match }) => {
               </StopButton>
             </StopContainer>
           ) : (
-            <RemoteControl
-              expandAll={openAll}
-              currentValue={expandValue}
-              renditionsLength={doc.results.length}
-              adjustValue={(value) => openRendition(value)}
-              toggleScriptRemote={() => toggleScriptState(!toggleScript)}
-            />
-          )}
+              <RemoteControl
+                expandAll={openAll}
+                currentValue={expandValue}
+                renditionsLength={doc.results.length}
+                adjustValue={(value) => openRendition(value)}
+                toggleScriptRemote={() => toggleScriptState(!toggleScript)}
+              />
+            )}
           <Nav
             renditions={true}
             mobile={isMobile}

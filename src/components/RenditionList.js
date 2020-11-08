@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 
 const ListSection = styled.section`
-  margin: 0 0.3rem 1rem 0.3rem;
   padding: ${(props) => (props.mobile ? "0.9rem" : "2rem")};
   display: flex;
   flex-direction: column;
@@ -10,6 +9,9 @@ const ListSection = styled.section`
   &:last-child {
     margin-bottom: ${(props) => props.mobile && "55px"};
   }
+  @media (max-width: 900px) {
+    margin: 0 0.3rem 1rem 0.3rem;
+  }  
 `;
 
 const OpenImages = styled.section`
