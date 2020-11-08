@@ -1,6 +1,2 @@
-[[redirects]]
-  from = "/"
-  to = `/${doc.slug}`
-  status = 301
-  force = false
-  query = {path = ":uid"}
+  /   /${doc.slug}
+  /${doc.slug}   /
