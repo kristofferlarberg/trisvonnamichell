@@ -25,11 +25,6 @@ const Time = styled.h2`
   text-align: center;
 `;
 
-const Buttons = styled.div`
-  width: auto;
-  height: auto;
-`;
-
 const Timer = () => {
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);

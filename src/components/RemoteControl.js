@@ -6,7 +6,6 @@ import ButtonOne from "../graphics/1.svg";
 import ButtonTwo from "../graphics/2.svg";
 import ButtonThree from "../graphics/3.svg";
 import ButtonThreeP from "../graphics/3p.svg";
-import ButtonFour from "../graphics/4.svg";
 import ButtonFive from "../graphics/5.svg";
 import ButtonSix from "../graphics/6.svg";
 

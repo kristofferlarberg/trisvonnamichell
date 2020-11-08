@@ -1,11 +1,9 @@
 import React, { Fragment } from "react";
 import { Helmet } from "react-helmet";
-import { BrowserRouter, Route, Switch, HashRouter } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { apiEndpoint } from "./prismic-configuration";
-import { NotFound } from "./pages";
 import Home from "./pages/Home";
 import Renditions from "./pages/Renditions";
-import Clock from "./components/Clock";
 
 /**
  * Main application componenet
@@ -23,7 +21,7 @@ const App = (props) => {
           src={`//static.cdn.prismic.io/prismic.js?repo=${repoName}&new=true`}
         />
       </Helmet>
-      <BrowserRouter basename='/'>
+      <BrowserRouter basename='/tris'>
         {/* <HashRouter> */}
         <Switch>
           <Route exact path="/" component={Home} />

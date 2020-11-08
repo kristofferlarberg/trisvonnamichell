@@ -140,7 +140,7 @@ const Renditions = ({ match }) => {
         // We use the State hook to save the document
         let tempNumberOfImages = 0;
         result.results.map((item) => {
-          tempNumberOfImages += item.data.rendition_images.length;
+          return tempNumberOfImages += item.data.rendition_images.length;
         });
         setNumberOfImages(tempNumberOfImages);
         return setDocData(result);
@@ -277,9 +277,8 @@ const Renditions = ({ match }) => {
                         key={"b" + i}
                         alt={image.rendition_image_caption[0].text}
                       />,
-                      <DescriptionPreview>
+                      <DescriptionPreview key={"c" + i}>
                         <RichText
-                          key={"c" + i}
                           render={image.rendition_image_caption}
                           linkResolver={linkResolver}
                         />
