@@ -1,2 +1,2 @@
-  /   /${doc.slug}
-  /${doc.slug}   /
+  /   /:uid
+  /:uid   /
