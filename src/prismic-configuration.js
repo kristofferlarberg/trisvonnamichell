@@ -11,11 +11,27 @@ const accessToken = "";
 // -- Link resolution rules
 // Manages the url links to internal Prismic documents
 export const linkResolver = (doc) => {
+  if (doc.type === "work") return `/${doc.slug}`;
+  // if (doc.type === "rendition") return `/${doc.slug}`;
+
+  return "/";
+};
+
+// Client method to query documents from the Prismic repo
+export const client = Prismic.client(apiEndpoint, { accessToken });
+
+
+
+
+
+
+
+/* // -- Link resolution rules
+// Manages the url links to internal Prismic documents
+export const linkResolver = (doc) => {
   if (doc.type === "work") return `/tris/${doc.slug}`;
   // if (doc.type === "rendition") return `/${doc.slug}`;
 
   return "/tris/";
 };
-
-// Client method to query documents from the Prismic repo
-export const client = Prismic.client(apiEndpoint, { accessToken });
+ */
