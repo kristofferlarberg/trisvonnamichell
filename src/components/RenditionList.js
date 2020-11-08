@@ -12,7 +12,7 @@ const ListSection = styled.section`
   }
   @media (max-width: 900px) {
     margin: 0 0.3rem 1rem 0.3rem;
-  }  
+  }
 `;
 
 const OpenImages = styled.section`
@@ -46,17 +46,41 @@ const RenditionList = (props) => {
   const [active, setActive] = useState(false);
   const [height, setHeight] = useState("0px");
   const [height2, setHeight2] = useState("0px");
+  /* const [propDependency, setPropDependency] = useState([props.renditionsLength, props.expandValue, props.loaded, props.id, active]) */
   const content = useRef(null);
   const content2 = useRef(null);
 
+  const {
+    renditionsLength,
+    expandValue,
+    loaded,
+    id,
+    refClosedList,
+    refOpenList,
+    openAll,
+    mobile,
+  } = props;
+
   useEffect(() => {
-    props.refClosedList(content2.current.scrollHeight);
-    props.refOpenList(content.current.scrollHeight);
+    refClosedList(content2.current.scrollHeight);
+    refOpenList(content.current.scrollHeight);
     setActive(false);
-    if (props.openAll || props.expandValue === props.id || props.mobile) setActive(true);
+    if (openAll || expandValue === id || mobile) setActive(true);
     setHeight(active === false ? "0px" : `${content.current.scrollHeight}px`);
-    setHeight2(active === true && props.loaded ? "0px" : `${content2.current.scrollHeight}px`);
-  }, [props.renditionsLength, props.expandValue, props.loaded, props.id, active]);
+    setHeight2(
+      active === true && loaded ? "0px" : `${content2.current.scrollHeight}px`
+    );
+  }, [
+    renditionsLength,
+    expandValue,
+    loaded,
+    id,
+    active,
+    mobile,
+    openAll,
+    refClosedList,
+    refOpenList,
+  ]);
 
   return (
     <>

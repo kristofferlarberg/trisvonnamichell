@@ -140,7 +140,7 @@ const Renditions = ({ match }) => {
         // We use the State hook to save the document
         let tempNumberOfImages = 0;
         result.results.map((item) => {
-          tempNumberOfImages += item.data.rendition_images.length;
+          return tempNumberOfImages += item.data.rendition_images.length;
         });
         setNumberOfImages(tempNumberOfImages);
         return setDocData(result);
