@@ -277,9 +277,8 @@ const Renditions = ({ match }) => {
                         key={"b" + i}
                         alt={image.rendition_image_caption[0].text}
                       />,
-                      <DescriptionPreview>
+                      <DescriptionPreview key={"c" + i}>
                         <RichText
-                          key={"c" + i}
                           render={image.rendition_image_caption}
                           linkResolver={linkResolver}
                         />
