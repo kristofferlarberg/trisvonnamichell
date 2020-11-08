@@ -35,6 +35,3 @@ const App = (props) => {
 };
 
 export default App;
-
-
-   {/* <BrowserRouter basename='/tris'></BrowserRouter> */}
