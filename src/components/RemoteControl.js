@@ -116,9 +116,9 @@ function RemoteControl(props) {
       case 39:
         openAll();
         break;
-      /*       case 37:
-        closeAll();
-        break; */
+      case 37:
+        openAll();
+        break;
       case 38:
         openPrevious();
         break;

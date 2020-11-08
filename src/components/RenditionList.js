@@ -47,7 +47,8 @@ const RenditionList = (props) => {
   const content2 = useRef(null);
 
   useEffect(() => {
-    props.refList(content2);
+    props.refClosedList(content2.current.scrollHeight);
+    props.refOpenList(content.current.scrollHeight);
     setActive(false);
     if (props.openAll || props.expandValue === props.id || props.mobile) setActive(true);
     setHeight(active === false ? "0px" : `${content.current.scrollHeight}px`);

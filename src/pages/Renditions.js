@@ -96,7 +96,8 @@ const Renditions = ({ match }) => {
   const allLoaded = []
 
   const [numberOfImages, setNumberOfImages] = useState(0);
-  let renditionsRefs = [];
+  let closedRenditionsRefs = [];
+  let openRenditionsRefs = [];
   const history = useHistory();
 
   let scaleDown = window.innerWidth < 600 || isMobile ? "&w=0.25" : "&w=0.5";
@@ -145,27 +146,46 @@ const Renditions = ({ match }) => {
   }, [uid]); // Skip the Effect hook if the UID hasn't changed
 
   function executeScroll(ref) {
-    if (ref) {
-      let margin = ref.current.offsetTop === 200 ? 250 : 200;
-      setTimeout(
-        () => window.scrollTo(0, ref.current.offsetTop - margin),
-        openAll ? 100 : 300
-      );
+    let tempRef = 0
+    console.log(closedRenditionsRefs)
+    console.log(openRenditionsRefs)
+    if (ref !== 0) {
+      if (openAll) {
+        for (let i = 0; i < ref; i++) {
+          tempRef += openRenditionsRefs[i]
+        }
+      } else {
+        for (let i = 0; i < ref; i++) {
+          tempRef += closedRenditionsRefs[i]
+        }
+      }
     }
+    setTimeout(
+      () => window.scrollTo(0, ref === 0 || ref === -1 ? tempRef : tempRef + 128),
+      100
+    );
   }
 
   function openRendition(value) {
+    let openRendition = value + expandValue
+    if (value !== 999 && value !== -2) executeScroll(openRendition);
     if (value === 999) {
       setOpenAll(true);
       // value = expandValue > 0 ? -1 : 1
       value = expandValue + 1 === doc.results.length ? -1 : 1;
+      executeScroll(0);
     }
-    if (value === -2) setOpenAll(false);
+    if (value === -2) {
+      setOpenAll(false);
+      executeScroll(0);
+    }
     setExpandValue(value === -2 ? -1 : value + expandValue);
-    executeScroll(renditionsRefs[0]);
   }
-  function refList(ref) {
-    renditionsRefs.push(ref);
+  function refOpenList(ref) {
+    if (openRenditionsRefs.length !== doc.results.length) openRenditionsRefs.push(ref);
+  }
+  function refClosedList(ref) {
+    if (closedRenditionsRefs.length !== doc.results.length) closedRenditionsRefs.push(ref);
   }
 
   function handleLoad(i) {
@@ -220,7 +240,8 @@ const Renditions = ({ match }) => {
                     loaded={loaded}
                     mobile={isMobile}
                     openAll={openAll}
-                    refList={refList}
+                    refClosedList={refClosedList}
+                    refOpenList={refOpenList}
                     key={"a" + i}
                     renditionsLength={doc.results.length}
                     expandValue={expandValue}
