@@ -1,6 +1,6 @@
 [[redirects]]
   from = "/"
-  to = "/${doc.slug}"
+  to = `/${doc.slug}`
   status = 301
   force = false
-  query = {path = "/:uid"}
+  query = {path = ":uid"}
