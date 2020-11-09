@@ -34,6 +34,7 @@ const ScriptBox = styled.section`
       width: 100%;
       background: linear-gradient(rgba(0,0,0,0), var(--offwhite));
       pointer-events: none;
+      -webkit-appearance: none;
     }
     `}
   }
