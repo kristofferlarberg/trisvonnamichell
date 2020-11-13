@@ -94,7 +94,6 @@ const Home = ({ match }) => {
       }, 1000);
     }
   }
-  console.log(email);
   if (doc) {
     return (
       <>
@@ -109,7 +108,7 @@ const Home = ({ match }) => {
             years={`Works ${doc.min_year}–`}
             onClick={toggleTitle}
           />
-          
+
           {doc.results.map((item, i) => {
             let timelineWidth = doc.max_year - doc.min_year + 1;
             return (
