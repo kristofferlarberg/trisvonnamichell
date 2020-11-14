@@ -206,7 +206,7 @@ const Renditions = ({ match }) => {
       <>
         {!loaded && <p style={{ color: "#fff", margin: "32px" }}>Loading...</p>}
         <Main loaded={loaded}>
-          <GlobalStyle img={doc.work_image + imgix} />
+          <GlobalStyle img={doc.work_image + imgix} mobile={isMobile} />
           <NewClock mobile={isMobile} />
           {isMobile ? (
             <StopContainer>
