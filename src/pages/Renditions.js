@@ -10,13 +10,10 @@ import RenditionList from "../components/RenditionList";
 import Script from "../components/Script";
 import RemoteControl from "../components/RemoteControl";
 import NewClock from "../components/NewClock";
-import { imgix } from "./Home";
+import { imgix, isMobile } from "./Home";
 import { Circle } from "../components/Circle";
 import Nav from "../components/Nav";
 import ButtonFive from "../graphics/5.svg";
-
-let ua = navigator.userAgent;
-const isMobile = /Android|webOS|iPhone|iPad|iPod/i.test(ua);
 
 const Main = styled.main`
   box-sizing: border-box;
@@ -72,7 +69,7 @@ const StopContainer = styled.div`
   bottom: 0;
   z-index: 2;
   padding: 2px;
-  margin: 0.3rem;
+  margin: 1rem;
   width: 45px;
   height: 40px;
   display: flex;
@@ -218,14 +215,14 @@ const Renditions = ({ match }) => {
               </StopButton>
             </StopContainer>
           ) : (
-              <RemoteControl
-                expandAll={openAll}
-                currentValue={expandValue}
-                renditionsLength={doc.results.length}
-                adjustValue={(value) => openRendition(value)}
-                toggleScriptRemote={() => toggleScriptState(!toggleScript)}
-              />
-            )}
+            <RemoteControl
+              expandAll={openAll}
+              currentValue={expandValue}
+              renditionsLength={doc.results.length}
+              adjustValue={(value) => openRendition(value)}
+              toggleScriptRemote={() => toggleScriptState(!toggleScript)}
+            />
+          )}
           <Nav
             renditions={true}
             mobile={isMobile}
