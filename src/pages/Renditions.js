@@ -26,7 +26,7 @@ const Main = styled.main`
 
 const Content = styled.div`
   box-sizing: border-box;
-  margin-top: ${isMobile ? "6.3rem" : "8rem"};
+  margin-top: ${isMobile ? "1rem" : "8rem"};
   width: 100%;
   height: auto;
   display: flex;
