@@ -101,6 +101,7 @@ const Renditions = ({ match }) => {
   const [toggleScript, toggleScriptState] = useState(true);
   const [openAll, setOpenAll] = useState(false);
   const [loaded, setLoaded] = useState(false);
+  const [makeYearSmall, setMakeYearSmall] = useState(false);
   const allLoaded = [];
 
   const [numberOfImages, setNumberOfImages] = useState(0);
@@ -108,11 +109,13 @@ const Renditions = ({ match }) => {
   let openRenditionsRefs = [];
   const history = useHistory();
 
+
   let scaleDown = window.innerWidth < 600 || isMobile ? "&w=0.25" : "&w=0.5";
 
   const uid = match.params.uid;
 
   useEffect(() => {
+    if (!isMobile) window.onscroll = function () { handleScroll() };
     const fetchData = async () => {
       //Get list of all the categories from prismic
       const categories = await client.query(
@@ -201,6 +204,11 @@ const Renditions = ({ match }) => {
       }, 1000);
     }
   }
+  function handleScroll() {
+    if (window.pageYOffset > 55) setMakeYearSmall(true)
+    else setMakeYearSmall(false)
+  }
+
   if (doc && numberOfImages) {
     return (
       <>
@@ -224,6 +232,7 @@ const Renditions = ({ match }) => {
             />
           )}
           <Nav
+            makeYearSmall={makeYearSmall}
             renditions={true}
             mobile={isMobile}
             title={doc.work_title[0].text}

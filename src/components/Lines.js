@@ -42,13 +42,13 @@ const Line = styled.section`
   margin-bottom: 5px;
   height: ${lineHeight}rem;
   width: ${isMobile ? "100%" : "90%"};
-  transition: background-color 0.2s ease-out;
+  transition: background-color 0.3s ease-out;
   &:hover ${Preview} {
     filter: none;
   }
   &:hover {
-    background-color: #666;
-    background-blend-mode: multiply;
+    background-color: ${!isMobile && '#555'};
+    background-blend-mode: ${!isMobile ? 'multiply' : 'normal'};
   }
 `;
 
