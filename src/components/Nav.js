@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const NavBar = styled.nav`
+  box-sizing: border-box;
   position: ${(props) =>
     !props.renditions || (props.renditions && props.mobile) ? "static" : "fixed"};
   top: ${(props) => props.renditions && "0"};
@@ -27,6 +28,7 @@ const PageTitle = styled.h1`
   flex: ${(props) => props.years && !props.mobile && "0 0 9rem"};
   cursor: pointer;
   transition: 0.3s linear;
+  line-height: 1.5rem;
 `;
 
 const Title = styled(PageTitle)`

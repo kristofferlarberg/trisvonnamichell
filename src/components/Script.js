@@ -19,8 +19,7 @@ const ScriptBox = styled.section`
     left: 0;
     width: calc(100% - 0.6rem);
     margin: 0 0.3rem 1rem 0.3rem;
-    height: auto;
-    max-height: ${(props) => (props.openScript ? "fit-content" : "27vh")};
+    max-height: ${(props) => (props.openScript ? "none" : "175px")};
     overflow-y: hidden;
     ${({ openScript }) =>
     !openScript &&

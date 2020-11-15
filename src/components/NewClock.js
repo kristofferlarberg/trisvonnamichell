@@ -6,7 +6,7 @@ const TimeContainer = styled.div`
   height: ${(props) => (props.mobile ? "40px" : "60px")};
   bottom: 0;
   left: 0;
-  margin: ${(props) => (props.mobile ? "1rem" : "1rem 2rem")};
+  margin: ${(props) => (props.mobile ? "1.2rem" : "1rem 2rem")};
   z-index: 2;
   display: flex;
   align-items: center;
@@ -41,7 +41,7 @@ function NewClock(props) {
         setHours(tempHours);
       }
     }, 1000);
-    window.onbeforeunload = () => {
+    window.onunload = () => {
       sessionStorage["time"] = JSON.stringify([seconds, minutes, hours]);
     };
     return () => clearTimeout(time);

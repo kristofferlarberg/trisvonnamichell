@@ -34,6 +34,7 @@ const Content = styled.div`
   transition: all 0.3s ease-in;
   @media (max-width: 900px) {
     flex-direction: column;
+    align-content: start;
   }
 `;
 
@@ -69,7 +70,7 @@ const StopContainer = styled.div`
   bottom: 0;
   z-index: 2;
   padding: 2px;
-  margin: 1rem;
+  margin: 1.2rem;
   width: 45px;
   height: 40px;
   display: flex;
@@ -223,14 +224,14 @@ const Renditions = ({ match }) => {
               </StopButton>
             </StopContainer>
           ) : (
-            <RemoteControl
-              expandAll={openAll}
-              currentValue={expandValue}
-              renditionsLength={doc.results.length}
-              adjustValue={(value) => openRendition(value)}
-              toggleScriptRemote={() => toggleScriptState(!toggleScript)}
-            />
-          )}
+              <RemoteControl
+                expandAll={openAll}
+                currentValue={expandValue}
+                renditionsLength={doc.results.length}
+                adjustValue={(value) => openRendition(value)}
+                toggleScriptRemote={() => toggleScriptState(!toggleScript)}
+              />
+            )}
           <Nav
             makeYearSmall={makeYearSmall}
             renditions={true}
