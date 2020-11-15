@@ -30,9 +30,9 @@ const ScriptBox = styled.section`
       position: absolute;
       left:0;
       bottom: 0;
-      height: 12vh;
+      height: 50px;
       width: 100%;
-      background: linear-gradient(rgba(0,0,0,0), var(--offwhite));
+      box-shadow: inset 0 -40px 20px var(--offwhite);
       pointer-events: none;
       -webkit-appearance: none;
     }
