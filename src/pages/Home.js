@@ -8,7 +8,7 @@ import Nav from "../components/Nav";
 import Lines from "../components/Lines";
 
 let ua = navigator.userAgent;
-const isMobile = /Android|webOS|iPhone|iPad|iPod/i.test(ua);
+export const isMobile = /Android|webOS|iPhone|iPad|iPod/i.test(ua);
 
 const Main = styled.main`
   margin: ${(props) => (props.mobile ? "0 5px" : "0 2rem")};
