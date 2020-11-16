@@ -43,7 +43,7 @@ const Home = ({ match }) => {
     if (isMobile) {
       setTimeout(function () {
         if (!loaded) setLoaded(true);
-      }, 500);
+      }, 800);
     }
     const fetchData = async () => {
       const result = await client.query(
