@@ -41,7 +41,7 @@ function NewClock(props) {
         setHours(tempHours);
       }
     }, 1000);
-    window.onunload = () => {
+    window.onpagehide = () => {
       sessionStorage["time"] = JSON.stringify([seconds, minutes, hours]);
     };
     return () => clearTimeout(time);
