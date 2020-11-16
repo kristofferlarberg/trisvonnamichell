@@ -206,7 +206,7 @@ const Renditions = ({ match }) => {
     }
   }
   function handleScroll() {
-    if (window.pageYOffset > 55) setMakeYearSmall(true)
+    if (window.pageYOffset > 75) setMakeYearSmall(true)
     else setMakeYearSmall(false)
   }
 

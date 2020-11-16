@@ -16,7 +16,7 @@ const NavBar = styled.nav`
   align-items: center;
   text-align: ${(props) => (props.mobile ? "center" : "left")};
   border-bottom: ${(props) => props.renditions && "4px solid var(--offwhite)"};
-  transition: 0.3s linear;
+  transition: 0.1s linear;
   padding: ${(props) => props.mobile ? "1rem 0" : props.makeYearSmall && "0 2.5rem"};   
   `;
 
@@ -27,7 +27,7 @@ const PageTitle = styled.h1`
   text-align: ${(props) => props.years && "right"};
   flex: ${(props) => props.years && !props.mobile && "0 0 9rem"};
   cursor: pointer;
-  transition: 0.3s linear;
+  transition: 0.1s linear;
   line-height: ${(props) => props.mobile && "2rem"};
 `;
 
