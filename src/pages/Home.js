@@ -87,7 +87,7 @@ const Home = ({ match }) => {
       }
     };
     fetchData();
-  }, [uid]); // Skip the Effect hook if the UID hasn't changed
+  }, [loaded, uid]); // Skip the Effect hook if the UID hasn't changed
 
   function handleLoad(i) {
     allLoaded[i] = true;

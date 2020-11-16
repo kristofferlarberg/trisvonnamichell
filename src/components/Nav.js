@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const NavBar = styled.nav`
-  box-sizing: border-box;
+  box-sizing: ${(props) => props.mobile ? "content-box" : "border-box"};
   position: ${(props) =>
     !props.renditions || (props.renditions && props.mobile) ? "static" : "fixed"};
   top: ${(props) => props.renditions && "0"};
@@ -17,7 +17,7 @@ const NavBar = styled.nav`
   text-align: ${(props) => (props.mobile ? "center" : "left")};
   border-bottom: ${(props) => props.renditions && "4px solid var(--offwhite)"};
   transition: 0.3s linear;
-  padding: ${(props) => props.makeYearSmall && "0 2.5rem"};   
+  padding: ${(props) => props.mobile ? "1rem 0" : props.makeYearSmall && "0 2.5rem"};   
   `;
 
 const PageTitle = styled.h1`
@@ -28,7 +28,7 @@ const PageTitle = styled.h1`
   flex: ${(props) => props.years && !props.mobile && "0 0 9rem"};
   cursor: pointer;
   transition: 0.3s linear;
-  line-height: 1.5rem;
+  line-height: ${(props) => props.mobile && "2rem"};
 `;
 
 const Title = styled(PageTitle)`
