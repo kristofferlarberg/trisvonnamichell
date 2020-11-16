@@ -40,6 +40,11 @@ const Home = ({ match }) => {
     setTimeout(function () {
       if (!loaded) setLoaded(true);
     }, 5000);
+    if (isMobile) {
+      setTimeout(function () {
+        if (!loaded) setLoaded(true);
+      }, 800);
+    }
     const fetchData = async () => {
       const result = await client.query(
         Prismic.Predicates.at("document.type", "work"),
@@ -95,7 +100,7 @@ const Home = ({ match }) => {
     if (allLoaded.length === doc.results.length) {
       setTimeout(function () {
         setLoaded(true);
-      }, 1000);
+      }, 500);
     }
   }
   if (doc) {
@@ -104,7 +109,7 @@ const Home = ({ match }) => {
         {!loaded && !isMobile && (
           <p style={{ color: "#fff", margin: "32px 0 0 32px" }}>Loading...</p>
         )}
-        <Main loaded={isMobile ? true : loaded} mobile={isMobile}>
+        <Main loaded={loaded} mobile={isMobile}>
           <GlobalStyle />
           <Nav
             mobile={isMobile}
