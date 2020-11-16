@@ -6,7 +6,7 @@ const TimeContainer = styled.div`
   height: ${(props) => (props.mobile ? "40px" : "60px")};
   bottom: 0;
   left: 0;
-  margin: ${(props) => (props.mobile ? "1rem" : "1rem 2rem")};
+  margin: ${(props) => (props.mobile ? "1.2rem" : "1rem 2rem")};
   z-index: 2;
   display: flex;
   align-items: center;
@@ -20,7 +20,7 @@ const Time = styled.h2`
 function NewClock(props) {
   let savedTime = [0, 0, 0];
   if (sessionStorage["time"]) savedTime = JSON.parse(sessionStorage["time"]);
-  if (savedTime[0] < 58) savedTime[0] += 2;
+  if (savedTime[0] < 58 && savedTime[0] !== 0) savedTime[0] += 2;
   const [seconds, setSeconds] = useState(savedTime[0]);
   const [minutes, setMinutes] = useState(savedTime[1]);
   const [hours, setHours] = useState(savedTime[2]);
@@ -41,7 +41,7 @@ function NewClock(props) {
         setHours(tempHours);
       }
     }, 1000);
-    window.onbeforeunload = () => {
+    window.onpagehide = () => {
       sessionStorage["time"] = JSON.stringify([seconds, minutes, hours]);
     };
     return () => clearTimeout(time);

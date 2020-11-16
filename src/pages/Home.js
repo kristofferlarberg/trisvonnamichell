@@ -37,6 +37,9 @@ const Home = ({ match }) => {
 
   // Get the categories from Prismic and sort by order field or latest work
   useEffect(() => {
+    setTimeout(function () {
+      if (!loaded) setLoaded(true);
+    }, 5000);
     const fetchData = async () => {
       const result = await client.query(
         Prismic.Predicates.at("document.type", "work"),
@@ -84,17 +87,17 @@ const Home = ({ match }) => {
       }
     };
     fetchData();
-  }, [uid]); // Skip the Effect hook if the UID hasn't changed
+  }, [loaded, uid]); // Skip the Effect hook if the UID hasn't changed
 
   function handleLoad(i) {
     allLoaded[i] = true;
+
     if (allLoaded.length === doc.results.length) {
       setTimeout(function () {
         setLoaded(true);
       }, 1000);
     }
   }
-  console.log(email);
   if (doc) {
     return (
       <>
@@ -109,7 +112,7 @@ const Home = ({ match }) => {
             years={`Works ${doc.min_year}–`}
             onClick={toggleTitle}
           />
-          
+
           {doc.results.map((item, i) => {
             let timelineWidth = doc.max_year - doc.min_year + 1;
             return (

@@ -14,16 +14,6 @@ const LineContainer = styled.section`
   justify-content: center;
 `;
 
-const Line = styled.section`
-  background-color: #454;
-  background-image: url(${(props) => props.img});
-  background-repeat: no-repeat;
-  background-size: cover;
-  margin-bottom: 5px;
-  height: ${lineHeight}rem;
-  width: ${isMobile ? "100%" : "90%"};
-`;
-
 const Preview = styled.img`
   border-right: 1px solid black;
   border-left: 1px solid black;
@@ -33,14 +23,33 @@ const Preview = styled.img`
   width: ${(props) => props.width > 0 ? props.width : "100"}%;
   height: 100%;
   object-fit: cover;
+  filter: grayscale(100%);
 `;
-
 const WorkLink = styled.a`
   position: relative;
   top: ${isMobile ? "0" : -lineHeight}rem;
   height: ${lineHeight}rem;
   text-decoration: none;
   color: inherit;
+`;
+
+const Line = styled.section`
+  background-color: transparent;
+  background-image: url(${(props) => props.img});
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-blend-mode: multiply;
+  margin-bottom: 5px;
+  height: ${lineHeight}rem;
+  width: ${isMobile ? "100%" : "90%"};
+  transition: background-color 0.3s ease-out;
+  &:hover ${Preview} {
+    filter: none;
+  }
+  &:hover {
+    background-color: ${!isMobile && '#555'};
+    background-blend-mode: ${!isMobile ? 'multiply' : 'normal'};
+  }
 `;
 
 const HoverLine = styled.section`
@@ -52,9 +61,6 @@ const HoverLine = styled.section`
   text-align: center;
   height: ${lineHeight}rem;
   transition-duration: 0.4s;
-  &:hover {
-    background-color: #ccc8;
-  }
 `;
 
 const WorkTitle = styled.h2`
@@ -140,6 +146,7 @@ const Lines = (props) => {
                         <WorkTitle key={props.i + "g"}>
                             {props.work_year_from}–{props.work_year_to}
                         </WorkTitle>
+
                     </HoverLine>
                 </WorkLink>
             </Line>

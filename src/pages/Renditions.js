@@ -34,6 +34,7 @@ const Content = styled.div`
   transition: all 0.3s ease-in;
   @media (max-width: 900px) {
     flex-direction: column;
+    align-content: start;
   }
 `;
 
@@ -69,7 +70,7 @@ const StopContainer = styled.div`
   bottom: 0;
   z-index: 2;
   padding: 2px;
-  margin: 1rem;
+  margin: 1.2rem;
   width: 45px;
   height: 40px;
   display: flex;
@@ -101,6 +102,7 @@ const Renditions = ({ match }) => {
   const [toggleScript, toggleScriptState] = useState(true);
   const [openAll, setOpenAll] = useState(false);
   const [loaded, setLoaded] = useState(false);
+  const [makeYearSmall, setMakeYearSmall] = useState(false);
   const allLoaded = [];
 
   const [numberOfImages, setNumberOfImages] = useState(0);
@@ -108,11 +110,13 @@ const Renditions = ({ match }) => {
   let openRenditionsRefs = [];
   const history = useHistory();
 
+
   let scaleDown = window.innerWidth < 600 || isMobile ? "&w=0.25" : "&w=0.5";
 
   const uid = match.params.uid;
 
   useEffect(() => {
+    if (!isMobile) window.onscroll = function () { handleScroll() };
     const fetchData = async () => {
       //Get list of all the categories from prismic
       const categories = await client.query(
@@ -201,6 +205,11 @@ const Renditions = ({ match }) => {
       }, 1000);
     }
   }
+  function handleScroll() {
+    if (window.pageYOffset > 75) setMakeYearSmall(true)
+    else setMakeYearSmall(false)
+  }
+
   if (doc && numberOfImages) {
     return (
       <>
@@ -215,15 +224,16 @@ const Renditions = ({ match }) => {
               </StopButton>
             </StopContainer>
           ) : (
-            <RemoteControl
-              expandAll={openAll}
-              currentValue={expandValue}
-              renditionsLength={doc.results.length}
-              adjustValue={(value) => openRendition(value)}
-              toggleScriptRemote={() => toggleScriptState(!toggleScript)}
-            />
-          )}
+              <RemoteControl
+                expandAll={openAll}
+                currentValue={expandValue}
+                renditionsLength={doc.results.length}
+                adjustValue={(value) => openRendition(value)}
+                toggleScriptRemote={() => toggleScriptState(!toggleScript)}
+              />
+            )}
           <Nav
+            makeYearSmall={makeYearSmall}
             renditions={true}
             mobile={isMobile}
             title={doc.work_title[0].text}
