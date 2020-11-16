@@ -20,7 +20,7 @@ const Time = styled.h2`
 function NewClock(props) {
   let savedTime = [0, 0, 0];
   if (sessionStorage["time"]) savedTime = JSON.parse(sessionStorage["time"]);
-  if (savedTime[0] < 58) savedTime[0] += 2;
+  if (savedTime[0] < 58 && savedTime[0] !== 0) savedTime[0] += 2;
   const [seconds, setSeconds] = useState(savedTime[0]);
   const [minutes, setMinutes] = useState(savedTime[1]);
   const [hours, setHours] = useState(savedTime[2]);

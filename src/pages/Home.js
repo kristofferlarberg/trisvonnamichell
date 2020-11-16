@@ -37,6 +37,9 @@ const Home = ({ match }) => {
 
   // Get the categories from Prismic and sort by order field or latest work
   useEffect(() => {
+    setTimeout(function () {
+      if (!loaded) setLoaded(true);
+    }, 5000);
     const fetchData = async () => {
       const result = await client.query(
         Prismic.Predicates.at("document.type", "work"),
@@ -88,6 +91,7 @@ const Home = ({ match }) => {
 
   function handleLoad(i) {
     allLoaded[i] = true;
+
     if (allLoaded.length === doc.results.length) {
       setTimeout(function () {
         setLoaded(true);
