@@ -21,14 +21,12 @@ const App = (props) => {
           src={`//static.cdn.prismic.io/prismic.js?repo=${repoName}&new=true`}
         />
       </Helmet>
-      <BrowserRouter basename='/tris'>
-        {/* <HashRouter> */}
+      <BrowserRouter basename='/'>
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/:uid" component={Renditions} />
           {/* <Route component={NotFound} /> */}
         </Switch>
-        {/* </HashRouter> */}
       </BrowserRouter>
     </Fragment>
   );
