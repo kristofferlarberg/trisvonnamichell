@@ -11,7 +11,7 @@ let ua = navigator.userAgent;
 export const isMobile = /Android|webOS|iPhone|iPad|iPod/i.test(ua);
 
 const Main = styled.main`
-  margin: ${(props) => (props.mobile ? "0 5px" : "0 2rem")};
+  margin: ${(props) => (props.mobile ? "0 5px 40px 5px" : "0 2rem 4rem 2rem")};
   width: ${(props) =>
     props.mobile ? "calc(100% - 10px)" : "calc(100% - 4rem)"};
   height: auto;
