@@ -97,64 +97,64 @@ const VerticalLine = styled.div`
 `;
 
 const Lines = (props) => {
-    let scaleDown = props.width < 100 && props.width > 25 ? `&w=${Math.round(props.width) / 100}` : "";
-    return (isMobile ?
+  let scaleDown = `&w=${Math.round(props.width) / 100}`;
+  return (isMobile ?
 
-        <LineContainer key={props.i + "a"} show={props.loaded}>
-            <Line key={props.i + "b"}
-                img={props.work_preview_image + imgix}
-            >
-                <WorkLink key={props.i + "c"}
-                    numberOfWorks={props.numberOfWorks}
-                    href={Link.url(props.link, linkResolver)}
-                >
-                    <HoverLine key={props.i + "d"}>
-                        <WorkTitle key={props.i + "e"}>
-                            {props.work_title}
-                        </WorkTitle>
-                        <WorkTitle key={props.i + "f"}>
-                            {props.work_year_from}–{props.work_year_to}
-                        </WorkTitle>
-                    </HoverLine>
-                </WorkLink>
-            </Line>
-        </LineContainer>
-        :
-        <LineContainer key={props.i + "a"} show={props.loaded}>
-            <Ends key={props.i + "b"}>
-                <VerticalLine />
-            </Ends>
-            <Line key={props.i + "c"}
-                img={props.work_preview_image + imgix}
-            >
-                <Preview key={props.i + "c"}
-                    onLoad={props.handleLoad}
-                    src={props.work_preview_image + scaleDown}
-                    className="link_img"
-                    alt={props.work_title}
-                    width={props.width}
-                    left={props.left}
-                />
-                <WorkLink key={props.i + "d"}
-                    numberOfWorks={props.numberOfWorks}
-                    href={Link.url(props.link, linkResolver)}
-                >
-                    <HoverLine key={props.i + "e"}>
-                        <WorkTitle key={props.i + "f"}>
-                            {props.work_title}
-                        </WorkTitle>
-                        <WorkTitle key={props.i + "g"}>
-                            {props.work_year_from}–{props.work_year_to}
-                        </WorkTitle>
+    <LineContainer key={props.i + "a"} show={props.loaded}>
+      <Line key={props.i + "b"}
+        img={props.work_preview_image + imgix}
+      >
+        <WorkLink key={props.i + "c"}
+          numberOfWorks={props.numberOfWorks}
+          href={Link.url(props.link, linkResolver)}
+        >
+          <HoverLine key={props.i + "d"}>
+            <WorkTitle key={props.i + "e"}>
+              {props.work_title}
+            </WorkTitle>
+            <WorkTitle key={props.i + "f"}>
+              {props.work_year_from}–{props.work_year_to}
+            </WorkTitle>
+          </HoverLine>
+        </WorkLink>
+      </Line>
+    </LineContainer>
+    :
+    <LineContainer key={props.i + "a"} show={props.loaded}>
+      <Ends key={props.i + "b"}>
+        <VerticalLine />
+      </Ends>
+      <Line key={props.i + "c"}
+        img={props.work_preview_image + imgix}
+      >
+        <Preview key={props.i + "c"}
+          onLoad={props.handleLoad}
+          src={props.work_preview_image + scaleDown}
+          className="link_img"
+          alt={props.work_title}
+          width={props.width}
+          left={props.left}
+        />
+        <WorkLink key={props.i + "d"}
+          numberOfWorks={props.numberOfWorks}
+          href={Link.url(props.link, linkResolver)}
+        >
+          <HoverLine key={props.i + "e"}>
+            <WorkTitle key={props.i + "f"}>
+              {props.work_title}
+            </WorkTitle>
+            <WorkTitle key={props.i + "g"}>
+              {props.work_year_from}–{props.work_year_to}
+            </WorkTitle>
 
-                    </HoverLine>
-                </WorkLink>
-            </Line>
-            <Ends>
-                <VerticalLine />
-            </Ends>
-        </LineContainer >
-    )
+          </HoverLine>
+        </WorkLink>
+      </Line>
+      <Ends>
+        <VerticalLine />
+      </Ends>
+    </LineContainer >
+  )
 }
 
 export default Lines

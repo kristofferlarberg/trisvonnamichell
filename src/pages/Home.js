@@ -6,6 +6,11 @@ import styled from "styled-components";
 import { GlobalStyle } from "../styles/global";
 import Nav from "../components/Nav";
 import Lines from "../components/Lines";
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+} from 'react-query'
 
 let ua = navigator.userAgent;
 export const isMobile = /Android|webOS|iPhone|iPad|iPod/i.test(ua);
@@ -29,6 +34,28 @@ const Home = ({ match }) => {
   const allLoaded = [];
   const [email, setEmail] = useState(false);
 
+  const getLines = async () => {
+    const result = await client.query(
+      Prismic.Predicates.at("document.type", "work"),
+      { orderings: "[my.work.order, my.work.work_year_to desc]" }
+    );
+    return result
+  };
+
+  // Access the client
+  //const queryClient = useQueryClient()
+
+  // Queries
+  const query = useQuery('allLines', getLines)
+
+  // Mutations
+  // const mutation = useMutation(postTodo, {
+  //   onSuccess: () => {
+  //     // Invalidate and refetch
+  //     queryClient.invalidateQueries('allLines')
+  //   },
+  // })
+
   const toggleTitle = () => {
     setEmail(!email);
   };
@@ -36,74 +63,78 @@ const Home = ({ match }) => {
   const uid = match.params.uid;
 
   // Get the categories from Prismic and sort by order field or latest work
-  useEffect(() => {
-    setTimeout(function () {
-      if (!loaded) setLoaded(true);
-    }, 5000);
-    const fetchData = async () => {
-      const result = await client.query(
-        Prismic.Predicates.at("document.type", "work"),
-        { orderings: "[my.work.order, my.work.work_year_to desc]" }
+  const createLinkObject = (result) => {
+    if (result) {
+      result.results.map((item, i) => {
+        let width = item.data.work_year_to - item.data.work_year_from + 1;
+        let min_year = item.data.work_year_from;
+        let max_year = item.data.work_year_to;
+        // let width = result.max_year - item.data.work_year_from + 1;
+        // let max_width = width;
+
+        if (i > 0) {
+          // max_width = width > result.max_width ? width : result.max_width;
+          min_year = min_year < result.min_year ? min_year : result.min_year;
+          max_year = max_year > result.max_year ? max_year : result.max_year;
+        }
+
+        return [
+          (result.results[i].link = {
+            id: item.id,
+            isBroken: false,
+            lang: item.lang,
+            link_type: "Document",
+            slug: item.slugs[0],
+            tags: [],
+            type: item.type,
+          }),
+          (result.results[i].image_width = width),
+          (result.min_year = min_year),
+          (result.max_year = max_year),
+        ];
+      });
+
+      // We use the State hook to save the document
+      console.log(result)
+      return setDocData(result);
+    } else {
+      // Otherwise show an error message
+      console.warn(
+        "Page document not found. Make sure it exists in your Prismic repository"
       );
-      //Create the link object and add to result
-      if (result) {
-        result.results.map((item, i) => {
-          let width = item.data.work_year_to - item.data.work_year_from + 1;
-          let min_year = item.data.work_year_from;
-          let max_year = item.data.work_year_to;
-          // let width = result.max_year - item.data.work_year_from + 1;
-          // let max_width = width;
+      toggleNotFound(true);
+    }
+  };
 
-          if (i > 0) {
-            // max_width = width > result.max_width ? width : result.max_width;
-            min_year = min_year < result.min_year ? min_year : result.min_year;
-            max_year = max_year > result.max_year ? max_year : result.max_year;
-          }
 
-          return [
-            (result.results[i].link = {
-              id: item.id,
-              isBroken: false,
-              lang: item.lang,
-              link_type: "Document",
-              slug: item.slugs[0],
-              tags: [],
-              type: item.type,
-            }),
-            (result.results[i].image_width = width),
-            (result.min_year = min_year),
-            (result.max_year = max_year),
-          ];
-        });
+  useEffect(() => {
+    if (!query.isLoading) {
+      createLinkObject(query.data)
+    }
+    //Create the link object and add to result
+  }, [uid, query.isLoading, query.data]); // Skip the Effect hook if the UID hasn't changed
 
-        // We use the State hook to save the document
-        return setDocData(result);
-      } else {
-        // Otherwise show an error message
-        console.warn(
-          "Page document not found. Make sure it exists in your Prismic repository"
-        );
-        toggleNotFound(true);
-      }
-    };
-    fetchData();
-  }, [loaded, uid]); // Skip the Effect hook if the UID hasn't changed
-
-  function handleLoad(i) {
+  const handleLoad = (i) => {
+    if (allLoaded.length === 0) {
+      query.data.results.forEach(result => {
+        if (result.data.work_script.length) {
+          allLoaded.push(false)
+        }
+      })
+    }
     allLoaded[i] = true;
-
-    if (allLoaded.length === doc.results.length) {
-      setTimeout(function () {
-        setLoaded(true);
-      }, 1000);
+    console.log(allLoaded)
+    if (allLoaded.every(value => value)) {
+      setLoaded(true);
+      console.log('true')
     }
   }
   if (doc) {
     return (
       <>
-        {!loaded && !isMobile && (
+        {/* {!loaded && !isMobile && (
           <p style={{ color: "#fff", margin: "32px 0 0 32px" }}>Loading...</p>
-        )}
+        )} */}
         <Main loaded={isMobile ? true : loaded} mobile={isMobile}>
           <GlobalStyle />
           <Nav
@@ -116,7 +147,7 @@ const Home = ({ match }) => {
           {doc.results.map((item, i) => {
             let timelineWidth = doc.max_year - doc.min_year + 1;
             return (
-              <Lines
+              item.data.work_script.length > 0 && <Lines
                 renditions={false}
                 loaded={loaded}
                 work_preview_image={item.data.work_preview_image.url}
