@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { client } from "../prismic-configuration";
 import NotFound from "./NotFound";
 import Prismic from "prismic-javascript";
@@ -33,20 +33,10 @@ const Home = ({ match }) => {
   const [loaded, setLoaded] = useState(false);
   const allLoaded = [];
   const [email, setEmail] = useState(false);
-
-  const getLines = async () => {
-    const result = await client.query(
-      Prismic.Predicates.at("document.type", "work"),
-      { orderings: "[my.work.order, my.work.work_year_to desc]" }
-    );
-    return result
-  };
+  //const uid = match.params.uid;
 
   // Access the client
   //const queryClient = useQueryClient()
-
-  // Queries
-  const query = useQuery('allLines', getLines)
 
   // Mutations
   // const mutation = useMutation(postTodo, {
@@ -56,11 +46,17 @@ const Home = ({ match }) => {
   //   },
   // })
 
+  const getLines = async () => {
+    const result = await client.query(
+      Prismic.Predicates.at("document.type", "work"),
+      { orderings: "[my.work.order, my.work.work_year_to desc]" }
+    );
+    return result
+  };
+
   const toggleTitle = () => {
     setEmail(!email);
   };
-
-  const uid = match.params.uid;
 
   // Get the categories from Prismic and sort by order field or latest work
   const createLinkObject = (result) => {
@@ -77,6 +73,7 @@ const Home = ({ match }) => {
           min_year = min_year < result.min_year ? min_year : result.min_year;
           max_year = max_year > result.max_year ? max_year : result.max_year;
         }
+        //Create the link object and add to result
 
         return [
           (result.results[i].link = {
@@ -106,29 +103,30 @@ const Home = ({ match }) => {
     }
   };
 
+  // Queries
+  const { data, error, isError, isLoading } = useQuery('allLines', getLines)
 
-  useEffect(() => {
-    if (!query.isLoading) {
-      createLinkObject(query.data)
-    }
-    //Create the link object and add to result
-  }, [uid, query.isLoading, query.data]); // Skip the Effect hook if the UID hasn't changed
+  if (!isLoading && !doc) {
+    createLinkObject(data)
+  }
+  if (isError) {
+    console.log(error)
+  }
 
   const handleLoad = (i) => {
     if (allLoaded.length === 0) {
-      query.data.results.forEach(result => {
+      data.results.forEach(result => {
         if (result.data.work_script.length) {
           allLoaded.push(false)
         }
       })
     }
     allLoaded[i] = true;
-    console.log(allLoaded)
     if (allLoaded.every(value => value)) {
       setLoaded(true);
-      console.log('true')
     }
   }
+
   if (doc) {
     return (
       <>
