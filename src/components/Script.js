@@ -44,9 +44,9 @@ function Script(props) {
 
   return (
     <ScriptBox
-      openScript={openScript}
+      openScript={openScript || props.open}
       onClick={() => {
-        setOpenScript(!openScript);
+        props.mobile && setOpenScript(!openScript);
         props.mobile && window.scrollTo(0, 0);
       }}
       position={props.position}

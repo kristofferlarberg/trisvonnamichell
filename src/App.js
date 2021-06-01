@@ -12,7 +12,19 @@ import {
  * Main application componenet
  */
 
-const queryClient = new QueryClient()
+const oneHourInMs = 1000 * 60 * 60;
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      refetchOnmount: false,
+      refetchOnReconnect: false,
+      retry: false,
+      staleTime: oneHourInMs,
+    }
+  }
+})
 
 const App = (props) => {
   const repoNameArray = /([^/]+)\.cdn.prismic\.io\/api/.exec(apiEndpoint);
