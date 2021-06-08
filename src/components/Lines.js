@@ -97,33 +97,12 @@ const VerticalLine = styled.div`
 `;
 
 const Lines = (props) => {
-
-  const scaleDownBackground = () => {
-    let scaleDownFactor = (window.innerWidth + 50) / props.work_preview_image_width;
-    if (!isMobile) {
-      scaleDownFactor *= 0.85;
-    }
-    if (scaleDownFactor > 1) {
-      scaleDownFactor = 1
-    }
-    return `&w=${Math.round(scaleDownFactor * 100) / 100}`
-  }
-
-  const scaleDownPreview = () => {
-    let scaleDownFactor = window.innerWidth / props.work_preview_image_width * props.width / 100
-    if (scaleDownFactor * props.work_preview_image_height < 300) {
-      scaleDownFactor = 300 / props.work_preview_image_height
-    }
-    if (scaleDownFactor > 1) {
-      scaleDownFactor = 1
-    }
-    return `&w=${Math.round(scaleDownFactor * 100) / 100}`
-  };
-
+  let scaleDown = `&w=${Math.round(props.width) / 100}`;
   return (isMobile ?
+
     <LineContainer key={props.i + "a"} show={props.loaded}>
       <Line key={props.i + "b"}
-        img={props.work_preview_image + scaleDownBackground() + imgix}
+        img={props.work_preview_image + imgix}
       >
         <WorkLink key={props.i + "c"}
           numberOfWorks={props.numberOfWorks}
@@ -146,11 +125,11 @@ const Lines = (props) => {
         <VerticalLine />
       </Ends>
       <Line key={props.i + "c"}
-        img={props.work_preview_image + scaleDownBackground() + imgix}
+        img={props.work_preview_image + imgix}
       >
         <Preview key={props.i + "c"}
           onLoad={props.handleLoad}
-          src={props.work_preview_image + scaleDownPreview()}
+          src={props.work_preview_image + scaleDown}
           className="link_img"
           alt={props.work_title}
           width={props.width}
