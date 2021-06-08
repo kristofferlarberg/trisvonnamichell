@@ -121,19 +121,9 @@ const Renditions = ({ match }) => {
     if (!isMobile) window.onscroll = function () { handleScroll() };
   }, [uid]); // Skip the Effect hook if the UID hasn't changed
 
-  const getWorks = async () => {
-    return await client.query(
-      Prismic.Predicates.at("document.type", "work"),
-      { orderings: "[my.work.order, my.work.work_year_to desc]" }
-    );
+  const getWork = async () => {
+    return await client.getByUID('work', uid);
   };
-
-  //Match the uid with the list of works and find correct work
-  const getWork = (works) => {
-    return works.results.filter(
-      (item) => item.slugs[0] === uid
-    )[0];
-  }
 
   const getRenditions = async (workId) => {
     return await client.query(
@@ -142,8 +132,7 @@ const Renditions = ({ match }) => {
   }
 
   async function createWork() {
-    const works = await getWorks();
-    const work = getWork(works)
+    const work = await getWork()
     const renditions = await getRenditions(work.id);
     const workCombinedWithRenditions = {
       renditions: renditions.results,

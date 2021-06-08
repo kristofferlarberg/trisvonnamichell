@@ -72,7 +72,7 @@ const Home = ({ match }) => {
           isBroken: false,
           lang: work.lang,
           link_type: "Document",
-          slug: work.slugs[0],
+          uid: work.uid,
           tags: [],
           type: work.type,
         },
