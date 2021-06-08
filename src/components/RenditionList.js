@@ -8,7 +8,7 @@ const ListSection = styled.section`
   background-color: var(--offwhite);
   margin-bottom: 1rem;
   &:last-child {
-    margin-bottom: ${(props) => props.mobile && "55px"};
+    margin-bottom: ${(props) => props.mobile && "82px"};
   }
   @media (max-width: 900px) {
     margin: 0 0.3rem 1rem 0.3rem;

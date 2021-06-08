@@ -4,10 +4,28 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { apiEndpoint } from "./prismic-configuration";
 import Home from "./pages/Home";
 import Renditions from "./pages/Renditions";
-
+import {
+  QueryClient,
+  QueryClientProvider,
+} from 'react-query'
 /**
  * Main application componenet
  */
+
+const oneHourInMs = 1000 * 60 * 60;
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      refetchOnmount: false,
+      refetchOnReconnect: false,
+      retry: false,
+      staleTime: oneHourInMs,
+    }
+  }
+})
+
 const App = (props) => {
   const repoNameArray = /([^/]+)\.cdn.prismic\.io\/api/.exec(apiEndpoint);
   const repoName = repoNameArray[1];
@@ -21,13 +39,15 @@ const App = (props) => {
           src={`//static.cdn.prismic.io/prismic.js?repo=${repoName}&new=true`}
         />
       </Helmet>
-      <BrowserRouter basename='/'>
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route exact path="/:uid" component={Renditions} />
-          {/* <Route component={NotFound} /> */}
-        </Switch>
-      </BrowserRouter>
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter basename='/'>
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/:uid" component={Renditions} />
+            {/* <Route component={NotFound} /> */}
+          </Switch>
+        </BrowserRouter>
+      </QueryClientProvider>
     </Fragment>
   );
 };

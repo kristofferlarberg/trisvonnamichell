@@ -14,14 +14,22 @@ import { imgix, isMobile } from "./Home";
 import { Circle } from "../components/Circle";
 import Nav from "../components/Nav";
 import ButtonFive from "../graphics/5.svg";
+import { useQuery } from 'react-query'
 
 const Main = styled.main`
   box-sizing: border-box;
   width: ${isMobile ? "100%" : "calc(100% - 4rem)"};
   height: auto;
-  margin: ${isMobile ? "0" : "2rem"};
+  margin: ${isMobile ? "0" : "0 2rem 5rem 2rem"};
   opacity: ${(props) => (props.loaded ? "1" : "0")};
   transition: opacity 0.5s ease-in;
+`;
+
+const Loading = styled.p`
+  color: #fff;
+  margin: 32px 0 0 32px;
+  font-family: "PT-Regular", sans-serif;
+  font-size: 1.05rem;
 `;
 
 const Content = styled.div`
@@ -96,65 +104,65 @@ const StopButtonSymbol = styled.img`
 `;
 
 const Renditions = ({ match }) => {
-  const [doc, setDocData] = useState(null);
-  const [notFound, toggleNotFound] = useState(false);
   const [expandValue, setExpandValue] = useState(-1);
   const [toggleScript, toggleScriptState] = useState(true);
   const [openAll, setOpenAll] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [makeYearSmall, setMakeYearSmall] = useState(false);
   const allLoaded = [];
-
-  const [numberOfImages, setNumberOfImages] = useState(0);
   let closedRenditionsRefs = [];
   let openRenditionsRefs = [];
   const history = useHistory();
-
-
-  let scaleDown = window.innerWidth < 600 || isMobile ? "&w=0.25" : "&w=0.5";
+  let scaleDown = window.innerWidth < 600 || isMobile ? "&w=0.2" : "&w=0.3";
 
   const uid = match.params.uid;
 
   useEffect(() => {
     if (!isMobile) window.onscroll = function () { handleScroll() };
-    const fetchData = async () => {
-      //Get list of all the categories from prismic
-      const categories = await client.query(
-        Prismic.Predicates.at("document.type", "work")
-      );
-
-      //Match the url work category with the list of rendition and find correct id
-      const category = categories.results.filter(
-        (item) => item.slugs[0] === uid
-      )[0];
-
-      //Get renditons with the choosen category, with the id
-      const result = await client.query(
-        Prismic.Predicates.at("my.rendition.work_category", category.id)
-      );
-      if (result) {
-        result.work_script = category.data.work_script;
-        result.work_title = category.data.work_title;
-        result.work_year_from = category.data.work_year_from;
-        result.work_year_to = category.data.work_year_to;
-        result.work_image = category.data.work_preview_image.url;
-        // We use the State hook to save the document
-        let tempNumberOfImages = 0;
-        result.results.map((item) => {
-          return tempNumberOfImages += item.data.rendition_images.length;
-        });
-        setNumberOfImages(tempNumberOfImages);
-        return setDocData(result);
-      } else {
-        // Otherwise show an error message
-        console.warn(
-          "Document not found. Make sure it exists in your Prismic repository"
-        );
-        toggleNotFound(true);
-      }
-    };
-    fetchData();
   }, [uid]); // Skip the Effect hook if the UID hasn't changed
+
+  const getWorks = async () => {
+    return await client.query(
+      Prismic.Predicates.at("document.type", "work"),
+      { orderings: "[my.work.order, my.work.work_year_to desc]" }
+    );
+  };
+
+  //Match the uid with the list of works and find correct work
+  const getWork = (works) => {
+    return works.results.filter(
+      (item) => item.slugs[0] === uid
+    )[0];
+  }
+
+  const getRenditions = async (workId) => {
+    return await client.query(
+      Prismic.Predicates.at("my.rendition.work_category", workId)
+    );
+  }
+
+  async function createWork() {
+    const works = await getWorks();
+    const work = getWork(works)
+    const renditions = await getRenditions(work.id);
+    const workCombinedWithRenditions = {
+      renditions: renditions.results,
+      work_script: work.data.work_script,
+      work_title: work.data.work_title,
+      work_year_from: work.data.work_year_from,
+      work_year_to: work.data.work_year_to,
+      work_image: work.data.work_preview_image.url,
+      work_image_width: work.data.work_preview_image.dimensions.width
+    };
+    let numberOfImages = 0;
+    console.log(workCombinedWithRenditions)
+    workCombinedWithRenditions.renditions.forEach((rendition) => {
+      numberOfImages += rendition.data.rendition_images.length;
+    });
+    return { ...workCombinedWithRenditions, numberOfImages }
+  }
+
+  const { data: work, isLoading, isError } = useQuery("work", createWork);
 
   function executeScroll(ref) {
     let tempRef = 0
@@ -181,7 +189,7 @@ const Renditions = ({ match }) => {
     if (value === 999) {
       setOpenAll(true);
       // value = expandValue > 0 ? -1 : 1
-      value = expandValue + 1 === doc.results.length ? -1 : 1;
+      value = expandValue + 1 === work.renditions.length ? -1 : 1;
       executeScroll(0);
     }
     if (value === -2) {
@@ -190,119 +198,125 @@ const Renditions = ({ match }) => {
     }
     setExpandValue(value === -2 ? -1 : value + expandValue);
   }
+
   function refOpenList(ref) {
-    if (openRenditionsRefs.length !== doc.results.length) openRenditionsRefs.push(ref);
+    if (openRenditionsRefs.length !== work.renditions.length) openRenditionsRefs.push(ref);
   }
+
   function refClosedList(ref) {
-    if (closedRenditionsRefs.length !== doc.results.length) closedRenditionsRefs.push(ref);
+    if (closedRenditionsRefs.length !== work.renditions.length) closedRenditionsRefs.push(ref);
   }
 
   function handleLoad(i) {
     allLoaded.push(true);
-    if (allLoaded.length === numberOfImages) {
+    if (allLoaded.length === work.numberOfImages) {
       setTimeout(function () {
         setLoaded(true);
-      }, 1000);
+      }, 100);
     }
   }
+
   function handleScroll() {
     if (window.pageYOffset > 75) setMakeYearSmall(true)
     else setMakeYearSmall(false)
   }
 
-  if (doc && numberOfImages) {
-    return (
-      <>
-        {!loaded && <p style={{ color: "#fff", margin: "32px" }}>Loading...</p>}
-        <Main loaded={loaded}>
-          <GlobalStyle img={doc.work_image + imgix} mobile={isMobile} />
-          <NewClock mobile={isMobile} />
-          {isMobile ? (
-            <StopContainer>
-              <StopButton onClick={() => history.push("/")}>
-                <StopButtonSymbol src={ButtonFive} alt="Back to Homepage" />
-              </StopButton>
-            </StopContainer>
-          ) : (
-              <RemoteControl
-                expandAll={openAll}
-                currentValue={expandValue}
-                renditionsLength={doc.results.length}
-                adjustValue={(value) => openRendition(value)}
-                toggleScriptRemote={() => toggleScriptState(!toggleScript)}
-              />
-            )}
-          <Nav
-            makeYearSmall={makeYearSmall}
-            renditions={true}
-            mobile={isMobile}
-            title={doc.work_title[0].text}
-            years={`${doc.work_year_from}–${doc.work_year_to}`}
+  if (isError) {
+    return <NotFound />;
+  }
+
+  if (isLoading) {
+    return (<Loading>Loading...</Loading>)
+  }
+
+  return (
+    <>
+      <Main loaded={loaded}>
+        <GlobalStyle img={work.work_image + imgix} mobile={isMobile} />
+        <NewClock mobile={isMobile} />
+        {isMobile ? (
+          <StopContainer>
+            <StopButton onClick={() => history.push("/")}>
+              <StopButtonSymbol src={ButtonFive} alt="Back to Homepage" />
+            </StopButton>
+          </StopContainer>
+        ) : (
+          <RemoteControl
+            expandAll={openAll}
+            currentValue={expandValue}
+            renditionsLength={work.renditions.length}
+            adjustValue={(value) => openRendition(value)}
+            toggleScriptRemote={() => toggleScriptState(!toggleScript)}
           />
-          <Content position={!toggleScript}>
-            <Script
-              mobile={isMobile}
-              position={!toggleScript}
-              text={
-                <RichText
-                  key="c"
-                  render={doc.work_script}
-                  linkResolver={linkResolver}
-                />
-              }
-            />
-            <ListContainer position={!toggleScript}>
-              {doc.results.map((item, i) => {
-                return (
-                  <RenditionList
-                    loaded={loaded}
-                    mobile={isMobile}
-                    openAll={openAll}
-                    refClosedList={refClosedList}
-                    refOpenList={refOpenList}
-                    key={"a" + i}
-                    renditionsLength={doc.results.length}
-                    expandValue={expandValue}
-                    id={i}
-                    title={item.data.rendition_title[0].text}
-                    year={item.data.rendition_year}
-                    descriptionPreview={item.data.rendition_images.map(
-                      (image, i) => (
-                        <DescriptionPreview key={"d" + i}>
-                          <Circle />
-                          <RichText
-                            render={image.rendition_image_caption}
-                            linkResolver={linkResolver}
-                          />
-                        </DescriptionPreview>
-                      )
-                    )}
-                    img={item.data.rendition_images.map((image, i) => [
-                      <Image
-                        onLoad={() => handleLoad(i)}
-                        src={image.rendition_image.url + scaleDown}
-                        key={"b" + i}
-                        alt={image.rendition_image_caption[0].text}
-                      />,
-                      <DescriptionPreview key={"c" + i}>
+        )}
+        <Nav
+          makeYearSmall={makeYearSmall}
+          renditions={true}
+          mobile={isMobile}
+          title={work.work_title[0].text}
+          years={`${work.work_year_from}–${work.work_year_to}`}
+        />
+        <Content position={!toggleScript}>
+          <Script
+            mobile={isMobile}
+            open={!toggleScript}
+            position={!toggleScript}
+            text={
+              <RichText
+                key="c"
+                render={work.work_script}
+                linkResolver={linkResolver}
+              />
+            }
+          />
+          <ListContainer position={!toggleScript}>
+            {work.renditions.map((item, i) => {
+              return (
+                <RenditionList
+                  loaded={loaded}
+                  mobile={isMobile}
+                  openAll={openAll}
+                  refClosedList={refClosedList}
+                  refOpenList={refOpenList}
+                  key={"a" + i}
+                  renditionsLength={work.renditions.length}
+                  expandValue={expandValue}
+                  id={i}
+                  title={item.data.rendition_title[0].text}
+                  year={item.data.rendition_year}
+                  descriptionPreview={item.data.rendition_images.map(
+                    (image, i) => (
+                      <DescriptionPreview key={"d" + i}>
+                        <Circle />
                         <RichText
                           render={image.rendition_image_caption}
                           linkResolver={linkResolver}
                         />
-                      </DescriptionPreview>,
-                    ])}
-                  />
-                );
-              })}
-            </ListContainer>
-          </Content>
-        </Main>
-      </>
-    );
-  } else if (notFound) {
-    return <NotFound />;
-  }
-  return null;
+                      </DescriptionPreview>
+                    )
+                  )}
+                  img={item.data.rendition_images.map((image, i) => [
+                    <Image
+                      onLoad={() => handleLoad(i)}
+                      src={image.rendition_image.url + scaleDown}
+                      key={"b" + i}
+                      alt={image.rendition_image_caption[0].text}
+                    />,
+                    <DescriptionPreview key={"c" + i}>
+                      <RichText
+                        render={image.rendition_image_caption}
+                        linkResolver={linkResolver}
+                      />
+                    </DescriptionPreview>,
+                  ])}
+                />
+              );
+            })}
+          </ListContainer>
+        </Content>
+      </Main>
+    </>
+  );
 };
 
 export default Renditions;
