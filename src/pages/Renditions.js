@@ -104,15 +104,12 @@ const StopButtonSymbol = styled.img`
 `;
 
 const Renditions = ({ match }) => {
-  const [category, setCategory] = useState(null)
-  const [rendition, setRendition] = useState(null);
   const [expandValue, setExpandValue] = useState(-1);
   const [toggleScript, toggleScriptState] = useState(true);
   const [openAll, setOpenAll] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [makeYearSmall, setMakeYearSmall] = useState(false);
   const allLoaded = [];
-  const [numberOfImages, setNumberOfImages] = useState(0);
   let closedRenditionsRefs = [];
   let openRenditionsRefs = [];
   const history = useHistory();
@@ -124,48 +121,48 @@ const Renditions = ({ match }) => {
     if (!isMobile) window.onscroll = function () { handleScroll() };
   }, [uid]); // Skip the Effect hook if the UID hasn't changed
 
-  const getCategories = async () => {
+  const getWorks = async () => {
     return await client.query(
       Prismic.Predicates.at("document.type", "work"),
       { orderings: "[my.work.order, my.work.work_year_to desc]" }
     );
   };
 
-  //Match the url work category with the list of works and find correct id
-  const getWorkId = (categories) => {
-    return categories.results.filter(
+  //Match the uid with the list of works and find correct work
+  const getWork = (works) => {
+    return works.results.filter(
       (item) => item.slugs[0] === uid
     )[0];
   }
 
-  //Get work with the filtered id
-  const getWork = async () => {
+  const getRenditions = async (workId) => {
     return await client.query(
-      Prismic.Predicates.at("my.rendition.work_category", category.id)
+      Prismic.Predicates.at("my.rendition.work_category", workId)
     );
   }
 
-  //Combine category and work objects into a rendition
-  const createRendition = (category, work) => {
-    work.work_script = category.data.work_script;
-    work.work_title = category.data.work_title;
-    work.work_year_from = category.data.work_year_from;
-    work.work_year_to = category.data.work_year_to;
-    work.work_image = category.data.work_preview_image.url;
-
-    let tempNumberOfImages = 0;
-    work.results.forEach((item) => {
-      tempNumberOfImages += item.data.rendition_images.length;
+  async function createWork() {
+    const works = await getWorks();
+    const work = getWork(works)
+    const renditions = await getRenditions(work.id);
+    const workCombinedWithRenditions = {
+      renditions: renditions.results,
+      work_script: work.data.work_script,
+      work_title: work.data.work_title,
+      work_year_from: work.data.work_year_from,
+      work_year_to: work.data.work_year_to,
+      work_image: work.data.work_preview_image.url,
+      work_image_width: work.data.work_preview_image.dimensions.width
+    };
+    let numberOfImages = 0;
+    console.log(workCombinedWithRenditions)
+    workCombinedWithRenditions.renditions.forEach((rendition) => {
+      numberOfImages += rendition.data.rendition_images.length;
     });
-    setNumberOfImages(tempNumberOfImages);
-    setRendition(work);
-  };
+    return { ...workCombinedWithRenditions, numberOfImages }
+  }
 
-  const categories = useQuery('allCategories', getCategories)
-
-  const work = useQuery('getWork', getWork, {
-    enabled: !!category,
-  })
+  const { data: work, isLoading, isError } = useQuery("work", createWork);
 
   function executeScroll(ref) {
     let tempRef = 0
@@ -192,7 +189,7 @@ const Renditions = ({ match }) => {
     if (value === 999) {
       setOpenAll(true);
       // value = expandValue > 0 ? -1 : 1
-      value = expandValue + 1 === rendition.results.length ? -1 : 1;
+      value = expandValue + 1 === work.renditions.length ? -1 : 1;
       executeScroll(0);
     }
     if (value === -2) {
@@ -203,16 +200,16 @@ const Renditions = ({ match }) => {
   }
 
   function refOpenList(ref) {
-    if (openRenditionsRefs.length !== rendition.results.length) openRenditionsRefs.push(ref);
+    if (openRenditionsRefs.length !== work.renditions.length) openRenditionsRefs.push(ref);
   }
 
   function refClosedList(ref) {
-    if (closedRenditionsRefs.length !== rendition.results.length) closedRenditionsRefs.push(ref);
+    if (closedRenditionsRefs.length !== work.renditions.length) closedRenditionsRefs.push(ref);
   }
 
   function handleLoad(i) {
     allLoaded.push(true);
-    if (allLoaded.length === numberOfImages) {
+    if (allLoaded.length === work.numberOfImages) {
       setTimeout(function () {
         setLoaded(true);
       }, 100);
@@ -224,30 +221,18 @@ const Renditions = ({ match }) => {
     else setMakeYearSmall(false)
   }
 
-  if (categories.isSuccess && !category) {
-    setCategory(getWorkId(categories.data))
-  }
-
-  if (work.isSuccess && category && !rendition) {
-    createRendition(category, work.data)
-  }
-
-  if (work.isError || categories.isError) {
-    // Otherwise show an error message
-    console.warn(
-      "Rendition not found. Make sure it exists in your Prismic repository"
-    );
+  if (isError) {
     return <NotFound />;
   }
 
-  if (!rendition) {
+  if (isLoading) {
     return (<Loading>Loading...</Loading>)
   }
 
   return (
     <>
       <Main loaded={loaded}>
-        <GlobalStyle img={rendition.work_image + imgix} mobile={isMobile} />
+        <GlobalStyle img={work.work_image + imgix} mobile={isMobile} />
         <NewClock mobile={isMobile} />
         {isMobile ? (
           <StopContainer>
@@ -259,7 +244,7 @@ const Renditions = ({ match }) => {
           <RemoteControl
             expandAll={openAll}
             currentValue={expandValue}
-            renditionsLength={rendition.results.length}
+            renditionsLength={work.renditions.length}
             adjustValue={(value) => openRendition(value)}
             toggleScriptRemote={() => toggleScriptState(!toggleScript)}
           />
@@ -268,8 +253,8 @@ const Renditions = ({ match }) => {
           makeYearSmall={makeYearSmall}
           renditions={true}
           mobile={isMobile}
-          title={rendition.work_title[0].text}
-          years={`${rendition.work_year_from}–${rendition.work_year_to}`}
+          title={work.work_title[0].text}
+          years={`${work.work_year_from}–${work.work_year_to}`}
         />
         <Content position={!toggleScript}>
           <Script
@@ -279,13 +264,13 @@ const Renditions = ({ match }) => {
             text={
               <RichText
                 key="c"
-                render={rendition.work_script}
+                render={work.work_script}
                 linkResolver={linkResolver}
               />
             }
           />
           <ListContainer position={!toggleScript}>
-            {rendition.results.map((item, i) => {
+            {work.renditions.map((item, i) => {
               return (
                 <RenditionList
                   loaded={loaded}
@@ -294,7 +279,7 @@ const Renditions = ({ match }) => {
                   refClosedList={refClosedList}
                   refOpenList={refOpenList}
                   key={"a" + i}
-                  renditionsLength={rendition.results.length}
+                  renditionsLength={work.renditions.length}
                   expandValue={expandValue}
                   id={i}
                   title={item.data.rendition_title[0].text}
