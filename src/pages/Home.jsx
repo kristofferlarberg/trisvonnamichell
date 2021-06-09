@@ -27,37 +27,25 @@ const Loading = styled.p`
 
 export const imgix = '&w=0.5&sat=-50&exp=0&invert=true&monochrome=c5c&con=-50&monochrome=%23862e9c';
 
-const Home = ({ match }) => {
+const Home = () => {
     const [loaded, setLoaded] = useState(false);
     const allLoaded = [];
     const [email, setEmail] = useState(false);
     const toggleTitle = () => {
         setEmail(!email);
     };
-    const getWorks = async () => await client.query(
-        Prismic.Predicates.at('document.type', 'work'),
-        { orderings: '[my.work.order, my.work.work_year_to desc]' },
-    );
 
-    async function createTimelines() {
-        const works = await getWorks();
-        const worksWithLinkObject = { ...createTimelineLinks(works) };
-        const { min_year, max_year } = getMaxAndMinYears(worksWithLinkObject);
-        return { ...worksWithLinkObject, min_year, max_year };
-    }
-
-    const {
-        data: timelines, isError, isLoading, isSuccess,
-    } = useQuery('timelines', createTimelines);
-
-    const getMaxAndMinYears = (works) => {
-        let max_year = works.results[0].data.work_year_to;
-        let min_year = works.results[0].data.work_year_from;
-        works.results.forEach((work) => {
-            min_year = work.data.work_year_from < min_year ? work.data.work_year_from : min_year;
-            max_year = work.data.work_year_to > max_year ? work.data.work_year_to : max_year;
-        });
-        return { min_year, max_year };
+    const getWorks = async () => {
+        try {
+            const works = await client.query(
+                Prismic.Predicates.at('document.type', 'work'),
+                { orderings: '[my.work.order, my.work.work_year_to desc]' },
+            );
+            return works;
+        }
+        catch {
+            throw new Error('No data found');
+        }
     };
 
     const createTimelineLinks = (works) => {
@@ -80,6 +68,27 @@ const Home = ({ match }) => {
         });
         return works;
     };
+
+    const getMaxAndMinYears = (works) => {
+        let maxYear = works.results[0].data.work_year_to;
+        let minYear = works.results[0].data.work_year_from;
+        works.results.forEach((work) => {
+            minYear = work.data.work_year_from < minYear ? work.data.work_year_from : minYear;
+            maxYear = work.data.work_year_to > maxYear ? work.data.work_year_to : maxYear;
+        });
+        return { minYear, maxYear };
+    };
+
+    async function createTimelines() {
+        const works = await getWorks();
+        const worksWithLinkObject = { ...createTimelineLinks(works) };
+        const { minYear, maxYear } = getMaxAndMinYears(worksWithLinkObject);
+        return { ...worksWithLinkObject, minYear, maxYear };
+    }
+
+    const {
+        data: timelines, isError, isLoading, isSuccess,
+    } = useQuery('timelines', createTimelines);
 
     const handleLoad = (i) => {
         if (allLoaded.length === 0) {
@@ -127,12 +136,12 @@ const Home = ({ match }) => {
                             <Lines
                                 renditions={ false }
                                 loaded={ loaded }
-                                work_preview_image={ item.data.work_preview_image.url }
+                                workPreviewImage={ item.data.work_preview_image.url }
                                 numberOfWorks={ timelines.results.length }
                                 link={ item.link }
-                                work_title={ item.data.work_title[0].text }
-                                work_year_from={ item.data.work_year_from }
-                                work_year_to={ item.data.work_year_to }
+                                workTitle={ item.data.work_title[0].text }
+                                workYearFrom={ item.data.work_year_from }
+                                workYearTo={ item.data.work_year_to }
                                 handleLoad={ () => handleLoad(i) }
                                 width={ (item.image_width / timelineWidth) * 100 }
                                 left={

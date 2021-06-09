@@ -84,26 +84,28 @@ function RemoteControl(props) {
     const [overRemote, setOverRemote] = useState(false);
     const ref = useRef();
 
-    useEffect(() => {
-        if (ref.current) {
-            ref.current.style.transform = `translate(${position.x}px, ${position.y}px)`;
+    function openNext() {
+        if (currentValue < renditionsLength - 1) {
+            return adjustValue(1);
         }
-        document.addEventListener('keyup', handleKeyDown);
-        return function cleanup() {
-            document.removeEventListener('keyup', handleKeyDown);
-        };
-    });
+        return null;
+    }
 
-    const onMouseMove = (event) => {
-        if (pressed && event.clientX < window.innerWidth - 30) {
-            const x = event.clientX - ref.current.offsetLeft - 20;
-            const y = event.clientY - ref.current.offsetTop - 34;
-            setPosition({
-                x,
-                y,
-            });
-        }
-    };
+    function openPrevious() {
+        if (!expandAll && currentValue > -1) return adjustValue(-1);
+        if (expandAll && currentValue > 0) return adjustValue(-1);
+        return null;
+    }
+
+    function openAll() {
+        if (!expandAll) return adjustValue(999);
+        if (expandAll) return adjustValue(-2);
+        return null;
+    }
+
+    function toggleScript() {
+        return toggleScriptRemote();
+    }
 
     function handleKeyDown(event) {
         switch (event.keyCode) {
@@ -136,25 +138,26 @@ function RemoteControl(props) {
         }
     }
 
-    function openNext() {
-        if (currentValue < renditionsLength - 1) {
-            return adjustValue(1);
+    const onMouseMove = (event) => {
+        if (pressed && event.clientX < window.innerWidth - 30) {
+            const x = event.clientX - ref.current.offsetLeft - 20;
+            const y = event.clientY - ref.current.offsetTop - 34;
+            setPosition({
+                x,
+                y,
+            });
         }
-    }
+    };
 
-    function openPrevious() {
-        if (!expandAll && currentValue > -1) return adjustValue(-1);
-        if (expandAll && currentValue > 0) return adjustValue(-1);
-    }
-
-    function openAll() {
-        if (!expandAll) return adjustValue(999);
-        if (expandAll) return adjustValue(-2);
-    }
-
-    function toggleScript() {
-        return toggleScriptRemote();
-    }
+    useEffect(() => {
+        if (ref.current) {
+            ref.current.style.transform = `translate(${position.x}px, ${position.y}px)`;
+        }
+        document.addEventListener('keyup', handleKeyDown);
+        return function cleanup() {
+            document.removeEventListener('keyup', handleKeyDown);
+        };
+    });
 
     return (
         <>
@@ -172,9 +175,7 @@ function RemoteControl(props) {
             >
                 <Container
                     onMouseOver={ () => setOverRemote(true) }
-                    onMouseLeave={ () => {
-                        !pressed && setOverRemote(false);
-                    } }
+                    onMouseLeave={ () => !pressed && setOverRemote(false) }
                     pressed={ pressed }
                     ref={ ref }
                 >

@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Helmet } from 'react-helmet';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import {
@@ -26,7 +26,7 @@ const queryClient = new QueryClient({
     },
 });
 
-const App = (props) => {
+const App = () => {
     const repoNameArray = /([^/]+)\.cdn.prismic\.io\/api/.exec(apiEndpoint);
     const repoName = repoNameArray[1];
 

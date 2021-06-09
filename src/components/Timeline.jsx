@@ -96,29 +96,31 @@ const VerticalLine = styled.div`
   background-color: var(--lightgrey);
 `;
 
-const Lines = (props) => {
-    const scaleDown = `&w=${Math.round(props.width) / 100}`;
+const Lines = ({
+    i, handleLoad, left, link, loaded, numberOfWorks, width, workPreviewImage, workTitle, workYearFrom, workYearTo,
+}) => {
+    const scaleDown = `&w=${Math.round(width) / 100}`;
     return (isMobile
 
         ? (
-            <LineContainer key={ `${props.i}a` } show={ props.loaded }>
+            <LineContainer key={ `${i}a` } show={ loaded }>
                 <Line
-                    key={ `${props.i}b` }
-                    img={ props.work_preview_image + imgix }
+                    key={ `${i}b` }
+                    img={ workPreviewImage + imgix }
                 >
                     <WorkLink
-                        key={ `${props.i}c` }
-                        numberOfWorks={ props.numberOfWorks }
-                        href={ Link.url(props.link, linkResolver) }
+                        key={ `${i}c` }
+                        numberOfWorks={ numberOfWorks }
+                        href={ Link.url(link, linkResolver) }
                     >
-                        <HoverLine key={ `${props.i}d` }>
-                            <WorkTitle key={ `${props.i}e` }>
-                                { props.work_title }
+                        <HoverLine key={ `${i}d` }>
+                            <WorkTitle key={ `${i}e` }>
+                                { workTitle }
                             </WorkTitle>
-                            <WorkTitle key={ `${props.i}f` }>
-                                { props.work_year_from }
+                            <WorkTitle key={ `${i}f` }>
+                                { workYearFrom }
                                 –
-                                { props.work_year_to }
+                                { workYearFrom }
                             </WorkTitle>
                         </HoverLine>
                     </WorkLink>
@@ -126,36 +128,36 @@ const Lines = (props) => {
             </LineContainer>
         )
         : (
-            <LineContainer key={ `${props.i}a` } show={ props.loaded }>
-                <Ends key={ `${props.i}b` }>
+            <LineContainer key={ `${i}a` } show={ loaded }>
+                <Ends key={ `${i}b` }>
                     <VerticalLine />
                 </Ends>
                 <Line
-                    key={ `${props.i}c` }
-                    img={ props.work_preview_image + imgix }
+                    key={ `${i}c` }
+                    img={ workPreviewImage + imgix }
                 >
                     <Preview
-                        key={ `${props.i}c` }
-                        onLoad={ props.handleLoad }
-                        src={ props.work_preview_image + scaleDown }
+                        key={ `${i}c` }
+                        onLoad={ handleLoad }
+                        src={ workPreviewImage + scaleDown }
                         className="link_img"
-                        alt={ props.work_title }
-                        width={ props.width }
-                        left={ props.left }
+                        alt={ workTitle }
+                        width={ width }
+                        left={ left }
                     />
                     <WorkLink
-                        key={ `${props.i}d` }
-                        numberOfWorks={ props.numberOfWorks }
-                        href={ Link.url(props.link, linkResolver) }
+                        key={ `${i}d` }
+                        numberOfWorks={ numberOfWorks }
+                        href={ Link.url(link, linkResolver) }
                     >
-                        <HoverLine key={ `${props.i}e` }>
-                            <WorkTitle key={ `${props.i}f` }>
-                                { props.work_title }
+                        <HoverLine key={ `${i}e` }>
+                            <WorkTitle key={ `${i}f` }>
+                                { workTitle }
                             </WorkTitle>
-                            <WorkTitle key={ `${props.i}g` }>
-                                { props.work_year_from }
+                            <WorkTitle key={ `${i}g` }>
+                                { workYearFrom }
                                 –
-                                { props.work_year_to }
+                                { workYearTo }
                             </WorkTitle>
 
                         </HoverLine>

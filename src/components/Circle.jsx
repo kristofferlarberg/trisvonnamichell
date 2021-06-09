@@ -8,8 +8,10 @@ const CircleStyle = styled.svg`
   margin-top: 0.54rem;
 `;
 
-export const Circle = () => (
+const Circle = () => (
     <CircleStyle>
         <path d="M4.4,8.8A4.4,4.4,0,1,1,8.8,4.4,4.41,4.41,0,0,1,4.4,8.8Z" />
     </CircleStyle>
 );
+
+export default Circle;

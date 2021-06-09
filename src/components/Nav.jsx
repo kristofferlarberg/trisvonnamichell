@@ -33,31 +33,33 @@ const Title = styled(PageTitle)`
   cursor: default;
 `;
 
-function Nav(props) {
+function Nav({
+    email, makeYearSmall, mobile, renditions, title, toggleTitle, years,
+}) {
     return (
-        <NavBar makeYearSmall={ props.makeYearSmall } mobile={ props.mobile } renditions={ props.renditions }>
-            { props.renditions ? (
-                <Title makeYearSmall={ props.makeYearSmall }>
-                    { props.title }
+        <NavBar makeYearSmall={ makeYearSmall } mobile={ mobile } renditions={ renditions }>
+            { renditions ? (
+                <Title makeYearSmall={ makeYearSmall }>
+                    { title }
                     { ' ' }
                 </Title>
             ) : (
                 <PageTitle
-                    onClick={ props.toggleTitle }
+                    onClick={ toggleTitle }
                     tabIndex={ 0 }
                     role="button"
                     aria-pressed="false"
                     aria-label="Show e-mail adress"
                 >
-                    { props.title }
+                    { title }
                 </PageTitle>
             ) }
-            <Title makeYearSmall={ props.makeYearSmall }>
-                { props.email }
+            <Title makeYearSmall={ makeYearSmall }>
+                { email }
                 { ' ' }
             </Title>
-            <Title mobile={ props.mobile } years="true" makeYearSmall={ props.makeYearSmall }>
-                { props.years }
+            <Title mobile={ mobile } years="true" makeYearSmall={ makeYearSmall }>
+                { years }
             </Title>
         </NavBar>
     );

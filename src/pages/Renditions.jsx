@@ -12,7 +12,7 @@ import Script from '../components/Script';
 import RemoteControl from '../components/RemoteControl';
 import NewClock from '../components/NewClock';
 import { imgix, isMobile } from './Home';
-import { Circle } from '../components/Circle';
+import Circle from '../components/Circle';
 import Nav from '../components/Nav';
 import ButtonFive from '../graphics/5.svg';
 
@@ -117,6 +117,11 @@ const Renditions = ({ match }) => {
 
     const { uid } = match.params;
 
+    function handleScroll() {
+        if (window.pageYOffset > 75) setMakeYearSmall(true);
+        else setMakeYearSmall(false);
+    }
+
     useEffect(() => {
         if (!isMobile) {
             window.onscroll = function () {
@@ -125,19 +130,35 @@ const Renditions = ({ match }) => {
         }
     }, [uid]); // Skip the Effect hook if the UID hasn't changed
 
-    const getWorks = async () => await client.query(
-        Prismic.Predicates.at('document.type', 'work'),
-        { orderings: '[my.work.order, my.work.work_year_to desc]' },
-    );
+    const getWorks = async () => {
+        try {
+            const works = await client.query(
+                Prismic.Predicates.at('document.type', 'work'),
+                { orderings: '[my.work.order, my.work.work_year_to desc]' },
+            );
+            return works;
+        }
+        catch {
+            throw new Error('No data found');
+        }
+    };
 
     // Match the uid with the list of works and find correct work
     const getWork = works => works.results.filter(
         item => item.slugs[0] === uid,
     )[0];
 
-    const getRenditions = async workId => await client.query(
-        Prismic.Predicates.at('my.rendition.work_category', workId),
-    );
+    const getRenditions = async (workId) => {
+        try {
+            const renditions = await client.query(
+                Prismic.Predicates.at('my.rendition.work_category', workId),
+            );
+            return renditions;
+        }
+        catch {
+            throw new Error('No data found');
+        }
+    };
 
     async function createWork() {
         const works = await getWorks();
@@ -146,14 +167,13 @@ const Renditions = ({ match }) => {
         const workCombinedWithRenditions = {
             renditions: renditions.results,
             work_script: work.data.work_script,
-            work_title: work.data.work_title,
-            work_year_from: work.data.work_year_from,
-            work_year_to: work.data.work_year_to,
+            workTitle: work.data.work_title,
+            workYearFrom: work.data.work_year_from,
+            workYearTo: work.data.work_year_to,
             work_image: work.data.work_preview_image.url,
             work_image_width: work.data.work_preview_image.dimensions.width,
         };
         let numberOfImages = 0;
-        console.log(workCombinedWithRenditions);
         workCombinedWithRenditions.renditions.forEach((rendition) => {
             numberOfImages += rendition.data.rendition_images.length;
         });
@@ -213,11 +233,6 @@ const Renditions = ({ match }) => {
                 setLoaded(true);
             }, 100);
         }
-    }
-
-    function handleScroll() {
-        if (window.pageYOffset > 75) setMakeYearSmall(true);
-        else setMakeYearSmall(false);
     }
 
     if (isError) {
