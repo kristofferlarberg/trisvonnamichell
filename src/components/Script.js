@@ -37,6 +37,9 @@ const ScriptBox = styled.section`
     }
     `}
   }
+  @media (min-width: 1440px) {
+    left: ${(props) => (props.position ? "-34vw" : "calc(50% - 720px + 2rem)")};
+  }
 `;
 
 function Script(props) {
