@@ -27,7 +27,7 @@ const Loading = styled.p`
 `;
 
 export const imgix =
-  "&w=0.5&sat=-50&exp=0&invert=true&monochrome=c5c&con=-50&monochrome=%23862e9c";
+  "&sat=-50&exp=0&invert=true&monochrome=c5c&con=-50&monochrome=%23862e9c";
 
 const Home = ({ match }) => {
   const [loaded, setLoaded] = useState(false);
@@ -127,6 +127,8 @@ const Home = ({ match }) => {
               renditions={false}
               loaded={loaded}
               work_preview_image={item.data.work_preview_image.url}
+              work_preview_image_width={item.data.work_preview_image.dimensions.width}
+              work_preview_image_height={item.data.work_preview_image.dimensions.height}
               numberOfWorks={timelines.results.length}
               link={item.link}
               work_title={item.data.work_title[0].text}
