@@ -50,6 +50,10 @@ function Script(props) {
         props.mobile && window.scrollTo(0, 0);
       }}
       position={props.position}
+      role='button'
+      aria-pressed='false'
+      aria-label="Expand script section"
+      tabIndex={1}
     >
       {props.text}
     </ScriptBox>

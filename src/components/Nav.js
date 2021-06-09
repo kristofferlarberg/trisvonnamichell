@@ -41,7 +41,15 @@ function Nav(props) {
       {props.renditions ? (
         <Title makeYearSmall={props.makeYearSmall}>{props.title} </Title>
       ) : (
-          <PageTitle onClick={props.onClick}>{props.title}</PageTitle>
+          <PageTitle
+            onClick={props.toggleTitle}
+            tabIndex={0}
+            role='button'
+            aria-pressed='false'
+            aria-label="Show e-mail adress"
+          >
+            {props.title}
+          </PageTitle>
         )}
       <Title makeYearSmall={props.makeYearSmall}>{props.email} </Title>
       <Title mobile={props.mobile} years={"true"} makeYearSmall={props.makeYearSmall}>

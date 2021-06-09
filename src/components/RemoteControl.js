@@ -24,6 +24,7 @@ const Constraint = styled.section`
 const Container = styled.div`
   padding: 5px;
   margin: 1rem 2rem;
+  padding-right: 15px;
   width: 295px;
   height: 60px;
   display: flex;
@@ -49,7 +50,6 @@ const Button = styled.button`
 
 const LastButton = styled(Button)`
   border-right: 1px solid var(--lightgrey);
-  margin-right: 10px;
 `;
 
 const ButtonSymbol = styled.img`
@@ -67,9 +67,6 @@ const InvisibleButton = styled.button`
   border: none;
   background-color: Transparent;
   color: var(--lightgrey);
-  &:focus {
-    outline: none;
-  }
 `;
 
 function RemoteControl(props) {
@@ -181,29 +178,29 @@ function RemoteControl(props) {
           pressed={pressed}
           ref={ref}
         >
-          <InvisibleButton onMouseDown={() => setPressed(true)}>
+          <InvisibleButton onMouseDown={() => setPressed(true)} tabIndex={-1}>
             ::
             <br />
             ::
           </InvisibleButton>
-          <Button onClick={openNext}>
-            <ButtonSymbol src={ButtonOne} alt="Open next section" />
+          <Button aria-label="Open next section" onClick={openNext}>
+            <ButtonSymbol src={ButtonOne} alt="Downwards pointing arrow" />
           </Button>
-          <Button onClick={openPrevious}>
-            <ButtonSymbol src={ButtonTwo} alt="Open previous section" />
+          <Button aria-label="Open previous section"  onClick={openPrevious}>
+            <ButtonSymbol src={ButtonTwo} alt="Upwards pointing arrow" />
           </Button>
-          <Button onClick={openAll}>
+          <Button aria-label="Open and close all sections"  onClick={openAll}>
             <ButtonSymbol
               src={!expandAll ? ButtonThreeP : ButtonThree}
-              alt="Open all sections"
+              alt="Downwards pointing fast forward symbol"
             />
           </Button>
-          <Button onClick={toggleScript}>
-            <ButtonSymbol src={ButtonSix} alt="Open/close script" />
+          <Button aria-label="Hide or show script section"  onClick={toggleScript}>
+            <ButtonSymbol src={ButtonSix} alt="Symbol with the letter T" />
           </Button>
-          <Link to="/">
-            <LastButton>
-              <ButtonSymbol src={ButtonFive} alt="Go back to home" />
+          <Link to="/" tabIndex={-1}>
+            <LastButton aria-label="Go back to homepage">
+              <ButtonSymbol src={ButtonFive} alt="Stop symbol" />
             </LastButton>
           </Link>
         </Container>
