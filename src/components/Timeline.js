@@ -1,10 +1,10 @@
-import React from "react";
-import { Link } from "prismic-reactjs";
-import { linkResolver } from "../prismic-configuration";
-import styled from "styled-components";
-import { imgix } from "../pages/Home";
+import React from 'react';
+import { Link } from 'prismic-reactjs';
+import styled from 'styled-components';
+import { linkResolver } from '../prismic-configuration';
+import { imgix } from '../pages/Home';
 
-let ua = navigator.userAgent;
+const ua = navigator.userAgent;
 const isMobile = /Android|webOS|iPhone|iPad|iPod/i.test(ua);
 const lineHeight = isMobile ? 10 : 17;
 
@@ -19,15 +19,15 @@ const Preview = styled.img`
   border-left: 1px solid black;
   position: relative;
   display: block;
-  left: ${(props) => props.width > 0 ? props.left : 0}%;
-  width: ${(props) => props.width > 0 ? props.width : "100"}%;
+  left: ${props => (props.width > 0 ? props.left : 0)}%;
+  width: ${props => (props.width > 0 ? props.width : '100')}%;
   height: 100%;
   object-fit: cover;
   filter: grayscale(100%);
 `;
 const WorkLink = styled.a`
   position: relative;
-  top: ${isMobile ? "0" : -lineHeight}rem;
+  top: ${isMobile ? '0' : -lineHeight}rem;
   height: ${lineHeight}rem;
   text-decoration: none;
   color: inherit;
@@ -35,13 +35,13 @@ const WorkLink = styled.a`
 
 const Line = styled.section`
   background-color: transparent;
-  background-image: url(${(props) => props.img});
+  background-image: url(${props => props.img});
   background-repeat: no-repeat;
   background-size: cover;
   background-blend-mode: multiply;
   margin-bottom: 5px;
   height: ${lineHeight}rem;
-  width: ${isMobile ? "100%" : "90%"};
+  width: ${isMobile ? '100%' : '90%'};
   transition: background-color 0.3s ease-out;
   &:hover ${Preview} {
     filter: none;
@@ -64,11 +64,11 @@ const HoverLine = styled.section`
 `;
 
 const WorkTitle = styled.h2`
-  font-size: ${isMobile && "1rem"};
-  line-height: ${isMobile && "1.2rem"};
+  font-size: ${isMobile && '1rem'};
+  line-height: ${isMobile && '1.2rem'};
   max-width: 80%;
   margin: 0 0 0.25rem 0;
-  padding: ${isMobile ? "4px 8px" : "0.5rem 0.8rem"};
+  padding: ${isMobile ? '4px 8px' : '0.5rem 0.8rem'};
   background-color: var(--offwhite);
   &:last-child {
     margin: 0;
@@ -97,64 +97,76 @@ const VerticalLine = styled.div`
 `;
 
 const Lines = (props) => {
-  let scaleDown = `&w=${Math.round(props.width) / 100}`;
-  return (isMobile ?
+    const scaleDown = `&w=${Math.round(props.width) / 100}`;
+    return (isMobile
 
-    <LineContainer key={props.i + "a"} show={props.loaded}>
-      <Line key={props.i + "b"}
-        img={props.work_preview_image + imgix}
-      >
-        <WorkLink key={props.i + "c"}
-          numberOfWorks={props.numberOfWorks}
-          href={Link.url(props.link, linkResolver)}
-        >
-          <HoverLine key={props.i + "d"}>
-            <WorkTitle key={props.i + "e"}>
-              {props.work_title}
-            </WorkTitle>
-            <WorkTitle key={props.i + "f"}>
-              {props.work_year_from}–{props.work_year_to}
-            </WorkTitle>
-          </HoverLine>
-        </WorkLink>
-      </Line>
-    </LineContainer>
-    :
-    <LineContainer key={props.i + "a"} show={props.loaded}>
-      <Ends key={props.i + "b"}>
-        <VerticalLine />
-      </Ends>
-      <Line key={props.i + "c"}
-        img={props.work_preview_image + imgix}
-      >
-        <Preview key={props.i + "c"}
-          onLoad={props.handleLoad}
-          src={props.work_preview_image + scaleDown}
-          className="link_img"
-          alt={props.work_title}
-          width={props.width}
-          left={props.left}
-        />
-        <WorkLink key={props.i + "d"}
-          numberOfWorks={props.numberOfWorks}
-          href={Link.url(props.link, linkResolver)}
-        >
-          <HoverLine key={props.i + "e"}>
-            <WorkTitle key={props.i + "f"}>
-              {props.work_title}
-            </WorkTitle>
-            <WorkTitle key={props.i + "g"}>
-              {props.work_year_from}–{props.work_year_to}
-            </WorkTitle>
+        ? (
+            <LineContainer key={ `${props.i}a` } show={ props.loaded }>
+                <Line
+                    key={ `${props.i}b` }
+                    img={ props.work_preview_image + imgix }
+                >
+                    <WorkLink
+                        key={ `${props.i}c` }
+                        numberOfWorks={ props.numberOfWorks }
+                        href={ Link.url(props.link, linkResolver) }
+                    >
+                        <HoverLine key={ `${props.i}d` }>
+                            <WorkTitle key={ `${props.i}e` }>
+                                { props.work_title }
+                            </WorkTitle>
+                            <WorkTitle key={ `${props.i}f` }>
+                                { props.work_year_from }
+                                –
+                                { props.work_year_to }
+                            </WorkTitle>
+                        </HoverLine>
+                    </WorkLink>
+                </Line>
+            </LineContainer>
+        )
+        : (
+            <LineContainer key={ `${props.i}a` } show={ props.loaded }>
+                <Ends key={ `${props.i}b` }>
+                    <VerticalLine />
+                </Ends>
+                <Line
+                    key={ `${props.i}c` }
+                    img={ props.work_preview_image + imgix }
+                >
+                    <Preview
+                        key={ `${props.i}c` }
+                        onLoad={ props.handleLoad }
+                        src={ props.work_preview_image + scaleDown }
+                        className="link_img"
+                        alt={ props.work_title }
+                        width={ props.width }
+                        left={ props.left }
+                    />
+                    <WorkLink
+                        key={ `${props.i}d` }
+                        numberOfWorks={ props.numberOfWorks }
+                        href={ Link.url(props.link, linkResolver) }
+                    >
+                        <HoverLine key={ `${props.i}e` }>
+                            <WorkTitle key={ `${props.i}f` }>
+                                { props.work_title }
+                            </WorkTitle>
+                            <WorkTitle key={ `${props.i}g` }>
+                                { props.work_year_from }
+                                –
+                                { props.work_year_to }
+                            </WorkTitle>
 
-          </HoverLine>
-        </WorkLink>
-      </Line>
-      <Ends>
-        <VerticalLine />
-      </Ends>
-    </LineContainer >
-  )
-}
+                        </HoverLine>
+                    </WorkLink>
+                </Line>
+                <Ends>
+                    <VerticalLine />
+                </Ends>
+            </LineContainer>
+        )
+    );
+};
 
-export default Lines
+export default Lines;

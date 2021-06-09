@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import styled from "styled-components";
+import React, { useState } from 'react';
+import styled from 'styled-components';
 
 const ScriptBox = styled.section`
   box-sizing: border-box;
@@ -7,9 +7,8 @@ const ScriptBox = styled.section`
   width: 37vw;
   background-color: var(--offwhite);
   position: fixed;
-  left: ${(props) => (props.position ? "-34vw" : "2rem")};
-  transition: ${(props) =>
-    props.position ? "all 0.2s ease-out" : "all 0.3s ease-in"};
+  left: ${props => (props.position ? '-34vw' : '2rem')};
+  transition: ${props => (props.position ? 'all 0.2s ease-out' : 'all 0.3s ease-in')};
   max-height: 69vh;
   overflow-y: auto;
   @media (max-width: 900px) {
@@ -19,11 +18,10 @@ const ScriptBox = styled.section`
     left: 0;
     width: calc(100% - 0.6rem);
     margin: 0 0.3rem 1rem 0.3rem;
-    max-height: ${(props) => (props.openScript ? "none" : "175px")};
+    max-height: ${props => (props.openScript ? 'none' : '175px')};
     overflow-y: hidden;
-    ${({ openScript }) =>
-    !openScript &&
-    `
+    ${({ openScript }) => !openScript
+    && `
       &:after {
       content: "";
       position: absolute;
@@ -40,24 +38,24 @@ const ScriptBox = styled.section`
 `;
 
 function Script(props) {
-  const [openScript, setOpenScript] = useState(false);
+    const [openScript, setOpenScript] = useState(false);
 
-  return (
-    <ScriptBox
-      openScript={openScript || props.open}
-      onClick={() => {
-        props.mobile && setOpenScript(!openScript);
-        props.mobile && window.scrollTo(0, 0);
-      }}
-      position={props.position}
-      role='button'
-      aria-pressed='false'
-      aria-label="Expand script section"
-      tabIndex={1}
-    >
-      {props.text}
-    </ScriptBox>
-  );
+    return (
+        <ScriptBox
+            openScript={ openScript || props.open }
+            onClick={ () => {
+                props.mobile && setOpenScript(!openScript);
+                props.mobile && window.scrollTo(0, 0);
+            } }
+            position={ props.position }
+            role="button"
+            aria-pressed="false"
+            aria-label="Expand script section"
+            tabIndex={ 1 }
+        >
+            { props.text }
+        </ScriptBox>
+    );
 }
 
 export default Script;
