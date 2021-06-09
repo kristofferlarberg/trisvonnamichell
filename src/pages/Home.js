@@ -117,7 +117,7 @@ const Home = ({ match }) => {
           mobile={isMobile}
           title={!email ? "Tris Vonna-Michell" : "studiotvm@protonmail.com"}
           years={`Works ${timelines.min_year}–`}
-          onClick={toggleTitle}
+          toggleTitle={toggleTitle}
         />
 
         {timelines.results.map((item, i) => {

@@ -10,11 +10,14 @@ import RenditionList from "../components/RenditionList";
 import Script from "../components/Script";
 import RemoteControl from "../components/RemoteControl";
 import NewClock from "../components/NewClock";
-import { imgix, isMobile } from "./Home";
+import { imgix } from "./Home";
 import { Circle } from "../components/Circle";
 import Nav from "../components/Nav";
 import ButtonFive from "../graphics/5.svg";
 import { useQuery } from 'react-query'
+
+let ua = navigator.userAgent;
+export const isMobile = /Android|webOS|iPhone|iPad|iPod/i.test(ua);
 
 const Main = styled.main`
   box-sizing: border-box;
@@ -236,8 +239,8 @@ const Renditions = ({ match }) => {
         <NewClock mobile={isMobile} />
         {isMobile ? (
           <StopContainer>
-            <StopButton onClick={() => history.push("/")}>
-              <StopButtonSymbol src={ButtonFive} alt="Back to Homepage" />
+            <StopButton aria-label="Go back to homepage" onClick={() => history.push("/")} tabIndex={0}>
+              <StopButtonSymbol src={ButtonFive} alt="Stop symbol" />
             </StopButton>
           </StopContainer>
         ) : (

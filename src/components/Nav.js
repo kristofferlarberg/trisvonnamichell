@@ -36,14 +36,22 @@ const Title = styled(PageTitle)`
 `;
 
 function Nav(props) {
+
   return (
     <NavBar makeYearSmall={props.makeYearSmall} mobile={props.mobile} renditions={props.renditions}>
       {props.renditions ? (
-        <Title makeYearSmall={props.makeYearSmall}>{props.title} </Title>
+        <Title makeYearSmall={props.makeYearSmall}>{props.title}</Title>
       ) : (
-          <PageTitle onClick={props.onClick}>{props.title}</PageTitle>
-        )}
-      <Title makeYearSmall={props.makeYearSmall}>{props.email} </Title>
+        <PageTitle
+          onClick={props.toggleTitle}
+          tabIndex={0}
+          role='button'
+          aria-pressed='false'
+          aria-label="Toggle between title and e-mail adress"
+        >
+          {props.toggleTitle ? props.title : props.email}
+        </PageTitle>
+      )}
       <Title mobile={props.mobile} years={"true"} makeYearSmall={props.makeYearSmall}>
         {props.years}
       </Title>

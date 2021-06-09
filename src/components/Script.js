@@ -42,18 +42,34 @@ const ScriptBox = styled.section`
 function Script(props) {
   const [openScript, setOpenScript] = useState(false);
 
-  return (
-    <ScriptBox
-      openScript={openScript || props.open}
-      onClick={() => {
-        props.mobile && setOpenScript(!openScript);
-        props.mobile && window.scrollTo(0, 0);
-      }}
-      position={props.position}
-    >
-      {props.text}
-    </ScriptBox>
-  );
+  if (props.mobile) {
+    return (
+      <ScriptBox
+          openScript={openScript || props.open}
+          onClick={() => {
+              props.mobile && setOpenScript(!openScript);
+              props.mobile && window.scrollTo(0, 0);
+          }}
+          position={props.position}
+          aria-pressed='false'
+          aria-label="Toggle between closed or opened script section"
+          role='button'
+          tabIndex={0}
+      >
+        {props.text}
+      </ScriptBox>
+    );
+  }
+
+  else {
+    return (
+      <ScriptBox
+        position={props.position}
+      >
+        {props.text}
+      </ScriptBox>
+    );
+  }
 }
 
 export default Script;
