@@ -37,23 +37,22 @@ const ScriptBox = styled.section`
   }
 `;
 
-function Script(props) {
+function Script({
+    mobile, open, position, text,
+}) {
     const [openScript, setOpenScript] = useState(false);
 
     return (
         <ScriptBox
-            openScript={ openScript || props.open }
-            onClick={ () => {
-                props.mobile && setOpenScript(!openScript);
-                props.mobile && window.scrollTo(0, 0);
-            } }
-            position={ props.position }
+            openScript={ openScript || open }
+            onClick={ () => mobile && setOpenScript(!openScript) && window.scrollTo(0, 0) }
+            position={ position }
             role="button"
             aria-pressed="false"
             aria-label="Expand script section"
-            tabIndex={ 1 }
+            tabIndex={ 0 }
         >
-            { props.text }
+            { text }
         </ScriptBox>
     );
 }

@@ -42,24 +42,15 @@ const PreviewDiv = styled.div`
   overflow: hidden;
 `;
 
-const RenditionList = (props) => {
+const RenditionList = ({
+    description, descriptionPreview, expandValue, id, img, loaded, mobile, openAll, refClosedList, refOpenList, renditionsLength, title, year,
+}) => {
     const [active, setActive] = useState(false);
     const [height, setHeight] = useState('0px');
     const [height2, setHeight2] = useState('0px');
     /* const [propDependency, setPropDependency] = useState([props.renditionsLength, props.expandValue, props.loaded, props.id, active]) */
     const content = useRef(null);
     const content2 = useRef(null);
-
-    const {
-        renditionsLength,
-        expandValue,
-        loaded,
-        id,
-        refClosedList,
-        refOpenList,
-        openAll,
-        mobile,
-    } = props;
 
     useEffect(() => {
         refClosedList(content2.current.scrollHeight);
@@ -84,19 +75,19 @@ const RenditionList = (props) => {
 
     return (
         <>
-            <ListSection mobile={ props.mobile }>
+            <ListSection mobile={ mobile }>
                 <OpenImages>
                     <TitleContainer>
-                        <Title>{ props.title }</Title>
-                        <Title>{ props.year }</Title>
+                        <Title>{ title }</Title>
+                        <Title>{ year }</Title>
                     </TitleContainer>
                     <PreviewDiv ref={ content2 } height2={ height2 }>
-                        { props.descriptionPreview }
+                        { descriptionPreview }
                     </PreviewDiv>
                 </OpenImages>
                 <Details ref={ content } height={ height }>
-                    { props.img }
-                    { props.description }
+                    { img }
+                    { description }
                 </Details>
             </ListSection>
         </>

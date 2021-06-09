@@ -6,13 +6,13 @@ import styled from 'styled-components';
 import { useQuery } from 'react-query';
 import { client, linkResolver } from '../prismic-configuration';
 import NotFound from './NotFound';
-import { GlobalStyle } from '../styles/global';
+import GlobalStyle from '../styles/global';
 import RenditionList from '../components/RenditionList';
 import Script from '../components/Script';
 import RemoteControl from '../components/RemoteControl';
 import NewClock from '../components/NewClock';
 import { imgix, isMobile } from './Home';
-import { Circle } from '../components/Circle';
+import Circle from '../components/Circle';
 import Nav from '../components/Nav';
 import ButtonFive from '../graphics/5.svg';
 
@@ -117,27 +117,49 @@ const Renditions = ({ match }) => {
 
     const { uid } = match.params;
 
+    function handleScroll() {
+        if (window.pageYOffset > 75) setMakeYearSmall(true);
+        else setMakeYearSmall(false);
+    }
+
     useEffect(() => {
+        function functionForOnScroll() {
+            handleScroll();
+        }
         if (!isMobile) {
-            window.onscroll = function () {
-                handleScroll();
-            };
+            window.onscroll = functionForOnScroll();
         }
     }, [uid]); // Skip the Effect hook if the UID hasn't changed
 
-    const getWorks = async () => await client.query(
-        Prismic.Predicates.at('document.type', 'work'),
-        { orderings: '[my.work.order, my.work.work_year_to desc]' },
-    );
+    const getWorks = async () => {
+        try {
+            const works = await client.query(
+                Prismic.Predicates.at('document.type', 'work'),
+                { orderings: '[my.work.order, my.work.work_year_to desc]' },
+            );
+            return works;
+        }
+        catch {
+            throw new Error('No data found');
+        }
+    };
 
     // Match the uid with the list of works and find correct work
     const getWork = works => works.results.filter(
         item => item.slugs[0] === uid,
     )[0];
 
-    const getRenditions = async workId => await client.query(
-        Prismic.Predicates.at('my.rendition.work_category', workId),
-    );
+    const getRenditions = async (workId) => {
+        try {
+            const renditions = await client.query(
+                Prismic.Predicates.at('my.rendition.work_category', workId),
+            );
+            return renditions;
+        }
+        catch {
+            throw new Error('No data found');
+        }
+    };
 
     async function createWork() {
         const works = await getWorks();
@@ -153,7 +175,6 @@ const Renditions = ({ match }) => {
             work_image_width: work.data.work_preview_image.dimensions.width,
         };
         let numberOfImages = 0;
-        console.log(workCombinedWithRenditions);
         workCombinedWithRenditions.renditions.forEach((rendition) => {
             numberOfImages += rendition.data.rendition_images.length;
         });
@@ -166,12 +187,12 @@ const Renditions = ({ match }) => {
         let tempRef = 0;
         if (ref !== 0) {
             if (openAll) {
-                for (let i = 0; i < ref; i++) {
+                for (let i = 0; i < ref; i += 1) {
                     tempRef += openRenditionsRefs[i];
                 }
             }
             else {
-                for (let i = 0; i < ref; i++) {
+                for (let i = 0; i < ref; i += 1) {
                     tempRef += closedRenditionsRefs[i];
                 }
             }
@@ -182,9 +203,10 @@ const Renditions = ({ match }) => {
         );
     }
 
-    function openRendition(value) {
-        const openRendition = value + expandValue;
-        if (value !== 999 && value !== -2) executeScroll(openRendition);
+    function openRendition(v) {
+        let value = v;
+        const selectedRendition = value + expandValue;
+        if (value !== 999 && value !== -2) executeScroll(selectedRendition);
         if (value === 999) {
             setOpenAll(true);
             // value = expandValue > 0 ? -1 : 1
@@ -206,18 +228,13 @@ const Renditions = ({ match }) => {
         if (closedRenditionsRefs.length !== work.renditions.length) closedRenditionsRefs.push(ref);
     }
 
-    function handleLoad(i) {
+    function handleLoad() {
         allLoaded.push(true);
         if (allLoaded.length === work.numberOfImages) {
             setTimeout(() => {
                 setLoaded(true);
             }, 100);
         }
-    }
-
-    function handleScroll() {
-        if (window.pageYOffset > 75) setMakeYearSmall(true);
-        else setMakeYearSmall(false);
     }
 
     if (isError) {
@@ -262,7 +279,6 @@ const Renditions = ({ match }) => {
                         position={ !toggleScript }
                         text={ (
                             <RichText
-                                key="c"
                                 render={ work.work_script }
                                 linkResolver={ linkResolver }
                             />
@@ -276,15 +292,15 @@ const Renditions = ({ match }) => {
                                 openAll={ openAll }
                                 refClosedList={ refClosedList }
                                 refOpenList={ refOpenList }
-                                key={ `a${i}` }
+                                key={ item.id }
                                 renditionsLength={ work.renditions.length }
                                 expandValue={ expandValue }
                                 id={ i }
                                 title={ item.data.rendition_title[0].text }
                                 year={ item.data.rendition_year }
                                 descriptionPreview={ item.data.rendition_images.map(
-                                    (image, i) => (
-                                        <DescriptionPreview key={ `d${i}` }>
+                                    image => (
+                                        <DescriptionPreview key={ `${image.rendition_image.url}a` }>
                                             <Circle />
                                             <RichText
                                                 render={ image.rendition_image_caption }
@@ -293,14 +309,14 @@ const Renditions = ({ match }) => {
                                         </DescriptionPreview>
                                     ),
                                 ) }
-                                img={ item.data.rendition_images.map((image, i) => [
+                                img={ item.data.rendition_images.map(image => [
                                     <Image
-                                        onLoad={ () => handleLoad(i) }
+                                        key={ `${image.rendition_image.url}b` }
+                                        onLoad={ () => handleLoad() }
                                         src={ image.rendition_image.url + scaleDown }
-                                        key={ `b${i}` }
                                         alt={ image.rendition_image_caption[0].text }
                                     />,
-                                    <DescriptionPreview key={ `c${i}` }>
+                                    <DescriptionPreview key={ `${item.id}c` }>
                                         <RichText
                                             render={ image.rendition_image_caption }
                                             linkResolver={ linkResolver }

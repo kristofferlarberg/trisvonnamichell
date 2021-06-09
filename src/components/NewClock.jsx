@@ -17,7 +17,7 @@ const Time = styled.h2`
   margin: 0;
 `;
 
-function NewClock(props) {
+function NewClock({ mobile }) {
     let savedTime = [0, 0, 0];
     if (sessionStorage.time) savedTime = JSON.parse(sessionStorage.time);
     if (savedTime[0] < 58 && savedTime[0] !== 0) savedTime[0] += 2;
@@ -49,7 +49,7 @@ function NewClock(props) {
     });
 
     return (
-        <TimeContainer mobile={ props.mobile }>
+        <TimeContainer mobile={ mobile }>
             <Time>
                 { hours < 10 ? `0${hours}` : hours }
                 :

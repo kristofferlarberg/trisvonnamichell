@@ -1,9 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-/**
- * Page not found (404) componenet
- */
+const notFoundStyle = {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    height: '50vw',
+    alignItems: 'center',
+};
+
 const NotFound = () => (
     <div className="not-found" style={ notFoundStyle }>
         <h1>404</h1>
@@ -13,13 +18,5 @@ const NotFound = () => (
         </p>
     </div>
 );
-
-const notFoundStyle = {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    height: '50vw',
-    alignItems: 'center',
-};
 
 export default NotFound;

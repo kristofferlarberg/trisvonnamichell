@@ -6,7 +6,7 @@ const NavBar = styled.nav`
   position: ${props => (!props.renditions || (props.renditions && props.mobile) ? 'static' : 'fixed')};
   top: ${props => props.renditions && '0'};
   height: ${props => (props.makeYearSmall ? '3.5rem' : '5.5rem')};
-  width: ${props => (props.renditions ? (props.mobile ? '100%' : 'calc(100% - 4rem)') : '100%')};
+  width: ${props => (props.renditions && !props.mobile ? 'calc(100% - 4rem)' : '100%')};
   padding: ${props => (props.mobile ? '1rem 0' : '0')};
   display: flex;
   flex-direction: ${props => (props.mobile ? 'column' : 'row')};
@@ -15,8 +15,8 @@ const NavBar = styled.nav`
   text-align: ${props => (props.mobile ? 'center' : 'left')};
   border-bottom: ${props => props.renditions && '4px solid var(--offwhite)'};
   transition: 0.1s linear;
-  padding: ${props => (props.mobile ? '1rem 0' : props.makeYearSmall && '0 2.5rem')};   
-  `;
+  padding: ${props => (props.mobile ? '1rem 0' : props.makeYearSmall && '0 2.5rem')};
+`;
 
 const PageTitle = styled.h1`
   font-size: ${props => props.makeYearSmall && '1.3rem'};
@@ -30,34 +30,36 @@ const PageTitle = styled.h1`
 `;
 
 const Title = styled(PageTitle)`
-  cursor: default;
+  cursor: default ;
 `;
 
-function Nav(props) {
+function Nav({
+    email, makeYearSmall, mobile, renditions, title, toggleTitle, years,
+}) {
     return (
-        <NavBar makeYearSmall={ props.makeYearSmall } mobile={ props.mobile } renditions={ props.renditions }>
-            { props.renditions ? (
-                <Title makeYearSmall={ props.makeYearSmall }>
-                    { props.title }
+        <NavBar makeYearSmall={ makeYearSmall } mobile={ mobile } renditions={ renditions }>
+            { renditions ? (
+                <Title makeYearSmall={ makeYearSmall }>
+                    { title }
                     { ' ' }
                 </Title>
             ) : (
                 <PageTitle
-                    onClick={ props.toggleTitle }
+                    onClick={ toggleTitle }
                     tabIndex={ 0 }
                     role="button"
                     aria-pressed="false"
                     aria-label="Show e-mail adress"
                 >
-                    { props.title }
+                    { title }
                 </PageTitle>
             ) }
-            <Title makeYearSmall={ props.makeYearSmall }>
-                { props.email }
+            <Title makeYearSmall={ makeYearSmall }>
+                { email }
                 { ' ' }
             </Title>
-            <Title mobile={ props.mobile } years="true" makeYearSmall={ props.makeYearSmall }>
-                { props.years }
+            <Title mobile={ mobile } years="true" makeYearSmall={ makeYearSmall }>
+                { years }
             </Title>
         </NavBar>
     );

@@ -2,11 +2,11 @@ import React from 'react';
 import { Link } from 'prismic-reactjs';
 import styled from 'styled-components';
 import { linkResolver } from '../prismic-configuration';
-import { imgix } from '../pages/Home';
 
 const ua = navigator.userAgent;
 const isMobile = /Android|webOS|iPhone|iPad|iPod/i.test(ua);
 const lineHeight = isMobile ? 10 : 17;
+const imgix = '&w=0.5&sat=-50&exp=0&invert=true&monochrome=c5c&con=-50&monochrome=%23862e9c';
 
 const LineContainer = styled.section`
   display: flex;
@@ -96,29 +96,31 @@ const VerticalLine = styled.div`
   background-color: var(--lightgrey);
 `;
 
-const Lines = (props) => {
-    const scaleDown = `&w=${Math.round(props.width) / 100}`;
+const Lines = ({
+    id, handleLoad, left, link, loaded, numberOfWorks, width, workPreviewImage, workTitle, workYearFrom, workYearTo,
+}) => {
+    const scaleDown = `&w=${Math.round(width) / 100}`;
     return (isMobile
 
         ? (
-            <LineContainer key={ `${props.i}a` } show={ props.loaded }>
+            <LineContainer key={ `${id}a` } show={ loaded }>
                 <Line
-                    key={ `${props.i}b` }
-                    img={ props.work_preview_image + imgix }
+                    img={ workPreviewImage + imgix }
+                    key={ `${id}b` }
                 >
                     <WorkLink
-                        key={ `${props.i}c` }
-                        numberOfWorks={ props.numberOfWorks }
-                        href={ Link.url(props.link, linkResolver) }
+                        key={ `${id}c` }
+                        numberOfWorks={ numberOfWorks }
+                        href={ Link.url(link, linkResolver) }
                     >
-                        <HoverLine key={ `${props.i}d` }>
-                            <WorkTitle key={ `${props.i}e` }>
-                                { props.work_title }
+                        <HoverLine key={ `${id}d` }>
+                            <WorkTitle key={ `${id}e` }>
+                                { workTitle }
                             </WorkTitle>
-                            <WorkTitle key={ `${props.i}f` }>
-                                { props.work_year_from }
+                            <WorkTitle key={ `${id}f` }>
+                                { workYearFrom }
                                 –
-                                { props.work_year_to }
+                                { workYearFrom }
                             </WorkTitle>
                         </HoverLine>
                     </WorkLink>
@@ -126,36 +128,36 @@ const Lines = (props) => {
             </LineContainer>
         )
         : (
-            <LineContainer key={ `${props.i}a` } show={ props.loaded }>
-                <Ends key={ `${props.i}b` }>
-                    <VerticalLine />
+            <LineContainer key={ `${id}a` } show={ loaded }>
+                <Ends key={ `${id}b` }>
+                    <VerticalLine key={ `${id}v` } />
                 </Ends>
                 <Line
-                    key={ `${props.i}c` }
-                    img={ props.work_preview_image + imgix }
+                    key={ `${id}c` }
+                    img={ workPreviewImage + imgix }
                 >
                     <Preview
-                        key={ `${props.i}c` }
-                        onLoad={ props.handleLoad }
-                        src={ props.work_preview_image + scaleDown }
+                        key={ `${id}d` }
+                        onLoad={ handleLoad }
+                        src={ workPreviewImage + scaleDown }
                         className="link_img"
-                        alt={ props.work_title }
-                        width={ props.width }
-                        left={ props.left }
+                        alt={ workTitle }
+                        width={ width }
+                        left={ left }
                     />
                     <WorkLink
-                        key={ `${props.i}d` }
-                        numberOfWorks={ props.numberOfWorks }
-                        href={ Link.url(props.link, linkResolver) }
+                        key={ `${id}e` }
+                        numberOfWorks={ numberOfWorks }
+                        href={ Link.url(link, linkResolver) }
                     >
-                        <HoverLine key={ `${props.i}e` }>
-                            <WorkTitle key={ `${props.i}f` }>
-                                { props.work_title }
+                        <HoverLine key={ `${id}f` }>
+                            <WorkTitle key={ `${id}g` }>
+                                { workTitle }
                             </WorkTitle>
-                            <WorkTitle key={ `${props.i}g` }>
-                                { props.work_year_from }
+                            <WorkTitle key={ `${id}h` }>
+                                { workYearFrom }
                                 –
-                                { props.work_year_to }
+                                { workYearTo }
                             </WorkTitle>
 
                         </HoverLine>
