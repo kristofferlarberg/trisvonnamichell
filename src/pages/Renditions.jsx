@@ -269,8 +269,8 @@ const Renditions = ({ match }) => {
                     makeYearSmall={ makeYearSmall }
                     renditions
                     mobile={ isMobile }
-                    title={ work.work_title[0].text }
-                    years={ `${work.work_year_from}–${work.work_year_to}` }
+                    title={ work.workTitle[0].text }
+                    years={ `${work.workYearFrom}–${work.workYearTo}` }
                 />
                 <Content position={ !toggleScript }>
                     <Script

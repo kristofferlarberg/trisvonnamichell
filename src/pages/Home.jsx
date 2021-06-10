@@ -26,8 +26,6 @@ const Loading = styled.p`
   font-size: 1.05rem;
 `;
 
-export const imgix = '&w=0.5&sat=-50&exp=0&invert=true&monochrome=c5c&con=-50&monochrome=%23862e9c';
-
 const Home = () => {
     const [loaded, setLoaded] = useState(false);
     const allLoaded = [];
