@@ -168,9 +168,9 @@ const Renditions = ({ match }) => {
         const workCombinedWithRenditions = {
             renditions: renditions.results,
             work_script: work.data.work_script,
-            work_title: work.data.work_title,
-            work_year_from: work.data.work_year_from,
-            work_year_to: work.data.work_year_to,
+            workTitle: work.data.work_title,
+            workYearFrom: work.data.work_year_from,
+            workYearTo: work.data.work_year_to,
             work_image: work.data.work_preview_image.url,
             work_image_width: work.data.work_preview_image.dimensions.width,
         };
