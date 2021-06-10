@@ -35,7 +35,7 @@ const Loading = styled.p`
   font-size: 1.05rem;
 `;
 
-const Content = styled.div`
+const Content = styled.article`
   box-sizing: border-box;
   margin-top: ${isMobile ? "1rem" : "8rem"};
   width: 100%;
@@ -49,7 +49,7 @@ const Content = styled.div`
   }
 `;
 
-const ListContainer = styled.div`
+const ListContainer = styled.section`
   padding: 0;
   display: flex;
   flex-direction: column;
@@ -236,22 +236,6 @@ const Renditions = ({ match }) => {
     <>
       <Main loaded={loaded}>
         <GlobalStyle img={work.work_image + imgix} mobile={isMobile} />
-        <NewClock mobile={isMobile} />
-        {isMobile ? (
-          <StopContainer>
-            <StopButton aria-label="Go back to homepage" onClick={() => history.push("/")} tabIndex={0}>
-              <StopButtonSymbol src={ButtonFive} alt="Stop symbol" />
-            </StopButton>
-          </StopContainer>
-        ) : (
-          <RemoteControl
-            expandAll={openAll}
-            currentValue={expandValue}
-            renditionsLength={work.renditions.length}
-            adjustValue={(value) => openRendition(value)}
-            toggleScriptRemote={() => toggleScriptState(!toggleScript)}
-          />
-        )}
         <Nav
           makeYearSmall={makeYearSmall}
           renditions={true}
@@ -317,6 +301,22 @@ const Renditions = ({ match }) => {
             })}
           </ListContainer>
         </Content>
+        <NewClock mobile={isMobile} />
+        {isMobile ? (
+          <StopContainer>
+            <StopButton aria-label="Go back to homepage" onClick={() => history.push("/")} tabIndex={0}>
+              <StopButtonSymbol src={ButtonFive} alt="Stop symbol" />
+            </StopButton>
+          </StopContainer>
+        ) : (
+          <RemoteControl
+            expandAll={openAll}
+            currentValue={expandValue}
+            renditionsLength={work.renditions.length}
+            adjustValue={(value) => openRendition(value)}
+            toggleScriptRemote={() => toggleScriptState(!toggleScript)}
+          />
+        )}
       </Main>
     </>
   );

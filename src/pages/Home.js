@@ -33,6 +33,7 @@ const Home = ({ match }) => {
   const [loaded, setLoaded] = useState(false);
   const allLoaded = [];
   const [email, setEmail] = useState(false);
+
   const toggleTitle = () => {
     setEmail(!email);
   };

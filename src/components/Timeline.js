@@ -31,6 +31,12 @@ const WorkLink = styled.a`
   height: ${lineHeight}rem;
   text-decoration: none;
   color: inherit;
+  transition: all 0.3s ease;
+  display: block;
+  &:focus-visible {
+    outline: none;
+    transform: scale(1.05);
+  }
 `;
 
 const Line = styled.section`

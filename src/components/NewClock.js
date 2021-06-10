@@ -48,7 +48,7 @@ function NewClock(props) {
   });
 
   return (
-    <TimeContainer mobile={props.mobile}>
+    <TimeContainer aria-label="The amount of time since you entered this page." mobile={props.mobile}>
       <Time>
         {hours < 10 ? `0${hours}` : hours}:
         {minutes < 10 ? `0${minutes}` : minutes}:

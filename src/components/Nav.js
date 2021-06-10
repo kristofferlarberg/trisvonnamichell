@@ -35,6 +35,9 @@ const Title = styled(PageTitle)`
   cursor: default;
 `;
 
+const OpenInfoBoxButton = styled.button  `
+`;
+
 function Nav(props) {
 
   return (
@@ -42,15 +45,18 @@ function Nav(props) {
       {props.renditions ? (
         <Title makeYearSmall={props.makeYearSmall}>{props.title}</Title>
       ) : (
-        <PageTitle
-          onClick={props.toggleTitle}
-          tabIndex={0}
-          role='button'
-          aria-pressed='false'
-          aria-label="Toggle between title and e-mail adress"
-        >
-          {props.toggleTitle ? props.title : props.email}
-        </PageTitle>
+        <>
+          <PageTitle>
+            {props.toggleTitle ? props.title : props.email}
+          </PageTitle>
+          { /* TODO: Style this button when adding information section */ }
+          <OpenInfoBoxButton
+            onClick={props.toggleTitle}
+            aria-label="Toggle open information section"
+          >
+            Info
+          </OpenInfoBoxButton>
+        </>
       )}
       <Title mobile={props.mobile} years={"true"} makeYearSmall={props.makeYearSmall}>
         {props.years}

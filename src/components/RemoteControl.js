@@ -178,7 +178,7 @@ function RemoteControl(props) {
           pressed={pressed}
           ref={ref}
         >
-          <InvisibleButton onMouseDown={() => setPressed(true)} tabIndex={-1}>
+          <InvisibleButton onMouseDown={() => setPressed(true)} aria-hidden="true" tabIndex={-1}>
             ::
             <br />
             ::
