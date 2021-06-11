@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import { Helmet } from "react-helmet";
 import { RichText } from "prismic-reactjs";
-import { client, linkResolver } from "../prismic-configuration";
+import { apiEndpoint, client, linkResolver } from "../prismic-configuration";
 import NotFound from "./NotFound";
 import Prismic from "prismic-javascript";
 import styled from "styled-components";
@@ -10,11 +11,14 @@ import RenditionList from "../components/RenditionList";
 import Script from "../components/Script";
 import RemoteControl from "../components/RemoteControl";
 import NewClock from "../components/NewClock";
-import { imgix, isMobile } from "./Home";
+import { imgix } from "./Home";
 import { Circle } from "../components/Circle";
 import Nav from "../components/Nav";
 import ButtonFive from "../graphics/5.svg";
 import { useQuery } from 'react-query'
+
+let ua = navigator.userAgent;
+export const isMobile = /Android|webOS|iPhone|iPad|iPod/i.test(ua);
 
 const Main = styled.main`
   box-sizing: border-box;
@@ -38,7 +42,7 @@ const Loading = styled.p`
   font-size: 1.05rem;
 `;
 
-const Content = styled.div`
+const Content = styled.article`
   box-sizing: border-box;
   margin-top: ${isMobile ? "1rem" : "8rem"};
   height: auto;
@@ -54,7 +58,7 @@ const Content = styled.div`
   }
 `;
 
-const ListContainer = styled.div`
+const ListContainer = styled.section`
   padding: 0;
   display: flex;
   flex-direction: column;
@@ -260,26 +264,30 @@ const Renditions = ({ match }) => {
     return (<Loading>Loading...</Loading>)
   }
 
+  const repoNameArray = /([^/]+)\.cdn.prismic\.io\/api/.exec(apiEndpoint);
+  const repoName = repoNameArray[1];
+
   return (
     <>
+    <Helmet>
+        <title>Tris Vonna-Michell: Work Renditions</title>
+        <meta name="description" content="Presentation of work by Tris Vonna-Michell." />
+        <meta property="og:image" content="https://images.prismic.io/trisvonnamichell/6392235a-5597-4bb1-aa05-21a37c33b122_TVM-audio+poems-09+copy+2.jpg" />
+        <meta property="og:description" content="Presentation of work by Tris Vonna-Michell." />
+        <meta property="og:title" content="Tris Vonna-Michell" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Tris Vonna-Michell" />
+        <meta name="twitter:description" content="Presentation of work by Tris Vonna-Michell." />
+        <meta name="twitter:image" content="https://images.prismic.io/trisvonnamichell/6392235a-5597-4bb1-aa05-21a37c33b122_TVM-audio+poems-09+copy+2.jpg" />
+        <link rel="shortcut icon" href="/favicon2.png" />
+        <script
+          async
+          defer
+          src={`//static.cdn.prismic.io/prismic.js?repo=${repoName}&new=true`}
+        />
+      </Helmet>
       <Main loaded={loaded}>
-        <GlobalStyle img={work.work_image + scaleDownBackground(work.work_image_width) + imgix} mobile={isMobile} />
-        <NewClock mobile={isMobile} />
-        {isMobile ? (
-          <StopContainer>
-            <StopButton onClick={() => history.push("/")}>
-              <StopButtonSymbol src={ButtonFive} alt="Back to Homepage" />
-            </StopButton>
-          </StopContainer>
-        ) : (
-          <RemoteControl
-            expandAll={openAll}
-            currentValue={expandValue}
-            renditionsLength={work.renditions.length}
-            adjustValue={(value) => openRendition(value)}
-            toggleScriptRemote={() => toggleScriptState(!toggleScript)}
-          />
-        )}
+        <GlobalStyle img={work.work_image + imgix} mobile={isMobile} />
         <Nav
           makeYearSmall={makeYearSmall}
           renditions={true}
@@ -345,6 +353,22 @@ const Renditions = ({ match }) => {
             })}
           </ListContainer>
         </Content>
+        <NewClock mobile={isMobile} />
+        {isMobile ? (
+          <StopContainer>
+            <StopButton aria-label="Go back to homepage" onClick={() => history.push("/")} tabIndex={0}>
+              <StopButtonSymbol src={ButtonFive} alt="Stop symbol" />
+            </StopButton>
+          </StopContainer>
+        ) : (
+          <RemoteControl
+            expandAll={openAll}
+            currentValue={expandValue}
+            renditionsLength={work.renditions.length}
+            adjustValue={(value) => openRendition(value)}
+            toggleScriptRemote={() => toggleScriptState(!toggleScript)}
+          />
+        )}
       </Main>
     </>
   );

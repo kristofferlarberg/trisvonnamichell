@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 
-const ListSection = styled.section`
+const ListSection = styled.div`
   padding: ${(props) => (props.mobile ? "0.9rem" : "2rem")};
   display: flex;
   flex-direction: column;
@@ -83,23 +83,21 @@ const RenditionList = (props) => {
   ]);
 
   return (
-    <>
-      <ListSection mobile={props.mobile}>
-        <OpenImages>
-          <TitleContainer>
-            <Title>{props.title}</Title>
-            <Title>{props.year}</Title>
-          </TitleContainer>
-          <PreviewDiv ref={content2} height2={height2}>
-            {props.descriptionPreview}
-          </PreviewDiv>
-        </OpenImages>
-        <Details ref={content} height={height}>
-          {props.img}
-          {props.description}
-        </Details>
-      </ListSection>
-    </>
+    <ListSection mobile={props.mobile}>
+      <OpenImages>
+        <TitleContainer>
+          <Title>{props.title}</Title>
+          <Title>{props.year}</Title>
+        </TitleContainer>
+        <PreviewDiv aria-label="Open sections with buttons further down to read images" ref={content2} height2={height2}>
+          {props.descriptionPreview}
+        </PreviewDiv>
+      </OpenImages>
+      <Details ref={content} height={height}>
+        {props.img}
+        {props.description}
+      </Details>
+    </ListSection>
   );
 };
 
