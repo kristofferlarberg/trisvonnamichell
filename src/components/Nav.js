@@ -17,7 +17,11 @@ const NavBar = styled.nav`
   text-align: ${(props) => (props.mobile ? "center" : "left")};
   border-bottom: ${(props) => props.renditions && "4px solid var(--offwhite)"};
   transition: 0.1s linear;
-  padding: ${(props) => props.mobile ? "1rem 0" : props.makeYearSmall && "0 2.5rem"};   
+  padding: ${(props) => props.mobile ? "1rem 0" : props.makeYearSmall && "0 2.5rem"}; 
+  @media (min-width: 1440px) {
+    width: ${(props) =>
+    props.renditions ? (props.mobile ? "100%" : "calc(1440px - 4rem)") : "100%"};
+  }
   `;
 
 const PageTitle = styled.h1`
@@ -35,7 +39,7 @@ const Title = styled(PageTitle)`
   cursor: default;
 `;
 
-const OpenInfoBoxButton = styled.button  `
+const OpenInfoBoxButton = styled.button`
 `;
 
 function Nav(props) {

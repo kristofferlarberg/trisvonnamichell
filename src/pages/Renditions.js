@@ -24,9 +24,15 @@ const Main = styled.main`
   box-sizing: border-box;
   width: ${isMobile ? "100%" : "calc(100% - 4rem)"};
   height: auto;
+  max-width: calc(1440px - 4rem);
   margin: ${isMobile ? "0" : "0 2rem 5rem 2rem"};
   opacity: ${(props) => (props.loaded ? "1" : "0")};
   transition: opacity 0.5s ease-in;
+  @media (min-width: 1440px) {
+    display: flex;
+    justify-content: center;
+    margin: 0;
+  }
 `;
 
 const Loading = styled.p`
@@ -39,7 +45,6 @@ const Loading = styled.p`
 const Content = styled.article`
   box-sizing: border-box;
   margin-top: ${isMobile ? "1rem" : "8rem"};
-  width: 100%;
   height: auto;
   display: flex;
   justify-content: ${(props) => (props.position ? "center" : "flex-end")};
@@ -48,18 +53,21 @@ const Content = styled.article`
     flex-direction: column;
     align-content: start;
   }
+  @media (min-width: 1440px) {
+    width: 1440px;
+  }
 `;
 
 const ListContainer = styled.section`
   padding: 0;
   display: flex;
   flex-direction: column;
-  margin-left: ${(props) => (props.position ? "20" : "40")}vw;
-  margin-right: ${(props) => (props.position ? "20" : "0")}vw;
   transition: all 0.3s ease-in;
-  @media (max-width: 1280px) {
-    margin-left: ${(props) => (props.position ? "10" : "40")}vw;
-    margin-right: ${(props) => (props.position ? "10" : "0")}vw;
+  margin-left: ${(props) => (props.position ? "calc(720px - 26rem)" : "40vw")};
+  margin-right: ${(props) => (props.position ? "calc(720px - 26rem)" : "0vw")};
+  @media (max-width: 1440px) {
+    margin-left: ${(props) => (props.position ? "calc(50vw - 26rem)" : "40vw")};
+    margin-right: ${(props) => (props.position ? "calc(50vw - 26rem)" : "0vw")};
   }
   @media (max-width: 900px) {
     margin: 0;
@@ -112,32 +120,30 @@ const Renditions = ({ match }) => {
   const [toggleScript, toggleScriptState] = useState(true);
   const [openAll, setOpenAll] = useState(false);
   const [loaded, setLoaded] = useState(false);
-  const [makeYearSmall, setMakeYearSmall] = useState(false);
   const allLoaded = [];
+  const [makeYearSmall, setMakeYearSmall] = useState(false);
+  const history = useHistory();
+  const uid = match.params.uid;
   let closedRenditionsRefs = [];
   let openRenditionsRefs = [];
-  const history = useHistory();
-  let scaleDown = window.innerWidth < 600 || isMobile ? "&w=0.2" : "&w=0.3";
 
-  const uid = match.params.uid;
+  const scaleDownBackground = (imageWidth) => {
+    let scaleDownFactor = (window.innerWidth + 100) / imageWidth;
+    if (scaleDownFactor > 1) {
+      scaleDownFactor = 1
+    }
+    return `&w=${Math.round(scaleDownFactor * 100) / 100}`
+  }
 
   useEffect(() => {
-    if (!isMobile) window.onscroll = function () { handleScroll() };
+    if (!isMobile) {
+      window.onscroll = function () { handleScroll() }
+    };
   }, [uid]); // Skip the Effect hook if the UID hasn't changed
 
-  const getWorks = async () => {
-    return await client.query(
-      Prismic.Predicates.at("document.type", "work"),
-      { orderings: "[my.work.order, my.work.work_year_to desc]" }
-    );
+  const getWork = async () => {
+    return await client.getByUID('work', uid);
   };
-
-  //Match the uid with the list of works and find correct work
-  const getWork = (works) => {
-    return works.results.filter(
-      (item) => item.slugs[0] === uid
-    )[0];
-  }
 
   const getRenditions = async (workId) => {
     return await client.query(
@@ -146,8 +152,7 @@ const Renditions = ({ match }) => {
   }
 
   async function createWork() {
-    const works = await getWorks();
-    const work = getWork(works)
+    const work = await getWork()
     const renditions = await getRenditions(work.id);
     const workCombinedWithRenditions = {
       renditions: renditions.results,
@@ -158,15 +163,41 @@ const Renditions = ({ match }) => {
       work_image: work.data.work_preview_image.url,
       work_image_width: work.data.work_preview_image.dimensions.width
     };
-    let numberOfImages = 0;
-    console.log(workCombinedWithRenditions)
-    workCombinedWithRenditions.renditions.forEach((rendition) => {
-      numberOfImages += rendition.data.rendition_images.length;
-    });
-    return { ...workCombinedWithRenditions, numberOfImages }
+    const { scaleDownFactors, numberOfImages } = handleImages(workCombinedWithRenditions);
+    return { ...workCombinedWithRenditions, scaleDownFactors, numberOfImages }
   }
 
   const { data: work, isLoading, isError } = useQuery("work", createWork);
+
+  const handleImages = (work) => {
+    let numberOfImages = 0;
+    let scaleDownFactors = []
+    work.renditions.forEach((rendition, i) => {
+      rendition.data.rendition_images.forEach(image => {
+        scaleDownFactors.push([])
+        let factor = calculateScaleDownFactor(window.innerWidth, image.rendition_image.dimensions.width);
+        if (isMobile) {
+          factor *= 2;
+        }
+        if (factor > 1) {
+          factor = 1;
+        }
+        scaleDownFactors[i].push(`&w=${factor}&sharp=40`);
+      })
+      numberOfImages += rendition.data.rendition_images.length;
+    });
+    return { scaleDownFactors, numberOfImages }
+  };
+
+  const calculateScaleDownFactor = (windowWidth, imgWidthPrismic) => {
+    let imgWidthInDom = windowWidth
+    if (windowWidth < 900) {
+      imgWidthInDom -= 25
+    } else {
+      imgWidthInDom = 720
+    }
+    return Math.round(imgWidthInDom / imgWidthPrismic * 100) / 100
+  }
 
   function executeScroll(ref) {
     let tempRef = 0
@@ -278,7 +309,7 @@ const Renditions = ({ match }) => {
             }
           />
           <ListContainer position={!toggleScript}>
-            {work.renditions.map((item, i) => {
+            {work.renditions.map((rendition, j) => {
               return (
                 <RenditionList
                   loaded={loaded}
@@ -286,13 +317,13 @@ const Renditions = ({ match }) => {
                   openAll={openAll}
                   refClosedList={refClosedList}
                   refOpenList={refOpenList}
-                  key={"a" + i}
+                  key={"a" + j}
                   renditionsLength={work.renditions.length}
                   expandValue={expandValue}
-                  id={i}
-                  title={item.data.rendition_title[0].text}
-                  year={item.data.rendition_year}
-                  descriptionPreview={item.data.rendition_images.map(
+                  id={j}
+                  title={rendition.data.rendition_title[0].text}
+                  year={rendition.data.rendition_year}
+                  descriptionPreview={rendition.data.rendition_images.map(
                     (image, i) => (
                       <DescriptionPreview key={"d" + i}>
                         <Circle />
@@ -303,10 +334,10 @@ const Renditions = ({ match }) => {
                       </DescriptionPreview>
                     )
                   )}
-                  img={item.data.rendition_images.map((image, i) => [
+                  img={rendition.data.rendition_images.map((image, i) => [
                     <Image
                       onLoad={() => handleLoad(i)}
-                      src={image.rendition_image.url + scaleDown}
+                      src={image.rendition_image.url + work.scaleDownFactors[j][i]}
                       key={"b" + i}
                       alt={image.rendition_image_caption[0].text}
                     />,
