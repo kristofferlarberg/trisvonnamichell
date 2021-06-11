@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import { Helmet } from "react-helmet";
 import { RichText } from "prismic-reactjs";
-import { client, linkResolver } from "../prismic-configuration";
+import { apiEndpoint, client, linkResolver } from "../prismic-configuration";
 import NotFound from "./NotFound";
 import Prismic from "prismic-javascript";
 import styled from "styled-components";
@@ -232,8 +233,28 @@ const Renditions = ({ match }) => {
     return (<Loading>Loading...</Loading>)
   }
 
+  const repoNameArray = /([^/]+)\.cdn.prismic\.io\/api/.exec(apiEndpoint);
+  const repoName = repoNameArray[1];
+
   return (
     <>
+    <Helmet>
+        <title>Tris Vonna-Michell: Work Renditions</title>
+        <meta name="description" content="Presentation of work by Tris Vonna-Michell." />
+        <meta property="og:image" content="https://images.prismic.io/trisvonnamichell/6392235a-5597-4bb1-aa05-21a37c33b122_TVM-audio+poems-09+copy+2.jpg" />
+        <meta property="og:description" content="Presentation of work by Tris Vonna-Michell." />
+        <meta property="og:title" content="Tris Vonna-Michell" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Tris Vonna-Michell" />
+        <meta name="twitter:description" content="Presentation of work by Tris Vonna-Michell." />
+        <meta name="twitter:image" content="https://images.prismic.io/trisvonnamichell/6392235a-5597-4bb1-aa05-21a37c33b122_TVM-audio+poems-09+copy+2.jpg" />
+        <link rel="shortcut icon" href="/favicon2.png" />
+        <script
+          async
+          defer
+          src={`//static.cdn.prismic.io/prismic.js?repo=${repoName}&new=true`}
+        />
+      </Helmet>
       <Main loaded={loaded}>
         <GlobalStyle img={work.work_image + imgix} mobile={isMobile} />
         <Nav

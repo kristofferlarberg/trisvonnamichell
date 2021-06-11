@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { Helmet } from "react-helmet";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { apiEndpoint } from "./prismic-configuration";
@@ -31,8 +31,18 @@ const App = (props) => {
   const repoName = repoNameArray[1];
 
   return (
-    <Fragment>
+    <>
       <Helmet>
+        <title>Tris Vonna-Michell</title>
+        <meta name="description" content="Presentation of work by Tris Vonna-Michell." />
+        <meta property="og:image" content="https://images.prismic.io/trisvonnamichell/6392235a-5597-4bb1-aa05-21a37c33b122_TVM-audio+poems-09+copy+2.jpg" />
+        <meta property="og:description" content="Presentation of work by Tris Vonna-Michell." />
+        <meta property="og:title" content="Tris Vonna-Michell" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Tris Vonna-Michell" />
+        <meta name="twitter:description" content="Presentation of work by Tris Vonna-Michell." />
+        <meta name="twitter:image" content="https://images.prismic.io/trisvonnamichell/6392235a-5597-4bb1-aa05-21a37c33b122_TVM-audio+poems-09+copy+2.jpg" />
+        <link rel="shortcut icon" href="/favicon1.png" />
         <script
           async
           defer
@@ -48,7 +58,7 @@ const App = (props) => {
           </Switch>
         </BrowserRouter>
       </QueryClientProvider>
-    </Fragment>
+    </>
   );
 };
 
