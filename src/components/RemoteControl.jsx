@@ -1,20 +1,20 @@
-import React, { useRef, useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
-import styled from "styled-components";
-import { Link } from "react-router-dom";
-import ButtonOne from "../graphics/1.svg";
-import ButtonTwo from "../graphics/2.svg";
-import ButtonThree from "../graphics/3.svg";
-import ButtonThreeP from "../graphics/3p.svg";
-import ButtonFive from "../graphics/5.svg";
-import ButtonSix from "../graphics/6.svg";
+import React, {useEffect, useRef, useState} from 'react';
+import styled from 'styled-components';
+import {useHistory} from 'react-router-dom';
+
+import ButtonFive from '../graphics/5.svg';
+import ButtonOne from '../graphics/1.svg';
+import ButtonSix from '../graphics/6.svg';
+import ButtonThree from '../graphics/3.svg';
+import ButtonThreeP from '../graphics/3p.svg';
+import ButtonTwo from '../graphics/2.svg';
 
 const Constraint = styled.section`
   position: fixed;
   top: 0;
   width: 100%;
   height: calc(100vh - 3rem);
-  pointer-events: ${(props) => (props.overRemote ? "auto" : "none")};
+  pointer-events: ${props => (props.overRemote ? 'auto' : 'none')};
   z-index: 9;
   & > div {
     pointer-events: auto;
@@ -36,7 +36,7 @@ const Container = styled.div`
   bottom: 0;
   right: 0;
   z-index: 9;
-  transition: ${(props) => (props.pressed ? "0" : "transform 0.25s ease-in")};
+  transition: ${props => (props.pressed ? '0' : 'transform 0.25s ease-in')};
 `;
 
 const Button = styled.button`
@@ -80,30 +80,43 @@ function RemoteControl(props) {
 
   const history = useHistory();
   const [pressed, setPressed] = useState(false);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [position, setPosition] = useState({x: 0, y: 0});
   const [overRemote, setOverRemote] = useState(false);
   const ref = useRef();
 
-  useEffect(() => {
-    if (ref.current) {
-      ref.current.style.transform = `translate(${position.x}px, ${position.y}px)`;
-    }
-    document.addEventListener("keyup", handleKeyDown);
-    return function cleanup() {
-      document.removeEventListener("keyup", handleKeyDown);
-    };
-  });
-
   const onMouseMove = (event) => {
     if (pressed && event.clientX < window.innerWidth - 30) {
-      let x = event.clientX - ref.current.offsetLeft - 20;
-      let y = event.clientY - ref.current.offsetTop - 34;
+      const x = event.clientX - ref.current.offsetLeft - 20;
+      const y = event.clientY - ref.current.offsetTop - 34;
       setPosition({
         x,
         y,
       });
     }
   };
+
+  function openNext() {
+    if (currentValue < renditionsLength - 1) {
+      return adjustValue(1);
+    }
+    return null;
+  }
+
+  function openPrevious() {
+    if (!expandAll && currentValue > -1) return adjustValue(-1);
+    if (expandAll && currentValue > 0) return adjustValue(-1);
+    return null;
+  }
+
+  function openAll() {
+    if (!expandAll) return adjustValue(999);
+    if (expandAll) return adjustValue(-2);
+    return null;
+  }
+
+  function toggleScript() {
+    return toggleScriptRemote();
+  }
 
   function handleKeyDown(event) {
     switch (event.keyCode) {
@@ -129,77 +142,65 @@ function RemoteControl(props) {
         toggleScript();
         break;
       case 27:
-        history.push("/");
+        history.push('/');
         break;
       default:
         break;
     }
   }
 
-  function openNext() {
-    if (currentValue < renditionsLength - 1) {
-      return adjustValue(1);
+  useEffect(() => {
+    if (ref.current) {
+      ref.current.style.transform = `translate(${position.x}px, ${position.y}px)`;
     }
-  }
-
-  function openPrevious() {
-    if (!expandAll && currentValue > -1) return adjustValue(-1);
-    if (expandAll && currentValue > 0) return adjustValue(-1);
-  }
-
-  function openAll() {
-    if (!expandAll) return adjustValue(999);
-    if (expandAll) return adjustValue(-2);
-  }
-
-  function toggleScript() {
-    return toggleScriptRemote();
-  }
+    document.addEventListener('keyup', handleKeyDown);
+    return function cleanup() {
+      document.removeEventListener('keyup', handleKeyDown);
+    };
+  });
 
   return (
     <>
       <Constraint
-        overRemote={overRemote}
+        onMouseLeave={() => {
+          setOverRemote(false);
+          setPressed(false);
+        }}
         onMouseMove={onMouseMove}
         onMouseUp={() => {
           setOverRemote(false);
           setPressed(false);
         }}
-        onMouseLeave={() => {
-          setOverRemote(false);
-          setPressed(false);
-        }}
+        overRemote={overRemote}
       >
         <Container
-          onMouseOver={() => setOverRemote(true)}
-          onMouseLeave={() => {
-            !pressed && setOverRemote(false);
-          }}
-          pressed={pressed}
           ref={ref}
+          onMouseLeave={() => !pressed && setOverRemote(false)}
+          onMouseOver={() => setOverRemote(true)}
+          pressed={pressed}
         >
-          <InvisibleButton onMouseDown={() => setPressed(true)} aria-hidden="true" tabIndex={-1}>
+          <InvisibleButton aria-hidden="true" onMouseDown={() => setPressed(true)} tabIndex={-1}>
             ::
             <br />
             ::
           </InvisibleButton>
           <Button aria-label="Open next section" onClick={openNext}>
-            <ButtonSymbol src={ButtonOne} alt="Downwards pointing arrow" />
+            <ButtonSymbol alt="Downwards pointing arrow" src={ButtonOne} />
           </Button>
-          <Button aria-label="Open previous section"  onClick={openPrevious}>
-            <ButtonSymbol src={ButtonTwo} alt="Upwards pointing arrow" />
+          <Button aria-label="Open previous section" onClick={openPrevious}>
+            <ButtonSymbol alt="Upwards pointing arrow" src={ButtonTwo} />
           </Button>
-          <Button aria-label="Open and close all sections"  onClick={openAll}>
+          <Button aria-label="Open and close all sections" onClick={openAll}>
             <ButtonSymbol
-              src={!expandAll ? ButtonThreeP : ButtonThree}
               alt="Downwards pointing fast forward symbol"
+              src={!expandAll ? ButtonThreeP : ButtonThree}
             />
           </Button>
-          <Button aria-label="Hide or show script section"  onClick={toggleScript}>
-            <ButtonSymbol src={ButtonSix} alt="Symbol with the letter T" />
+          <Button aria-label="Hide or show script section" onClick={toggleScript}>
+            <ButtonSymbol alt="Symbol with the letter T" src={ButtonSix} />
           </Button>
-          <LastButton aria-label="Go back to homepage" onClick={() => history.push("/")}>
-            <ButtonSymbol src={ButtonFive} alt="Stop symbol" />
+          <LastButton aria-label="Go back to homepage" onClick={() => history.push('/')}>
+            <ButtonSymbol alt="Stop symbol" src={ButtonFive} />
           </LastButton>
         </Container>
       </Constraint>

@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
-import styled from "styled-components";
+import React, {useEffect, useState} from 'react';
+import styled from 'styled-components';
 
-let ua = navigator.userAgent;
+const ua = navigator.userAgent;
 const isMobile = /Android|webOS|iPhone|iPad|iPod/i.test(ua);
 
 const Container = styled.div`
   padding: 5px;
-  margin: ${isMobile ? "0.3rem" : "1rem"};
+  margin: ${isMobile ? '0.3rem' : '1rem'};
   width: 150px;
   height: 60px;
   display: flex;
@@ -44,7 +44,8 @@ const Timer = () => {
           setHours(hours + 1);
         }
       }, 1000);
-    } else if (!active && seconds !== 0) {
+    }
+    else if (!active && seconds !== 0) {
       clearInterval(intervalSecond);
     }
     setActive(true);
@@ -54,8 +55,10 @@ const Timer = () => {
   return (
     <Container>
       <Time>
-        {hours < 10 ? `0${hours}` : hours}:
-        {minutes < 10 ? `0${minutes}` : minutes}:
+        {hours < 10 ? `0${hours}` : hours}
+        :
+        {minutes < 10 ? `0${minutes}` : minutes}
+        :
         {seconds < 10 ? `0${seconds}` : seconds}
       </Time>
     </Container>
