@@ -103,7 +103,7 @@ const VerticalLine = styled.div`
   background-color: var(--lightgrey);
 `;
 
-const Timeline = ({
+const WorkTimeline = ({
   id,
   handleLoad,
   left,
@@ -209,4 +209,4 @@ const Timeline = ({
   );
 };
 
-export default Timeline;
+export default WorkTimeline;

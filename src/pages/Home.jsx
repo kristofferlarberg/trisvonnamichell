@@ -8,7 +8,7 @@ import {apiEndpoint, client} from '../prismic-configuration';
 import GlobalStyle from '../styles/global';
 import Nav from '../components/Nav';
 import NotFound from './NotFound';
-import Timeline from '../components/Timeline';
+import WorkTimeline from '../components/WorkTimeline';
 
 const ua = navigator.userAgent;
 export const isMobile = /Android|webOS|iPhone|iPad|iPod/i.test(ua);
@@ -159,7 +159,7 @@ const Home = () => {
           const timelineWidth = workTimelines.maxYear - workTimelines.minYear + 1;
           return (
             item.data.work_script.length > 0 && (
-            <Timeline
+            <WorkTimeline
               key={item.link.id}
               handleLoad={() => handleLoad(i)}
               left={
