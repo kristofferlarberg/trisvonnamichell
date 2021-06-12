@@ -108,7 +108,15 @@ const Timeline = ({
   handleLoad,
   left,
   link,
-  loaded, numberOfWorks, width, workPreviewImage, workPreviewImageWidth, workPreviewImageHeight, workTitle, workYearFrom, workYearTo,
+  loaded,
+  numberOfWorks,
+  width,
+  workPreviewImage,
+  workPreviewImageWidth,
+  workPreviewImageHeight,
+  workTitle,
+  workYearFrom,
+  workYearTo,
 }) => {
   const scaleDownBackground = () => {
     let scaleDownFactor = (window.innerWidth + 50) / workPreviewImageWidth;
@@ -133,7 +141,6 @@ const Timeline = ({
   };
 
   return (isMobile
-
     ? (
       <LineContainer key={`${id}a`} show={loaded}>
         <Line
@@ -171,7 +178,6 @@ const Timeline = ({
           <Preview
             key={`${id}c`}
             alt={workTitle}
-            className="link_img"
             left={left}
             onLoad={handleLoad}
             src={workPreviewImage + scaleDownPreview()}

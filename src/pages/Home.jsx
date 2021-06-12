@@ -6,9 +6,9 @@ import {useQuery} from 'react-query';
 
 import {apiEndpoint, client} from '../prismic-configuration';
 import GlobalStyle from '../styles/global';
-import Lines from '../components/Timeline';
 import Nav from '../components/Nav';
 import NotFound from './NotFound';
+import Timeline from '../components/Timeline';
 
 const ua = navigator.userAgent;
 export const isMobile = /Android|webOS|iPhone|iPad|iPod/i.test(ua);
@@ -51,28 +51,6 @@ const Home = () => {
     }
   };
 
-  const createTimelineLinks = (data) => {
-    const works = data;
-    works.results.forEach((work, i) => {
-      const width = work.data.work_year_to - work.data.work_year_from + 1;
-      const newItem = {
-        ...work,
-        imageWidth: width,
-        link: {
-          id: work.id,
-          isBroken: false,
-          lang: work.lang,
-          link_type: 'Document',
-          tags: [],
-          type: work.type,
-          uid: work.uid,
-        },
-      };
-      works.results[i] = newItem;
-    });
-    return works;
-  };
-
   const getMaxAndMinYears = (works) => {
     let maxYear = works.results[0].data.work_year_to;
     let minYear = works.results[0].data.work_year_from;
@@ -83,20 +61,39 @@ const Home = () => {
     return {maxYear, minYear};
   };
 
-  async function createTimelines() {
+  async function createWorkTimelines() {
     const works = await getWorks();
-    const worksWithLinkObject = {...createTimelineLinks(works)};
-    const {minYear, maxYear} = getMaxAndMinYears(worksWithLinkObject);
-    return {...worksWithLinkObject, maxYear, minYear};
+    const worksWithAddedProperties = works;
+
+    works.results.forEach((work, i) => {
+      const width = work.data.work_year_to - work.data.work_year_from + 1;
+      const newItem = {
+        ...work,
+        image_width: width,
+        link: {
+          id: work.id,
+          isBroken: false,
+          lang: work.lang,
+          link_type: 'Document',
+          tags: [],
+          type: work.type,
+          uid: work.uid,
+        },
+      };
+      worksWithAddedProperties.results[i] = newItem;
+    });
+
+    const {minYear, maxYear} = getMaxAndMinYears(worksWithAddedProperties);
+    return {...worksWithAddedProperties, maxYear, minYear};
   }
 
   const {
-    data: timelines, isError, isLoading, isSuccess,
-  } = useQuery('timelines', createTimelines);
+    data: workTimelines, isError, isLoading, isSuccess,
+  } = useQuery('workTimelines', createWorkTimelines);
 
   const handleLoad = (i) => {
     if (allLoaded.length === 0) {
-      timelines.results.forEach((work) => {
+      workTimelines.results.forEach((work) => {
         if (work.data.work_script.length) {
           allLoaded.push(false);
         }
@@ -156,23 +153,22 @@ const Home = () => {
           mobile={isMobile}
           title={!email ? 'Tris Vonna-Michell' : 'studiotvm@protonmail.com'}
           toggleTitle={toggleTitle}
-          years={`Works ${timelines.min_year}–`}
+          years={`Works ${workTimelines.minYear}–`}
         />
-
-        {timelines.results.map((item) => {
-          const timelineWidth = timelines.max_year - timelines.min_year + 1;
+        {workTimelines.results.map((item, i) => {
+          const timelineWidth = workTimelines.maxYear - workTimelines.minYear + 1;
           return (
             item.data.work_script.length > 0 && (
-            <Lines
+            <Timeline
               key={item.link.id}
-              handleLoad={() => handleLoad(item.link.id)}
+              handleLoad={() => handleLoad(i)}
               left={
-                ((item.data.work_year_from - timelines.min_year) / timelineWidth)
+                ((item.data.work_year_from - workTimelines.min_year) / timelineWidth)
                 * 100
               }
               link={item.link}
               loaded={loaded}
-              numberOfWorks={timelines.results.length}
+              numberOfWorks={workTimelines.results.length}
               renditions={false}
               width={(item.image_width / timelineWidth) * 100}
               workPreviewImage={item.data.work_preview_image.url}
