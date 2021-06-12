@@ -15,7 +15,7 @@
         "sourceType": "module"
     },
     "plugins": [
-        "eslint-plugin-jsx-a11y"
+        "jsx-a11y"
     ],
     "rules": {
         "react/jsx-sort-props": ["error", {
