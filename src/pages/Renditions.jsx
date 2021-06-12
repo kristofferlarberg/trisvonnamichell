@@ -128,13 +128,13 @@ const Renditions = ({match}) => {
   const closedRenditionsRefs = [];
   const openRenditionsRefs = [];
 
-  // const scaleDownBackground = (imageWidth) => {
-  //   let scaleDownFactor = (window.innerWidth + 100) / imageWidth;
-  //   if (scaleDownFactor > 1) {
-  //     scaleDownFactor = 1;
-  //   }
-  //   return `&w=${Math.round(scaleDownFactor * 100) / 100}`;
-  // };
+  const scaleDownBackground = (imageWidth) => {
+    let scaleDownFactor = (window.innerWidth + 100) / imageWidth;
+    if (scaleDownFactor > 1) {
+      scaleDownFactor = 1;
+    }
+    return `&w=${Math.round(scaleDownFactor * 100) / 100}`;
+  };
 
   function handleScroll() {
     if (window.pageYOffset > 75) setMakeYearSmall(true);
@@ -310,7 +310,7 @@ const Renditions = ({match}) => {
         />
       </Helmet>
       <Main loaded={loaded}>
-        <GlobalStyle img={work.work_image + imgix} mobile={isMobile} />
+        <GlobalStyle img={work.work_image + scaleDownBackground(work.work_image_width) + imgix} mobile={isMobile} />
         <Nav
           makeYearSmall={makeYearSmall}
           mobile={isMobile}
@@ -332,7 +332,7 @@ const Renditions = ({match}) => {
             )}
           />
           <ListContainer position={!toggleScript}>
-            {work.renditions.map(rendition => (
+            {work.renditions.map((rendition, j) => (
               <RenditionList
                 key={rendition.id}
                 descriptionPreview={rendition.data.rendition_images.map(
@@ -347,13 +347,13 @@ const Renditions = ({match}) => {
                   ),
                 )}
                 expandValue={expandValue}
-                id={rendition.id}
+                id={j}
                 img={rendition.data.rendition_images.map((image, i) => [
                   <Image
                     key={`${image.rendition_image.url}b`}
                     alt={image.rendition_image_caption[0].text}
                     onLoad={() => handleLoad()}
-                    src={image.rendition_image.url + work.scaleDownFactors[rendition.id][i]}
+                    src={image.rendition_image.url + work.scaleDownFactors[j][i]}
                   />,
                   <DescriptionPreview key={`${image.id}c`}>
                     <RichText
