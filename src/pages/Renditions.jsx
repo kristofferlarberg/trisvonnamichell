@@ -25,11 +25,12 @@ const Main = styled.main`
   box-sizing: border-box;
   width: ${isMobile ? '100%' : 'calc(100% - 4rem)'};
   height: auto;
-  max-width: calc(1440px - 4rem);
+  max-width: calc(1416px - 4rem);
   margin: ${isMobile ? '0' : '0 2rem 5rem 2rem'};
   opacity: ${props => (props.loaded ? '1' : '0')};
   transition: opacity 0.5s ease-in;
-  @media (min-width: 1440px) {
+  @media (min-width: 1416px) {
+    width: calc(1416px - 4rem);
     display: flex;
     justify-content: center;
     margin: 0;
@@ -54,8 +55,8 @@ const Content = styled.article`
     flex-direction: column;
     align-content: start;
   }
-  @media (min-width: 1440px) {
-    width: 1440px;
+  @media (min-width: 1416px) {
+    width: 1416px;
   }
 `;
 
@@ -64,11 +65,11 @@ const ListContainer = styled.section`
   display: flex;
   flex-direction: column;
   transition: all 0.3s ease-in;
-  margin-left: ${props => (props.position ? 'calc(720px - 26rem)' : '40vw')};
-  margin-right: ${props => (props.position ? 'calc(720px - 26rem)' : '0vw')};
-  @media (max-width: 1440px) {
-    margin-left: ${props => (props.position ? 'calc(50vw - 26rem)' : '40vw')};
-    margin-right: ${props => (props.position ? 'calc(50vw - 26rem)' : '0vw')};
+  margin-left: ${props => (props.position ? 'calc(50vw - 26rem)' : '40vw')};
+  margin-right: ${props => (props.position ? 'calc(50vw - 26rem)' : '0vw')};
+  @media (min-width: 1416px) {
+    margin-left: ${props => (props.position ? 'calc(708px - 26rem)' : 'calc(100% - 768px)')};
+    margin-right: ${props => (props.position ? 'calc(708px - 26rem)' : '0vw')};
   }
   @media (max-width: 900px) {
     margin: 0;
@@ -176,7 +177,7 @@ const Renditions = ({match}) => {
       imgWidthInDom -= 25;
     }
     else {
-      imgWidthInDom = 720;
+      imgWidthInDom = 708;
     }
     return Math.round((imgWidthInDom / imgWidthPrismic) * 100) / 100;
   };
