@@ -64,11 +64,11 @@ const ListContainer = styled.section`
   display: flex;
   flex-direction: column;
   transition: all 0.3s ease-in;
-  margin-left: ${props => (props.position ? 'calc(720px - 26rem)' : '40vw')};
-  margin-right: ${props => (props.position ? 'calc(720px - 26rem)' : '0vw')};
+  margin-left: ${props => (props.position ? 'calc(45rem - 26rem)' : '38rem')};
+  margin-right: ${props => (props.position ? 'calc(45rem - 26rem)' : '0')};
   @media (max-width: 1440px) {
     margin-left: ${props => (props.position ? 'calc(50vw - 26rem)' : '40vw')};
-    margin-right: ${props => (props.position ? 'calc(50vw - 26rem)' : '0vw')};
+    margin-right: ${props => (props.position ? 'calc(50vw - 26rem)' : '0')};
   }
   @media (max-width: 900px) {
     margin: 0;

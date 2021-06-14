@@ -36,6 +36,7 @@ const ScriptBox = styled.section`
     `}
   }
   @media (min-width: 1440px) {
+    max-width: 35rem;
     left: ${props => (props.position ? '-34vw' : 'calc(50% - 720px + 2rem)')};
   }
 `;
