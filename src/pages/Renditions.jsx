@@ -325,7 +325,6 @@ const Renditions = ({match}) => {
             position={!toggleScript}
             text={(
               <RichText
-                key="c"
                 linkResolver={linkResolver}
                 render={work.work_script}
               />
@@ -337,7 +336,7 @@ const Renditions = ({match}) => {
                 key={rendition.id}
                 descriptionPreview={rendition.data.rendition_images.map(
                   image => (
-                    <DescriptionPreview key={`${image.rendition_image.url}a`}>
+                    <DescriptionPreview key={image.rendition_image.url}>
                       <Circle />
                       <RichText
                         linkResolver={linkResolver}
@@ -348,20 +347,23 @@ const Renditions = ({match}) => {
                 )}
                 expandValue={expandValue}
                 id={j}
-                img={rendition.data.rendition_images.map((image, i) => [
-                  <Image
-                    key={`${image.rendition_image.url}b`}
-                    alt={image.rendition_image_caption[0].text}
-                    onLoad={() => handleLoad()}
-                    src={image.rendition_image.url + work.scaleDownFactors[j][i]}
-                  />,
-                  <DescriptionPreview key={`${image.id}c`}>
-                    <RichText
-                      linkResolver={linkResolver}
-                      render={image.rendition_image_caption}
-                    />
-                  </DescriptionPreview>,
-                ])}
+                imgAndDescription={rendition.data.rendition_images.map(
+                  (image, i) => (
+                    <div key={image.rendition_image.url}>
+                      <Image
+                        alt={image.rendition_image_caption[0].text}
+                        onLoad={() => handleLoad()}
+                        src={image.rendition_image.url + work.scaleDownFactors[j][i]}
+                      />
+                      <DescriptionPreview>
+                        <RichText
+                          linkResolver={linkResolver}
+                          render={image.rendition_image_caption}
+                        />
+                      </DescriptionPreview>
+                    </div>
+                  ),
+                )}
                 loaded={loaded}
                 mobile={isMobile}
                 openAll={openAll}
