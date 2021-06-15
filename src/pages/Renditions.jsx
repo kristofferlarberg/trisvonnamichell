@@ -143,7 +143,7 @@ const Renditions = ({match}) => {
   }
 
   useEffect(() => {
-    const functionForOnScroll = () => handleScroll();
+    const functionForOnScroll = () => handleScroll;
     if (!isMobile) {
       window.onscroll = functionForOnScroll();
     }
