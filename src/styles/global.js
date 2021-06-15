@@ -1,6 +1,6 @@
-import { createGlobalStyle } from "styled-components";
+import {createGlobalStyle} from 'styled-components';
 
-export const GlobalStyle = createGlobalStyle`
+const GlobalStyle = createGlobalStyle`
   html{
     overflow-y: scroll;
     scroll-behavior: smooth;
@@ -15,10 +15,10 @@ export const GlobalStyle = createGlobalStyle`
     font-size: 1.05rem;
     line-height: 1.6rem;
     background-color: #111;
-    background-attachment: ${(props) => (props.mobile ? "scroll" : "fixed")};
-    background-image: url(${(props) => props.img});
-    background-repeat: ${(props) => (props.mobile ? "repeat" : "no-repeat")};
-    background-size: ${(props) => (props.mobile ? "100%" : "cover")};
+    background-attachment: ${props => (props.mobile ? 'scroll' : 'fixed')};
+    background-image: url(${props => props.img});
+    background-repeat: ${props => (props.mobile ? 'repeat' : 'no-repeat')};
+    background-size: ${props => (props.mobile ? '100%' : 'cover')};
   }
   #root {
     display: flex;
@@ -86,3 +86,5 @@ export const GlobalStyle = createGlobalStyle`
     
   }
 `;
+
+export default GlobalStyle;

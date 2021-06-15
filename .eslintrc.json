@@ -1,0 +1,41 @@
+{
+    "env": {
+        "browser": true,
+        "es6": true
+    },
+    "extends": [
+        "react-app",
+        "airbnb"
+    ],
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 2018,
+        "sourceType": "module"
+    },
+    "plugins": [
+        "jsx-a11y"
+    ],
+    "rules": {
+        "react/jsx-sort-props": ["error", {
+            "ignoreCase": true,
+            "reservedFirst": true
+        }],
+        "sort-keys": "error",
+        "sort-imports": ["error", {"allowSeparatedGroups": true, "ignoreCase": true}]    },
+    "overrides": [
+        {
+            "files": ["**/*.js", "**/*.jsx"],
+            "rules": {
+                "arrow-body-style": ["error", "as-needed"],
+                "arrow-parens": ["error", "as-needed", {"requireForBlockBody": true}],
+                "brace-style": ["error", "stroustrup"],
+                "linebreak-style": "off",
+                "max-len": ["error", { "code": 150 }],
+                "object-curly-spacing": ["error", "never"],
+                "react/prop-types": "off"
+            }
+        }
+    ]
+}
