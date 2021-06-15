@@ -142,21 +142,19 @@ const WorkTimeline = ({
 
   return (isMobile
     ? (
-      <LineContainer key={`${id}a`} show={loaded}>
+      <LineContainer key={id} show={loaded}>
         <Line
-          key={`${id}b`}
           img={workPreviewImage + scaleDownBackground() + imgix}
         >
           <WorkLink
-            key={`${id}c`}
             href={Link.url(link, linkResolver)}
             numberOfWorks={numberOfWorks}
           >
-            <HoverLine key={`${id}d`}>
-              <WorkTitle key={`${id}e`}>
+            <HoverLine>
+              <WorkTitle>
                 {workTitle}
               </WorkTitle>
-              <WorkTitle key={`${id}f`}>
+              <WorkTitle>
                 {workYearFrom}
                 –
                 {workYearTo}
@@ -167,16 +165,14 @@ const WorkTimeline = ({
       </LineContainer>
     )
     : (
-      <LineContainer key={`${id}a`} show={loaded}>
-        <Ends key={`${id}b`}>
+      <LineContainer key={id} show={loaded}>
+        <Ends>
           <VerticalLine />
         </Ends>
         <Line
-          key={`${id}c`}
           img={workPreviewImage + scaleDownBackground() + imgix}
         >
           <Preview
-            key={`${id}c`}
             alt={workTitle}
             left={left}
             onLoad={handleLoad}
@@ -184,15 +180,14 @@ const WorkTimeline = ({
             width={width}
           />
           <WorkLink
-            key={`${id}d`}
             href={Link.url(link, linkResolver)}
             numberOfWorks={numberOfWorks}
           >
-            <HoverLine key={`${id}e`}>
-              <WorkTitle key={`${id}f`}>
+            <HoverLine>
+              <WorkTitle>
                 {workTitle}
               </WorkTitle>
-              <WorkTitle key={`${id}g`}>
+              <WorkTitle>
                 {workYearFrom}
                 –
                 {workYearTo}

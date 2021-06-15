@@ -43,7 +43,7 @@ const PreviewDiv = styled.div`
 `;
 
 const RenditionList = ({
-  description, descriptionPreview, expandValue, id, img, loaded, mobile, openAll, refClosedList, refOpenList, renditionsLength, title, year,
+  descriptionPreview, expandValue, id, imgAndDescription, loaded, mobile, openAll, refClosedList, refOpenList, renditionsLength, title, year,
 }) => {
   const [active, setActive] = useState(false);
   const [height, setHeight] = useState('0px');
@@ -85,8 +85,7 @@ const RenditionList = ({
         </PreviewDiv>
       </OpenImages>
       <Details ref={content} height={height}>
-        {img}
-        {description}
+        {imgAndDescription}
       </Details>
     </ListSection>
   );
