@@ -16,8 +16,8 @@ const NavBar = styled.nav`
   border-bottom: ${props => props.renditions && '4px solid var(--offwhite)'};
   transition: 0.1s linear;
   padding: ${props => (props.mobile ? '1rem 0' : props.makeYearSmall && '0 2.5rem')}; 
-  @media (min-width: 1440px) {
-    width: ${props => (props.renditions && props.mobile ? '100%' : 'calc(1440px - 4rem)')};
+  @media (min-width: 1416px) {
+    width: ${props => (props.renditions && props.mobile ? '100%' : 'calc(1416px - 4rem)')};
   }
   `;
 
