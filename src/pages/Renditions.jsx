@@ -18,8 +18,8 @@ import RemoteControl from '../components/RemoteControl';
 import RenditionList from '../components/RenditionList';
 import Script from '../components/Script';
 
-const ua = navigator.userAgent;
-export const isMobile = /Android|webOS|iPhone|iPad|iPod/i.test(ua);
+// const ua = navigator.userAgent;
+export const isMobile = window.innerWidth < 900;
 
 const Main = styled.main`
   box-sizing: border-box;

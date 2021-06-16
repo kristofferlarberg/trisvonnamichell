@@ -1,29 +1,30 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const HeaderContainer = styled.div`
-  color: var(--offwhite);
-  text-align: left;
-  line-height: 1.8rem;
-  margin: 3rem 0;
+const PageTitle = styled.h1`
+  margin: 0;
 `;
-const Description = styled.p`
+const HeaderContainer = styled.div`
+  position: fixed;
+  top: 0;
+  width: ${props => (props.mobile ? 'calc(100% - 30px)' : 'calc(100% - 4rem)')};
+  padding: ${props => (props.mobile ? '0 10px' : '0')};
+  max-width: 900px;
   color: var(--offwhite);
+  text-align: ${props => (props.mobile ? 'center' : 'left')};
+  margin: 2rem 0;
+  z-index: -10;
 `;
 
-function HomeHeader({fromYear}) {
+function HomeHeader({mobile, prologue, fromYear}) {
   return (
-    <HeaderContainer>
-      <h1>
+    <HeaderContainer mobile={mobile}>
+      <PageTitle>
         {`Vonna-Michell from ${fromYear}–`}
-      </h1>
-      <Description>
-        Text about Tris Lorem ipsum dolor sit amet consectetur adipisicing elit.
-        <br />
-        Eveniet quae dolores eaque beatae vel et nisi temporibus quam hic odio laborum eligendi.
-        <br />
-        Voluptatem ea error animi repudiandae, dicta, totam repellendus!
-      </Description>
+      </PageTitle>
+      <p>
+        {prologue}
+      </p>
     </HeaderContainer>
   );
 }
