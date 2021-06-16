@@ -388,7 +388,7 @@ const Renditions = ({match}) => {
           </ListContainer>
         </Content>
         <NewClock mobile={isMobile} />
-        {isMobile ? (
+        {isMobile || !work.work_script.length ? (
           <StopContainer>
             <StopButton aria-label="Go back to homepage" onClick={() => history.push('/')} tabIndex={0}>
               <StopButtonSymbol alt="Stop symbol" src={ButtonFive} />
