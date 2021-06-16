@@ -215,10 +215,13 @@ const Renditions = ({match}) => {
       work_year_to: work.data.work_year_to,
     };
     const {scaleDownFactors, numberOfImages} = handleImages(workCombinedWithRenditions);
+    console.log(workCombinedWithRenditions);
     return {...workCombinedWithRenditions, numberOfImages, scaleDownFactors};
   }
 
-  const {data: work, isLoading, isError} = useQuery('work', createWork);
+  const {
+    data: work, isLoading, isError, isSuccess,
+  } = useQuery('work', createWork);
 
   function executeScroll(ref) {
     let tempRef = 0;
@@ -282,6 +285,12 @@ const Renditions = ({match}) => {
     return (<Loading>Loading...</Loading>);
   }
 
+  if (isSuccess && !work.numberOfImages) {
+    setTimeout(() => {
+      setLoaded(true);
+    }, 100);
+  }
+
   const repoNameArray = /([^/]+)\.cdn.prismic\.io\/api/.exec(apiEndpoint);
   const repoName = repoNameArray[1];
 
@@ -324,11 +333,13 @@ const Renditions = ({match}) => {
             mobile={isMobile}
             open={!toggleScript}
             position={!toggleScript}
-            text={(
+            text={work.work_script.length ? (
               <RichText
                 linkResolver={linkResolver}
                 render={work.work_script}
               />
+            ) : (
+              'Nothing here...'
             )}
           />
           <ListContainer position={!toggleScript}>
