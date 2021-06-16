@@ -215,7 +215,6 @@ const Renditions = ({match}) => {
       work_year_to: work.data.work_year_to,
     };
     const {scaleDownFactors, numberOfImages} = handleImages(workCombinedWithRenditions);
-    console.log(workCombinedWithRenditions);
     return {...workCombinedWithRenditions, numberOfImages, scaleDownFactors};
   }
 
