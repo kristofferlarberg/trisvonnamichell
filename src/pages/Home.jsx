@@ -67,7 +67,7 @@ const Home = () => {
 
     works.results.forEach((work, i) => {
       const width = work.data.work_year_to - work.data.work_year_from + 1;
-      const newItem = {
+      const workLink = {
         ...work,
         image_width: width,
         link: {
@@ -80,7 +80,7 @@ const Home = () => {
           uid: work.uid,
         },
       };
-      worksWithAddedProperties.results[i] = newItem;
+      worksWithAddedProperties.results[i] = workLink;
     });
 
     const {minYear, maxYear} = getMaxAndMinYears(worksWithAddedProperties);
@@ -163,7 +163,7 @@ const Home = () => {
               key={item.link.id}
               handleLoad={() => handleLoad(i)}
               left={
-                ((item.data.work_year_from - workTimelines.min_year) / timelineWidth)
+                ((item.data.work_year_from - workTimelines.minYear) / timelineWidth)
                 * 100
               }
               link={item.link}
