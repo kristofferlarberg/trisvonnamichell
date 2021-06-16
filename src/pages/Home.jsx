@@ -94,7 +94,7 @@ const Home = () => {
   const handleLoad = (i) => {
     if (allLoaded.length === 0) {
       workTimelines.results.forEach((work) => {
-        if (work.data.work_script.length) {
+        if (work.data.work_script.length > 0) {
           allLoaded.push(false);
         }
       });
