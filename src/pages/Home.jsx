@@ -12,14 +12,18 @@ import NotFound from './NotFound';
 import WorkTimeline from '../components/WorkTimeline';
 
 // const ua = navigator.userAgent;
-export const isMobile = window.innerWidth < 900;
+export const isMobile = window.innerWidth < 768;
 
 const Main = styled.main`
-  margin: ${props => (props.mobile ? '200px 5px 40px 5px' : '10rem 2rem 2rem 2rem')};
-  width: ${props => (props.mobile ? 'calc(100% - 10px)' : 'calc(100% - 4rem)')};
+  margin: 10rem 2rem 2rem 2rem;
+  width: calc(100% - 4rem);
   height: auto;
   opacity: ${props => (props.loaded ? '1' : '0')};
   transition: opacity 0.5s ease-in;
+  @media (max-width: 768px) {
+    margin: 200px 5px 40px 5px;
+    width: calc(100% - 10px);
+  }
 `;
 const Loading = styled.p`
   color: var(--offwhite);
