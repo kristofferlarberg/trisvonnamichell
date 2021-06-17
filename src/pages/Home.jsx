@@ -6,25 +6,31 @@ import {useQuery} from 'react-query';
 
 import {apiEndpoint, client} from '../prismic-configuration';
 import GlobalStyle from '../styles/global';
-import Nav from '../components/Nav';
+import HomeHeader from '../components/HomeHeader';
 import NotFound from './NotFound';
 import WorkTimeline from '../components/WorkTimeline';
 
-const ua = navigator.userAgent;
-export const isMobile = /Android|webOS|iPhone|iPad|iPod/i.test(ua);
+export const isMobile = window.innerWidth < 900;
 
 const Main = styled.main`
-  margin: ${props => (props.mobile ? '0 5px 40px 5px' : '0 2rem 4rem 2rem')};
+  margin: ${props => (props.mobile ? '200px 5px 40px 5px' : '10rem 2rem 2rem 2rem')};
   width: ${props => (props.mobile ? 'calc(100% - 10px)' : 'calc(100% - 4rem)')};
   height: auto;
   opacity: ${props => (props.loaded ? '1' : '0')};
   transition: opacity 0.5s ease-in;
 `;
 const Loading = styled.p`
-  color: #fff;
+  color: var(--offwhite);
   margin: 32px 0 0 32px;
   font-family: "PT-Regular", sans-serif;
   font-size: 1.05rem;
+`;
+const Footer = styled.p`
+  color: var(--offwhite);
+  margin-top: 2rem;
+  @media (max-width: 900px) {
+    text-align: center;
+  }
 `;
 
 export const imgix = '&sat=-50&exp=0&invert=true&monochrome=c5c&con=-50&monochrome=%23862e9c';
@@ -32,11 +38,9 @@ export const imgix = '&sat=-50&exp=0&invert=true&monochrome=c5c&con=-50&monochro
 const Home = () => {
   const [loaded, setLoaded] = useState(false);
   const allLoaded = [];
-  const [email, setEmail] = useState(false);
-
-  const toggleTitle = () => {
-    setEmail(!email);
-  };
+  const emailAddress = 'studiotvm@protonmail.com';
+  let prologue = 'Text about Tris lorem ipsum, dolor sit amet consectetur adipisicing elit. Labore esse qui animi nobis laboriosam est s? ';
+  prologue += 'Possimus veniam, ratione esse qui animi nobis laboriosam ea voluptate unde corporis ipsum et magni! ';
 
   const getWorks = async () => {
     try {
@@ -149,12 +153,7 @@ const Home = () => {
       </Helmet>
       <Main loaded={loaded} mobile={isMobile}>
         <GlobalStyle />
-        <Nav
-          mobile={isMobile}
-          title={!email ? 'Tris Vonna-Michell' : 'studiotvm@protonmail.com'}
-          toggleTitle={toggleTitle}
-          years={`Works ${workTimelines.minYear}–`}
-        />
+        <HomeHeader fromYear={workTimelines.minYear} mobile={isMobile} prologue={prologue} />
         {workTimelines.results.map((item, i) => {
           const timelineWidth = workTimelines.maxYear - workTimelines.minYear + 1;
           return (
@@ -179,6 +178,7 @@ const Home = () => {
             />
           );
         })}
+        <Footer>{emailAddress}</Footer>
       </Main>
     </>
   );
