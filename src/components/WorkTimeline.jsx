@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
 import {Link} from 'prismic-reactjs';
+import React from 'react';
 import styled from 'styled-components';
 
 import {linkResolver} from '../prismic-configuration';
@@ -127,6 +127,7 @@ const WorkTimeline = ({
   left,
   link,
   loaded,
+  mobile,
   numberOfWorks,
   width,
   workPreviewImage,
@@ -136,19 +137,7 @@ const WorkTimeline = ({
   workYearFrom,
   workYearTo,
 }) => {
-  const [isMobile, setMobile] = useState(window.innerWidth < 768);
-
-  const handleResize = () => {
-    if (window.innerWidth < 768) setMobile(true);
-    else setMobile(false);
-  };
-
-  useEffect(() => {
-    window.addEventListener('resize', handleResize);
-    return function cleanup() {
-      window.removeEventListener('resize', handleResize);
-    };
-  });
+  const isMobile = mobile;
 
   const scaleDownBackground = () => {
     let scaleDownFactor = (window.innerWidth + 50) / workPreviewImageWidth;

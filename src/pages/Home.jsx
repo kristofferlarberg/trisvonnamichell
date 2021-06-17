@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Helmet} from 'react-helmet';
 import Prismic from 'prismic-javascript';
 import styled from 'styled-components';
@@ -10,9 +10,6 @@ import HomeHeader from '../components/HomeHeader';
 // import Nav from '../components/Nav';
 import NotFound from './NotFound';
 import WorkTimeline from '../components/WorkTimeline';
-
-// const ua = navigator.userAgent;
-export const isMobile = window.innerWidth < 768;
 
 const Main = styled.main`
   margin: 10rem 2rem 2rem 2rem;
@@ -42,6 +39,7 @@ const Home = () => {
   const [loaded, setLoaded] = useState(false);
   const allLoaded = [];
   const emailAddress = 'studiotvm@protonmail.com';
+  const [isMobile, setMobile] = useState(window.innerWidth < 768);
   let prologue = 'Text about Tris lorem ipsum, dolor sit amet consectetur adipisicing elit. Labore esse qui animi nobis laboriosam est s? ';
   prologue += 'Possimus veniam, ratione esse qui animi nobis laboriosam ea voluptate unde corporis ipsum et magni! ';
   // const [email, setEmail] = useState(false);
@@ -49,6 +47,18 @@ const Home = () => {
   // const toggleTitle = () => {
   //   setEmail(!email);
   // };
+
+  const handleResize = () => {
+    if (window.innerWidth < 768) setMobile(true);
+    else setMobile(false);
+  };
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+    return function cleanup() {
+      window.removeEventListener('resize', handleResize);
+    };
+  });
 
   const getWorks = async () => {
     try {
@@ -180,6 +190,7 @@ const Home = () => {
               }
               link={item.link}
               loaded={loaded}
+              mobile={isMobile}
               numberOfWorks={workTimelines.results.length}
               renditions={false}
               width={(item.image_width / timelineWidth) * 100}
