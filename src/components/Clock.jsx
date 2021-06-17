@@ -1,62 +1,59 @@
 import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 
-const TimeContainer = styled.div`
-  position: fixed;
+const ua = navigator.userAgent;
+const isMobile = /Android|webOS|iPhone|iPad|iPod/i.test(ua);
+
+const Container = styled.div`
+  padding: 5px;
+  margin: ${isMobile ? '0.3rem' : '1rem'};
+  width: 150px;
   height: 60px;
-  bottom: 0;
-  left: 0;
-  margin: 1rem 2rem;
-  z-index: 2;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  @media (max-width: 768px) {
-    height: 40px;
-    margin: 1.2rem;
-  }
+  justify-content: center;
+  border-radius: 15px;
+  position: fixed;
+  bottom: 1rem;
+  z-index: 1;
 `;
 
 const Time = styled.h2`
-  font-size: 1.6rem;
+  width: auto;
   margin: 0;
-  @media (max-width: 768px) {
-    font-size: 1.4rem;
-  }
+  text-align: center;
 `;
 
-function Clock({mobile}) {
-  let savedTime = [0, 0, 0];
-  if (sessionStorage.time) savedTime = JSON.parse(sessionStorage.time);
-  if (savedTime[0] < 58 && savedTime[0] !== 0) savedTime[0] += 2;
-  const [seconds, setSeconds] = useState(savedTime[0]);
-  const [minutes, setMinutes] = useState(savedTime[1]);
-  const [hours, setHours] = useState(savedTime[2]);
+const Timer = () => {
+  const [hours, setHours] = useState(0);
+  const [minutes, setMinutes] = useState(0);
+  const [seconds, setSeconds] = useState(0);
+  const [active, setActive] = useState(false);
 
   useEffect(() => {
-    const time = setTimeout(() => {
-      if (seconds >= 59) {
-        const tempMinutes = minutes + 1;
-        setSeconds(0);
-        setMinutes(tempMinutes);
-      }
-      else {
-        const tempSeconds = seconds + 1;
-        setSeconds(tempSeconds);
-      }
-      if (minutes >= 59) {
-        const tempHours = hours + 1;
-        setMinutes(0);
-        setHours(tempHours);
-      }
-    }, 1000);
-    window.onpagehide = () => {
-      sessionStorage.time = JSON.stringify([seconds, minutes, hours]);
-    };
-    return () => clearTimeout(time);
-  });
+    let intervalSecond = null;
+
+    if (active) {
+      intervalSecond = setInterval(() => {
+        setSeconds(seconds <= 58 ? seconds + 1 : 0);
+        if (seconds === 59) {
+          setMinutes(minutes <= 58 ? minutes + 1 : 0);
+        }
+        if (seconds === 59 && minutes === 59) {
+          setHours(hours + 1);
+        }
+      }, 1000);
+    }
+    else if (!active && seconds !== 0) {
+      clearInterval(intervalSecond);
+    }
+    setActive(true);
+    return () => clearInterval(intervalSecond);
+  }, [active, hours, minutes, seconds]);
 
   return (
-    <TimeContainer aria-label="The amount of time since you entered this page." mobile={mobile}>
+    <Container>
       <Time>
         {hours < 10 ? `0${hours}` : hours}
         :
@@ -64,8 +61,8 @@ function Clock({mobile}) {
         :
         {seconds < 10 ? `0${seconds}` : seconds}
       </Time>
-    </TimeContainer>
+    </Container>
   );
-}
+};
 
-export default Clock;
+export default Timer;

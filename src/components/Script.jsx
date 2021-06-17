@@ -11,7 +11,7 @@ const ScriptBox = styled.section`
   transition: ${props => (props.position ? 'all 0.2s ease-out' : 'all 0.3s ease-in')};
   max-height: 69vh;
   overflow-y: auto;
-  @media (max-width: 768px) {
+  @media (max-width: 900px) {
     cursor: ns-resize;
     padding: 0 0.9rem;
     position: relative;

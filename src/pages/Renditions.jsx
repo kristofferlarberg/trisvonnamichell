@@ -9,21 +9,24 @@ import {useQuery} from 'react-query';
 import {apiEndpoint, client, linkResolver} from '../prismic-configuration';
 import ButtonFive from '../graphics/5.svg';
 import Circle from '../components/Circle';
-import Clock from '../components/Clock';
 import GlobalStyle from '../styles/global';
 import {imgix} from './Home';
 import Nav from '../components/Nav';
+import NewClock from '../components/NewClock';
 import NotFound from './NotFound';
 import RemoteControl from '../components/RemoteControl';
 import RenditionList from '../components/RenditionList';
 import Script from '../components/Script';
 
+// const ua = navigator.userAgent;
+export const isMobile = window.innerWidth < 900;
+
 const Main = styled.main`
   box-sizing: border-box;
-  width: calc(100% - 4rem);
+  width: ${isMobile ? '100%' : 'calc(100% - 4rem)'};
   height: auto;
   max-width: calc(1416px - 4rem);
-  margin: 0 2rem 5rem 2rem;
+  margin: ${isMobile ? '0' : '0 2rem 5rem 2rem'};
   opacity: ${props => (props.loaded ? '1' : '0')};
   transition: opacity 0.5s ease-in;
   @media (min-width: 1416px) {
@@ -31,10 +34,6 @@ const Main = styled.main`
     display: flex;
     justify-content: center;
     margin: 0;
-  }
-  @media (max-width: 768px) {
-    margin: 0;
-    width: 100%;
   }
 `;
 
@@ -47,15 +46,14 @@ const Loading = styled.p`
 
 const Content = styled.article`
   box-sizing: border-box;
-  margin-top: 8rem;
+  margin-top: ${isMobile ? '1rem' : '8rem'};
   height: auto;
   display: flex;
   justify-content: ${props => (props.position ? 'center' : 'flex-end')};
   transition: all 0.3s ease-in;
-  @media (max-width: 768px) {
+  @media (max-width: 900px) {
     flex-direction: column;
     align-content: start;
-    margin-top: 1rem;
   }
   @media (min-width: 1416px) {
     width: 1416px;
@@ -74,9 +72,6 @@ const ListContainer = styled.section`
     margin-right: ${props => (props.position ? 'calc(708px - 26rem)' : '0vw')};
   }
   @media (max-width: 900px) {
-    margin-left: ${props => (props.position ? 'calc(50vw - 22rem)' : '40vw')};
-    margin-right: ${props => (props.position ? 'calc(50vw - 22rem)' : '0vw')};  }
-  @media (max-width: 768px) {
     margin: 0;
   }
 `;
@@ -133,7 +128,6 @@ const Renditions = ({match}) => {
   const {uid} = match.params;
   const closedRenditionsRefs = [];
   const openRenditionsRefs = [];
-  const [isMobile, setMobile] = useState(window.innerWidth < 768);
 
   const scaleDownBackground = (imageWidth) => {
     let scaleDownFactor = (window.innerWidth + 100) / imageWidth;
@@ -148,21 +142,12 @@ const Renditions = ({match}) => {
     else setMakeYearSmall(false);
   }
 
-  const handleResize = () => {
-    if (window.innerWidth < 768) setMobile(true);
-    else setMobile(false);
-  };
-
   useEffect(() => {
     const functionForOnScroll = () => handleScroll;
     if (!isMobile) {
       window.onscroll = functionForOnScroll();
     }
-    window.addEventListener('resize', handleResize);
-    return function cleanup() {
-      window.removeEventListener('resize', handleResize);
-    };
-  }); // Skip the Effect hook if the UID hasn't changed
+  }, [uid]); // Skip the Effect hook if the UID hasn't changed
 
   const getWork = async () => {
     try {
@@ -205,8 +190,7 @@ const Renditions = ({match}) => {
         scaleDownFactors.push([]);
         let factor = calculateScaleDownFactor(window.innerWidth, image.rendition_image.dimensions.width);
         if (isMobile) {
-          if (window.innerWidth < 480) factor *= 2;
-          else factor *= 1.5;
+          factor *= 2;
         }
         if (factor > 1) {
           factor = 1;
@@ -403,7 +387,7 @@ const Renditions = ({match}) => {
             ))}
           </ListContainer>
         </Content>
-        <Clock mobile={isMobile} />
+        <NewClock mobile={isMobile} />
         {isMobile || !work.work_script.length ? (
           <StopContainer>
             <StopButton aria-label="Go back to homepage" onClick={() => history.push('/')} tabIndex={0}>
