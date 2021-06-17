@@ -54,18 +54,15 @@ const Line = styled.section`
   &:hover ${Preview} {
     filter: none;
   }
-  &:hover {
-    background-color: #555;
-    background-blend-mode: multiply;
+  @media (hover: hover){
+    &:hover {
+      background-color: #555;
+      background-blend-mode: multiply;
+    }
   }
   @media (max-width: 768px) {
-   width: 100%;
-   height: 10rem;
-   pointer-events: auto;
-   &:hover {
-    background-color: inherit;
-    background-blend-mode: none;
-   }
+    width: 100%;
+    height: 10rem;
   }
 `;
 
@@ -80,7 +77,7 @@ const HoverLine = styled.section`
   transition-duration: 0.4s;
   @media (max-width: 768px) {
     height: 10rem;
-   }
+  }
 `;
 
 const WorkTitle = styled.h2`
