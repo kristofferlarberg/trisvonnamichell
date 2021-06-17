@@ -3,8 +3,10 @@ import {
   QueryClient,
   QueryClientProvider,
 } from 'react-query';
+import {Helmet} from 'react-helmet';
 import React from 'react';
 
+import {apiEndpoint} from './prismic-configuration';
 import Home from './pages/Home';
 import Renditions from './pages/Renditions';
 /**
@@ -25,14 +27,23 @@ const queryClient = new QueryClient({
   },
 });
 
+const repoNameArray = /([^/]+)\.cdn.prismic\.io\/api/.exec(apiEndpoint);
+const repoName = repoNameArray[1];
+
 const App = () => (
   <>
+    <Helmet>
+      <script
+        async
+        defer
+        src={`//static.cdn.prismic.io/prismic.js?repo=${repoName}&new=true`}
+      />
+    </Helmet>
     <QueryClientProvider client={queryClient}>
       <BrowserRouter basename="/">
         <Switch>
           <Route component={Home} exact path="/" />
           <Route component={Renditions} exact path="/:uid" />
-          {/* <Route component={NotFound} /> */}
         </Switch>
       </BrowserRouter>
     </QueryClientProvider>
