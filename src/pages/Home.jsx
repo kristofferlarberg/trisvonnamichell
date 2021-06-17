@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Helmet} from 'react-helmet';
 import Prismic from 'prismic-javascript';
 import styled from 'styled-components';
@@ -7,17 +7,20 @@ import {useQuery} from 'react-query';
 import {apiEndpoint, client} from '../prismic-configuration';
 import GlobalStyle from '../styles/global';
 import HomeHeader from '../components/HomeHeader';
+// import Nav from '../components/Nav';
 import NotFound from './NotFound';
 import WorkTimeline from '../components/WorkTimeline';
 
-export const isMobile = window.innerWidth < 900;
-
 const Main = styled.main`
-  margin: ${props => (props.mobile ? '200px 5px 40px 5px' : '10rem 2rem 2rem 2rem')};
-  width: ${props => (props.mobile ? 'calc(100% - 10px)' : 'calc(100% - 4rem)')};
+  margin: 10rem 2rem 2rem 2rem;
+  width: calc(100% - 4rem);
   height: auto;
   opacity: ${props => (props.loaded ? '1' : '0')};
   transition: opacity 0.5s ease-in;
+  @media (max-width: 768px) {
+    margin: 200px 5px 40px 5px;
+    width: calc(100% - 10px);
+  }
 `;
 const Loading = styled.p`
   color: var(--offwhite);
@@ -28,7 +31,7 @@ const Loading = styled.p`
 const Footer = styled.p`
   color: var(--offwhite);
   margin-top: 2rem;
-  @media (max-width: 900px) {
+  @media (max-width: 768px) {
     text-align: center;
   }
 `;
@@ -39,8 +42,26 @@ const Home = () => {
   const [loaded, setLoaded] = useState(false);
   const allLoaded = [];
   const emailAddress = 'studiotvm@protonmail.com';
+  const [isMobile, setMobile] = useState(window.innerWidth < 768);
   let prologue = 'Text about Tris lorem ipsum, dolor sit amet consectetur adipisicing elit. Labore esse qui animi nobis laboriosam est s? ';
   prologue += 'Possimus veniam, ratione esse qui animi nobis laboriosam ea voluptate unde corporis ipsum et magni! ';
+  // const [email, setEmail] = useState(false);
+
+  // const toggleTitle = () => {
+  //   setEmail(!email);
+  // };
+
+  const handleResize = () => {
+    if (window.innerWidth < 768) setMobile(true);
+    else setMobile(false);
+  };
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+    return function cleanup() {
+      window.removeEventListener('resize', handleResize);
+    };
+  });
 
   const getWorks = async () => {
     try {
@@ -153,6 +174,12 @@ const Home = () => {
       </Helmet>
       <Main loaded={loaded} mobile={isMobile}>
         <GlobalStyle />
+        {/* <Nav
+          mobile={isMobile}
+          title={!email ? 'Tris Vonna-Michell' : 'studiotvm@protonmail.com'}
+          toggleTitle={toggleTitle}
+          years={`Works ${workTimelines.minYear}–`}
+        /> */}
         <HomeHeader fromYear={workTimelines.minYear} mobile={isMobile} prologue={prologue} />
         {workTimelines.results.map((item, i) => {
           const timelineWidth = workTimelines.maxYear - workTimelines.minYear + 1;
@@ -166,6 +193,7 @@ const Home = () => {
               }
               link={item.link}
               loaded={loaded}
+              mobile={isMobile}
               numberOfWorks={workTimelines.results.length}
               renditions={false}
               width={(item.image_width / timelineWidth) * 100}
