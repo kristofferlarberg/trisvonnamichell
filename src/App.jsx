@@ -6,9 +6,13 @@ import {
 import {Helmet} from 'react-helmet';
 import React from 'react';
 
+import {
+  Home,
+  NotFound,
+  Preview,
+  Renditions,
+} from './pages';
 import {apiEndpoint} from './prismic-configuration';
-import Home from './pages/Home';
-import Renditions from './pages/Renditions';
 /**
  * Main application componenet
  */
@@ -44,6 +48,8 @@ const App = () => (
         <Switch>
           <Route component={Home} exact path="/" />
           <Route component={Renditions} exact path="/:uid" />
+          <Route component={Preview} exact path="/preview" />
+          <Route component={NotFound} />
         </Switch>
       </BrowserRouter>
     </QueryClientProvider>
