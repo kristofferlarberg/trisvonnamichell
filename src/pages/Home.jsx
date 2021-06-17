@@ -7,7 +7,6 @@ import {useQuery} from 'react-query';
 import {apiEndpoint, client} from '../prismic-configuration';
 import GlobalStyle from '../styles/global';
 import HomeHeader from '../components/HomeHeader';
-// import Nav from '../components/Nav';
 import NotFound from './NotFound';
 import WorkTimeline from '../components/WorkTimeline';
 
@@ -45,11 +44,6 @@ const Home = () => {
   const [isMobile, setMobile] = useState(window.innerWidth < 768);
   let prologue = 'Text about Tris lorem ipsum, dolor sit amet consectetur adipisicing elit. Labore esse qui animi nobis laboriosam est s? ';
   prologue += 'Possimus veniam, ratione esse qui animi nobis laboriosam ea voluptate unde corporis ipsum et magni! ';
-  // const [email, setEmail] = useState(false);
-
-  // const toggleTitle = () => {
-  //   setEmail(!email);
-  // };
 
   const handleResize = () => {
     if (window.innerWidth < 768) setMobile(true);
@@ -174,12 +168,6 @@ const Home = () => {
       </Helmet>
       <Main loaded={loaded} mobile={isMobile}>
         <GlobalStyle />
-        {/* <Nav
-          mobile={isMobile}
-          title={!email ? 'Tris Vonna-Michell' : 'studiotvm@protonmail.com'}
-          toggleTitle={toggleTitle}
-          years={`Works ${workTimelines.minYear}–`}
-        /> */}
         <HomeHeader fromYear={workTimelines.minYear} mobile={isMobile} prologue={prologue} />
         {workTimelines.results.map((item, i) => {
           const timelineWidth = workTimelines.maxYear - workTimelines.minYear + 1;

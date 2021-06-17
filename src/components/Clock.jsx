@@ -56,7 +56,7 @@ function Clock({mobile}) {
   });
 
   return (
-    <TimeContainer aria-label="The amount of time since you entered this page." mobile={mobile}>
+    <TimeContainer aria-label="The amount of time since you entered the first work page." mobile={mobile}>
       <Time>
         {hours < 10 ? `0${hours}` : hours}
         :

@@ -4,9 +4,6 @@ import styled from 'styled-components';
 
 import {linkResolver} from '../prismic-configuration';
 
-// const ua = navigator.userAgent;
-// const isMobile = /Android|webOS|iPhone|iPad|iPod/i.test(ua);
-// const lineHeight = isMobile ? 10 : 17;
 const imgix = '&w=0.5&sat=-50&exp=0&invert=true&monochrome=c5c&con=-50&monochrome=%23862e9c';
 
 const LineContainer = styled.section`
