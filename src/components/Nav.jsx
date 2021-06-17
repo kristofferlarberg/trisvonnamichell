@@ -34,44 +34,21 @@ const PageTitle = styled.h1`
   margin: 0;
   color: var(--offwhite);
   text-align: ${props => props.years && 'right'};
-  cursor: pointer;
   transition: 0.1s linear;
   @media (max-width: 768px) {
     line-height: 2rem;
   }
 `;
 
-const Title = styled(PageTitle)`
-  cursor: default;
-`;
-
-const OpenInfoBoxButton = styled.button`
-`;
-
 function Nav({
-  email, makeYearSmall, mobile, renditions, title, toggleTitle, years,
+  makeYearSmall, mobile, renditions, title, years,
 }) {
   return (
     <NavBar makeYearSmall={makeYearSmall} mobile={mobile} renditions={renditions}>
-      {renditions ? (
-        <Title makeYearSmall={makeYearSmall}>{title}</Title>
-      ) : (
-        <>
-          <PageTitle>
-            {toggleTitle ? title : email}
-          </PageTitle>
-          { /* TODO: Style this button when adding information section */ }
-          <OpenInfoBoxButton
-            aria-label="Toggle open information section"
-            onClick={toggleTitle}
-          >
-            Info
-          </OpenInfoBoxButton>
-        </>
-      )}
-      <Title makeYearSmall={makeYearSmall} mobile={mobile} years="true">
+      <PageTitle makeYearSmall={makeYearSmall}>{title}</PageTitle>
+      <PageTitle makeYearSmall={makeYearSmall} mobile={mobile} years="true">
         {years}
-      </Title>
+      </PageTitle>
     </NavBar>
   );
 }

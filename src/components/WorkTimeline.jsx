@@ -61,7 +61,11 @@ const Line = styled.section`
   @media (max-width: 768px) {
    width: 100%;
    height: 10rem;
-   pointer-events: none;
+   pointer-events: auto;
+   &:hover {
+    background-color: inherit;
+    background-blend-mode: none;
+   }
   }
 `;
 
