@@ -7,11 +7,9 @@ import {useQuery} from 'react-query';
 import {apiEndpoint, client} from '../prismic-configuration';
 import GlobalStyle from '../styles/global';
 import HomeHeader from '../components/HomeHeader';
-// import Nav from '../components/Nav';
 import NotFound from './NotFound';
 import WorkTimeline from '../components/WorkTimeline';
 
-// const ua = navigator.userAgent;
 export const isMobile = window.innerWidth < 900;
 
 const Main = styled.main`
@@ -30,6 +28,9 @@ const Loading = styled.p`
 const Footer = styled.p`
   color: var(--offwhite);
   margin-top: 2rem;
+  @media (max-width: 900px) {
+    text-align: center;
+  }
 `;
 
 export const imgix = '&sat=-50&exp=0&invert=true&monochrome=c5c&con=-50&monochrome=%23862e9c';
@@ -40,11 +41,6 @@ const Home = () => {
   const emailAddress = 'studiotvm@protonmail.com';
   let prologue = 'Text about Tris lorem ipsum, dolor sit amet consectetur adipisicing elit. Labore esse qui animi nobis laboriosam est s? ';
   prologue += 'Possimus veniam, ratione esse qui animi nobis laboriosam ea voluptate unde corporis ipsum et magni! ';
-  // const [email, setEmail] = useState(false);
-
-  // const toggleTitle = () => {
-  //   setEmail(!email);
-  // };
 
   const getWorks = async () => {
     try {
@@ -157,12 +153,6 @@ const Home = () => {
       </Helmet>
       <Main loaded={loaded} mobile={isMobile}>
         <GlobalStyle />
-        {/* <Nav
-          mobile={isMobile}
-          title={!email ? 'Tris Vonna-Michell' : 'studiotvm@protonmail.com'}
-          toggleTitle={toggleTitle}
-          years={`Works ${workTimelines.minYear}–`}
-        /> */}
         <HomeHeader fromYear={workTimelines.minYear} mobile={isMobile} prologue={prologue} />
         {workTimelines.results.map((item, i) => {
           const timelineWidth = workTimelines.maxYear - workTimelines.minYear + 1;

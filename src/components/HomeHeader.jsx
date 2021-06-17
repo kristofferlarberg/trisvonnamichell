@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const PageTitle = styled.h1`
   margin: 0;
 `;
-const HeaderContainer = styled.div`
+const HeaderContainer = styled.header`
   position: fixed;
   top: 0;
   width: ${props => (props.mobile ? 'calc(100% - 30px)' : 'calc(100% - 4rem)')};
