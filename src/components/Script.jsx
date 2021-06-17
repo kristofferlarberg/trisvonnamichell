@@ -41,9 +41,9 @@ const ScriptBox = styled.section`
   }
 `;
 
-function Script({
+const Script = ({
   mobile, open, position, text,
-}) {
+}) => {
   const [openScript, setOpenScript] = useState(false);
 
   if (mobile) {
@@ -69,6 +69,6 @@ function Script({
       {text}
     </ScriptBox>
   );
-}
+};
 
 export default Script;

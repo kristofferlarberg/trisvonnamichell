@@ -27,7 +27,7 @@ const NavBar = styled.nav`
     text-align: center;
     width: 100%;
   }
-  `;
+`;
 
 const PageTitle = styled.h1`
   font-size: ${props => props.makeYearSmall && '1.3rem'};
