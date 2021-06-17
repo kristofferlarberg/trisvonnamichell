@@ -102,7 +102,7 @@ const Home = () => {
   const handleLoad = (i) => {
     if (allLoaded.length === 0) {
       workTimelines.results.forEach((work) => {
-        if (work.data.work_script.length > 0) {
+        if (work.data.work_preview_image.url !== '') {
           allLoaded.push(false);
         }
       });
@@ -167,7 +167,6 @@ const Home = () => {
         {workTimelines.results.map((item, i) => {
           const timelineWidth = workTimelines.maxYear - workTimelines.minYear + 1;
           return (
-            item.data.work_script.length > 0 && (
             <WorkTimeline
               key={item.link.id}
               handleLoad={() => handleLoad(i)}
@@ -187,7 +186,6 @@ const Home = () => {
               workYearFrom={item.data.work_year_from}
               workYearTo={item.data.work_year_to}
             />
-            )
           );
         })}
         <Footer>{emailAddress}</Footer>
