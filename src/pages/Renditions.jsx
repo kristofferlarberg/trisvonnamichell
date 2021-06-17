@@ -17,8 +17,8 @@ import RemoteControl from '../components/RemoteControl';
 import RenditionList from '../components/RenditionList';
 import Script from '../components/Script';
 
-const ua = navigator.userAgent;
-export const isMobile = /Android|webOS|iPhone|iPad|iPod/i.test(ua);
+// const ua = navigator.userAgent;
+export const isMobile = window.innerWidth < 900;
 
 const Main = styled.main`
   box-sizing: border-box;
@@ -142,7 +142,7 @@ const Renditions = ({match}) => {
   }
 
   useEffect(() => {
-    const functionForOnScroll = () => handleScroll();
+    const functionForOnScroll = () => handleScroll;
     if (!isMobile) {
       window.onscroll = functionForOnScroll();
     }
@@ -217,7 +217,9 @@ const Renditions = ({match}) => {
     return {...workCombinedWithRenditions, numberOfImages, scaleDownFactors};
   }
 
-  const {data: work, isLoading, isError} = useQuery('work', createWork);
+  const {
+    data: work, isLoading, isError, isSuccess,
+  } = useQuery('work', createWork);
 
   function executeScroll(ref) {
     let tempRef = 0;
@@ -281,6 +283,12 @@ const Renditions = ({match}) => {
     return (<Loading>Loading...</Loading>);
   }
 
+  if (isSuccess && !work.numberOfImages) {
+    setTimeout(() => {
+      setLoaded(true);
+    }, 100);
+  }
+
   return (
     <>
       <Main loaded={loaded}>
@@ -297,11 +305,13 @@ const Renditions = ({match}) => {
             mobile={isMobile}
             open={!toggleScript}
             position={!toggleScript}
-            text={(
+            text={work.work_script.length ? (
               <RichText
                 linkResolver={linkResolver}
                 render={work.work_script}
               />
+            ) : (
+              'Nothing here...'
             )}
           />
           <ListContainer position={!toggleScript}>
@@ -351,7 +361,7 @@ const Renditions = ({match}) => {
           </ListContainer>
         </Content>
         <NewClock mobile={isMobile} />
-        {isMobile ? (
+        {isMobile || !work.work_script.length ? (
           <StopContainer>
             <StopButton aria-label="Go back to homepage" onClick={() => history.push('/')} tabIndex={0}>
               <StopButtonSymbol alt="Stop symbol" src={ButtonFive} />

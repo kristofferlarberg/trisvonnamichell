@@ -14,7 +14,7 @@ const GlobalStyle = createGlobalStyle`
     font-family: "PT-Regular", sans-serif;
     font-size: 1.05rem;
     line-height: 1.6rem;
-    background-color: #111;
+    background-color: #1a1a1a;
     background-attachment: ${props => (props.mobile ? 'scroll' : 'fixed')};
     background-image: url(${props => props.img});
     background-repeat: ${props => (props.mobile ? 'repeat' : 'no-repeat')};
