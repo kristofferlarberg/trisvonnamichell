@@ -4,9 +4,6 @@ import styled from 'styled-components';
 
 import {linkResolver} from '../prismic-configuration';
 
-const ua = navigator.userAgent;
-const isMobile = /Android|webOS|iPhone|iPad|iPod/i.test(ua);
-const lineHeight = isMobile ? 10 : 17;
 const imgix = '&w=0.5&sat=-50&exp=0&invert=true&monochrome=c5c&con=-50&monochrome=%23862e9c';
 
 const LineContainer = styled.section`
@@ -28,8 +25,8 @@ const Preview = styled.img`
 `;
 const WorkLink = styled.a`
   position: relative;
-  top: ${isMobile ? '0' : -lineHeight}rem;
-  height: ${lineHeight}rem;
+  top: -17rem;
+  height: 17rem;
   text-decoration: none;
   color: inherit;
   transition: all 0.3s ease;
@@ -37,6 +34,10 @@ const WorkLink = styled.a`
   &:focus-visible {
     outline: none;
     transform: scale(1.05);
+  }
+  @media (max-width: 768px) {
+    top: 0;
+    height: 10rem;
   }
 `;
 
@@ -47,15 +48,21 @@ const Line = styled.section`
   background-size: cover;
   background-blend-mode: multiply;
   margin-bottom: 5px;
-  height: ${lineHeight}rem;
-  width: ${isMobile ? '100%' : '90%'};
+  height: 17rem;
+  width: 90%;
   transition: background-color 0.3s ease-out;
   &:hover ${Preview} {
     filter: none;
   }
-  &:hover {
-    background-color: ${!isMobile && '#555'};
-    background-blend-mode: ${!isMobile ? 'multiply' : 'normal'};
+  @media (hover: hover){
+    &:hover {
+      background-color: #555;
+      background-blend-mode: multiply;
+    }
+  }
+  @media (max-width: 768px) {
+    width: 100%;
+    height: 10rem;
   }
 `;
 
@@ -66,25 +73,31 @@ const HoverLine = styled.section`
   justify-content: center;
   align-items: center;
   text-align: center;
-  height: ${lineHeight}rem;
+  height: 17rem;
   transition-duration: 0.4s;
+  @media (max-width: 768px) {
+    height: 10rem;
+  }
 `;
 
 const WorkTitle = styled.h2`
-  font-size: ${isMobile && '1rem'};
-  line-height: ${isMobile && '1.2rem'};
   max-width: 80%;
   margin: 0 0 0.25rem 0;
-  padding: ${isMobile ? '4px 8px' : '0.5rem 0.8rem'};
+  padding: 0.5rem 0.8rem;
   background-color: var(--offwhite);
   &:last-child {
     margin: 0;
+  }
+  @media (max-width: 768px) {
+    font-size: 1rem;
+    line-height: 1.2rem;
+    padding: 4px 8px;
   }
 `;
 
 const Ends = styled.section`
   background-color: #000;
-  height: ${lineHeight}rem;
+  height: 17rem;
   width: 5%;
   min-width: 30px;
   color: var(--lightgrey);
@@ -95,6 +108,9 @@ const Ends = styled.section`
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
+  @media (max-width: 768px) {
+    height: 10rem;
+  }
 `;
 
 const VerticalLine = styled.div`
@@ -109,6 +125,7 @@ const WorkTimeline = ({
   left,
   link,
   loaded,
+  mobile,
   numberOfWorks,
   width,
   workPreviewImage,
@@ -118,6 +135,8 @@ const WorkTimeline = ({
   workYearFrom,
   workYearTo,
 }) => {
+  const isMobile = mobile;
+
   const scaleDownBackground = () => {
     let scaleDownFactor = (window.innerWidth + 50) / workPreviewImageWidth;
     if (!isMobile) {
