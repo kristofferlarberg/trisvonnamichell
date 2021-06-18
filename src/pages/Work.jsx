@@ -377,7 +377,7 @@ const Work = ({match}) => {
           </ListContainer>
         </Content>
         <Clock mobile={isMobile} />
-        {isMobile || (!workData.work_script.length && !workData.renditions.length) ? (
+        {isMobile || (!workData.work_script.length && !workData.renditions) ? (
           <StopContainer>
             <StopButton aria-label="Go back to homepage" onClick={() => history.push('/')} tabIndex={0}>
               <StopButtonSymbol alt="Stop symbol" src={ButtonFive} />

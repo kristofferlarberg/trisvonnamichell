@@ -26,7 +26,7 @@ const Loading = styled.p`
   font-family: "PT-Regular", sans-serif;
   font-size: 1.05rem;
 `;
-const Footer = styled.p`
+const Footer = styled.footer`
   color: var(--offwhite);
   margin-top: 2rem;
   @media (max-width: 768px) {
