@@ -1,31 +1,34 @@
 import {Link} from 'react-router-dom';
 import React from 'react';
+import styled from 'styled-components';
 
 import GlobalStyle from '../styles/global';
 
-const notFoundStyle = {
-  alignItems: 'center',
-  color: 'white',
-  display: 'flex',
-  flexDirection: 'column',
-  height: '50vh',
-  justifyContent: 'center',
-};
+const NotFoundContainer = styled.div`
+  margin: 1rem 2rem;
+  width: 100%;
+`;
 
-const notFoundLinkStyle = {
-  color: 'white',
-};
+const NotFoundText = styled.p`
+  color: var(--offwhite);
+`;
+
+const NotFoundLink = styled(Link)`
+  color: var(--offwhite);
+  text-align: center;
+  width: auto;
+  &:visited {
+      color: var(--offwhite);
+    }
+`;
 
 const NotFound = () => (
   <>
-    <div className="not-found" style={notFoundStyle}>
-      <GlobalStyle />
-      <h1>404</h1>
-      <h2>Document not found</h2>
-      <p>
-        <Link style={notFoundLinkStyle} to="/">Return to homepage</Link>
-      </p>
-    </div>
+    <GlobalStyle />
+    <NotFoundContainer>
+      <NotFoundText>This document was not found</NotFoundText>
+      <NotFoundLink to="/">Return to homepage</NotFoundLink>
+    </NotFoundContainer>
   </>
 );
 
