@@ -321,14 +321,7 @@ const Renditions = ({match}) => {
             mobile={isMobile}
             open={!toggleScript}
             position={!toggleScript}
-            text={work.work_script.length ? (
-              <RichText
-                linkResolver={linkResolver}
-                render={work.work_script}
-              />
-            ) : (
-              'Nothing posted here yet...'
-            )}
+            text={work.work_script}
             textLength={RichText.asText(work.work_script).length}
           />
           <ListContainer position={!toggleScript}>

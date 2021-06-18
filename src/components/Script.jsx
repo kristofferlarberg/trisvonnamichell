@@ -1,8 +1,12 @@
 import React, {useEffect, useState} from 'react';
+import {RichText} from 'prismic-reactjs';
 import styled from 'styled-components';
+
+import {linkResolver} from '../prismic-configuration';
 
 const ScriptBox = styled.section`
   box-sizing: border-box;
+  height: ${props => (!props.textLength && '69vh')};
   padding: 0.2rem 1.5rem;
   width: 37vw;
   background-color: var(--offwhite);
@@ -67,8 +71,16 @@ const Script = ({
         position={position}
         role="button"
         tabIndex={0}
+        textLength={textLength}
       >
-        {text}
+        {textLength ? (
+          <RichText
+            linkResolver={linkResolver}
+            render={text}
+          />
+        ) : (
+          'Nothing posted here yet...'
+        )}
       </ScriptBox>
     );
   }
@@ -77,8 +89,16 @@ const Script = ({
     <ScriptBox
       lengthyText={lengthyText}
       position={position}
+      textLength={textLength}
     >
-      {text}
+      {textLength ? (
+        <RichText
+          linkResolver={linkResolver}
+          render={text}
+        />
+      ) : (
+        <p>Nothing to present here at the moment.</p>
+      )}
     </ScriptBox>
   );
 };
