@@ -404,7 +404,7 @@ const Renditions = ({match}) => {
           </ListContainer>
         </Content>
         <Clock mobile={isMobile} />
-        {isMobile || !work.work_script.length ? (
+        {isMobile || (!work.work_script.length && !work.renditions.length) ? (
           <StopContainer>
             <StopButton aria-label="Go back to homepage" onClick={() => history.push('/')} tabIndex={0}>
               <StopButtonSymbol alt="Stop symbol" src={ButtonFive} />
