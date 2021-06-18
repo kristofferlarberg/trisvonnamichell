@@ -142,28 +142,28 @@ const Home = () => {
       <Main loaded={loaded} mobile={isMobile}>
         <GlobalStyle />
         <HomeHeader fromYear={workTimelines.minYear} mobile={isMobile} prologue={prologue} />
-        {workTimelines.results.map((item, i) => {
+        {workTimelines.results.map((work, i) => {
           const timelineWidth = workTimelines.maxYear - workTimelines.minYear + 1;
           return (
             <WorkTimeline
-              key={item.link.id}
+              key={work.link.id}
               handleLoad={() => handleLoad(i)}
               left={
-                ((item.data.work_year_from - workTimelines.minYear) / timelineWidth)
+                ((work.data.work_year_from - workTimelines.minYear) / timelineWidth)
                 * 100
               }
-              link={item.link}
+              link={work.link}
               loaded={loaded}
               mobile={isMobile}
               numberOfWorks={workTimelines.results.length}
               renditions={false}
-              width={(item.image_width / timelineWidth) * 100}
-              workPreviewImage={item.data.work_preview_image.url}
-              workPreviewImageHeight={item.data.work_preview_image.dimensions.height}
-              workPreviewImageWidth={item.data.work_preview_image.dimensions.width}
-              workTitle={item.data.work_title[0].text}
-              workYearFrom={item.data.work_year_from}
-              workYearTo={item.data.work_year_to}
+              width={(work.image_width / timelineWidth) * 100}
+              workPreviewImage={work.data.work_preview_image.url}
+              workPreviewImageHeight={work.data.work_preview_image.dimensions.height}
+              workPreviewImageWidth={work.data.work_preview_image.dimensions.width}
+              workTitle={work.data.work_title[0].text}
+              workYearFrom={work.data.work_year_from}
+              workYearTo={work.data.work_year_to}
             />
           );
         })}

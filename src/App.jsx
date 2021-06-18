@@ -7,7 +7,7 @@ import React from 'react';
 
 import {
   Home,
-  Renditions,
+  Work,
 } from './pages';
 
 const oneHourInMs = 1000 * 60 * 60;
@@ -30,7 +30,7 @@ const App = () => (
       <BrowserRouter basename="/">
         <Switch>
           <Route component={Home} exact path="/" />
-          <Route component={Renditions} exact path="/:uid" />
+          <Route component={Work} exact path="/:uid" />
         </Switch>
       </BrowserRouter>
     </QueryClientProvider>
