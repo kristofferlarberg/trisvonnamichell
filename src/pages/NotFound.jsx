@@ -17,14 +17,16 @@ const notFoundLinkStyle = {
 };
 
 const NotFound = () => (
-  <div className="not-found" style={notFoundStyle}>
-    <GlobalStyle />
-    <h1>404</h1>
-    <h2>Document not found</h2>
-    <p>
-      <Link style={notFoundLinkStyle} to="/">Return to homepage</Link>
-    </p>
-  </div>
+  <>
+    <div className="not-found" style={notFoundStyle}>
+      <GlobalStyle />
+      <h1>404</h1>
+      <h2>Document not found</h2>
+      <p>
+        <Link style={notFoundLinkStyle} to="/">Return to homepage</Link>
+      </p>
+    </div>
+  </>
 );
 
 export default NotFound;

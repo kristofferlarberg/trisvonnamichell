@@ -1,12 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {Helmet} from 'react-helmet';
 import Prismic from 'prismic-javascript';
 import {RichText} from 'prismic-reactjs';
 import styled from 'styled-components';
 import {useHistory} from 'react-router-dom';
 import {useQuery} from 'react-query';
 
-import {apiEndpoint, client, linkResolver} from '../prismic-configuration';
+import {client, linkResolver} from '../prismic-configuration';
 import ButtonFive from '../graphics/5.svg';
 import Circle from '../components/Circle';
 import Clock from '../components/Clock';
@@ -306,34 +305,8 @@ const Renditions = ({match}) => {
     }, 100);
   }
 
-  const repoNameArray = /([^/]+)\.cdn.prismic\.io\/api/.exec(apiEndpoint);
-  const repoName = repoNameArray[1];
-
   return (
     <>
-      <Helmet>
-        <title>Tris Vonna-Michell: Work Renditions</title>
-        <meta content="Presentation of work by Tris Vonna-Michell." name="description" />
-        <meta
-          content="https://images.prismic.io/trisvonnamichell/6392235a-5597-4bb1-aa05-21a37c33b122_TVM-audio+poems-09+copy+2.jpg"
-          property="og:image"
-        />
-        <meta content="Presentation of work by Tris Vonna-Michell." property="og:description" />
-        <meta content="Tris Vonna-Michell" property="og:title" />
-        <meta content="summary_large_image" name="twitter:card" />
-        <meta content="Tris Vonna-Michell" name="twitter:title" />
-        <meta content="Presentation of work by Tris Vonna-Michell." name="twitter:description" />
-        <meta
-          content="https://images.prismic.io/trisvonnamichell/6392235a-5597-4bb1-aa05-21a37c33b122_TVM-audio+poems-09+copy+2.jpg"
-          name="twitter:image"
-        />
-        <link href="/favicon2.png" rel="shortcut icon" />
-        <script
-          async
-          defer
-          src={`//static.cdn.prismic.io/prismic.js?repo=${repoName}&new=true`}
-        />
-      </Helmet>
       <Main loaded={loaded}>
         <GlobalStyle img={work.work_image + scaleDownBackground(work.work_image_width) + imgix} mobile={isMobile} />
         <Nav
