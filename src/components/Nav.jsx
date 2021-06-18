@@ -2,67 +2,53 @@ import React from 'react';
 import styled from 'styled-components';
 
 const NavBar = styled.nav`
-  box-sizing: ${props => (props.mobile ? 'content-box' : 'border-box')};
-  position: ${props => (!props.renditions || (props.renditions && props.mobile) ? 'static' : 'fixed')};
-  top: ${props => props.renditions && '0'};
+  box-sizing: border-box;
+  position: fixed;
+  top: 0;
   height: ${props => (props.makeYearSmall ? '3.5rem' : '5.5rem')};
-  width: ${props => (props.renditions && !props.mobile ? 'calc(100% - 4rem)' : '100%')};
-  padding: ${props => (props.mobile ? '1rem 0' : '0')};
+  width: calc(100% - 4rem);
   display: flex;
-  flex-direction: ${props => (props.mobile ? 'column' : 'row')};
-  justify-content: ${props => (props.mobile ? 'center' : 'space-between')};
+  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
-  text-align: ${props => (props.mobile ? 'center' : 'left')};
-  border-bottom: ${props => props.renditions && '4px solid var(--offwhite)'};
+  text-align: left;
+  border-bottom: 4px solid var(--offwhite);
   transition: 0.1s linear;
-  padding: ${props => (props.mobile ? '1rem 0' : props.makeYearSmall && '0 2.5rem')}; 
+  padding: ${props => (props.makeYearSmall ? '0 2.5rem' : '0')}; 
   @media (min-width: 1416px) {
-    width: ${props => (props.renditions && props.mobile ? '100%' : 'calc(1416px - 4rem)')};
+    width: calc(1416px - 4rem);
   }
-  `;
+  @media (max-width: 768px) {
+    position: static;
+    box-sizing: content-box;
+    padding: 1rem 0;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+  }
+`;
 
 const PageTitle = styled.h1`
   font-size: ${props => props.makeYearSmall && '1.3rem'};
   margin: 0;
   color: var(--offwhite);
   text-align: ${props => props.years && 'right'};
-  flex: ${props => props.years && !props.mobile && '0 0 9rem'};
-  cursor: pointer;
   transition: 0.1s linear;
-  line-height: ${props => props.mobile && '2rem'};
-`;
-
-const Title = styled(PageTitle)`
-  cursor: default;
-`;
-
-const OpenInfoBoxButton = styled.button`
+  @media (max-width: 768px) {
+    line-height: 2rem;
+  }
 `;
 
 function Nav({
-  email, makeYearSmall, mobile, renditions, title, toggleTitle, years,
+  makeYearSmall, mobile, renditions, title, years,
 }) {
   return (
     <NavBar makeYearSmall={makeYearSmall} mobile={mobile} renditions={renditions}>
-      {renditions ? (
-        <Title makeYearSmall={makeYearSmall}>{title}</Title>
-      ) : (
-        <>
-          <PageTitle>
-            {toggleTitle ? title : email}
-          </PageTitle>
-          { /* TODO: Style this button when adding information section */ }
-          <OpenInfoBoxButton
-            aria-label="Toggle open information section"
-            onClick={toggleTitle}
-          >
-            Info
-          </OpenInfoBoxButton>
-        </>
-      )}
-      <Title makeYearSmall={makeYearSmall} mobile={mobile} years="true">
+      <PageTitle makeYearSmall={makeYearSmall}>{title}</PageTitle>
+      <PageTitle makeYearSmall={makeYearSmall} mobile={mobile} years="true">
         {years}
-      </Title>
+      </PageTitle>
     </NavBar>
   );
 }

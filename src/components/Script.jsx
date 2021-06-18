@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const ScriptBox = styled.section`
   box-sizing: border-box;
-  padding: 0.9rem 1.5rem 1.5rem 1.5rem;
+  padding: 0.2rem 1.5rem;
   width: 37vw;
   background-color: var(--offwhite);
   position: fixed;
@@ -11,7 +11,7 @@ const ScriptBox = styled.section`
   transition: ${props => (props.position ? 'all 0.2s ease-out' : 'all 0.3s ease-in')};
   max-height: 69vh;
   overflow-y: auto;
-  @media (max-width: 900px) {
+  @media (max-width: 768px) {
     cursor: ns-resize;
     padding: 0 0.9rem;
     position: relative;
@@ -41,10 +41,10 @@ const ScriptBox = styled.section`
   }
 `;
 
-function Script({
+const Script = ({
   mobile, open, position, text,
-}) {
-  const [openScript, setOpenScript] = useState(false);
+}) => {
+  const [openScript, setOpenScript] = useState(text === 'Nothing here...');
 
   if (mobile) {
     return (
@@ -69,6 +69,6 @@ function Script({
       {text}
     </ScriptBox>
   );
-}
+};
 
 export default Script;

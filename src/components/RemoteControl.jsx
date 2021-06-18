@@ -56,6 +56,7 @@ const ButtonSymbol = styled.img`
   width: 40%;
   height: auto;
 `;
+
 const InvisibleButton = styled.button`
   cursor: move;
   font-weight: 600;
@@ -69,15 +70,13 @@ const InvisibleButton = styled.button`
   color: var(--lightgrey);
 `;
 
-function RemoteControl(props) {
-  const {
-    expandAll,
-    adjustValue,
-    currentValue,
-    renditionsLength,
-    toggleScriptRemote,
-  } = props;
-
+const RemoteControl = ({
+  expandAll,
+  adjustValue,
+  currentValue,
+  renditionsLength,
+  toggleScriptRemote,
+}) => {
   const history = useHistory();
   const [pressed, setPressed] = useState(false);
   const [position, setPosition] = useState({x: 0, y: 0});
@@ -206,6 +205,6 @@ function RemoteControl(props) {
       </Constraint>
     </>
   );
-}
+};
 
 export default RemoteControl;
