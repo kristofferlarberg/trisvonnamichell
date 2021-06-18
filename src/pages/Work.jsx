@@ -121,7 +121,7 @@ const StopButtonSymbol = styled.img`
   height: auto;
 `;
 
-const Renditions = ({match}) => {
+const Work = ({match}) => {
   const [expandValue, setExpandValue] = useState(-1);
   const [toggleScript, toggleScriptState] = useState(true);
   const [openAll, setOpenAll] = useState(false);
@@ -161,7 +161,7 @@ const Renditions = ({match}) => {
     return function cleanup() {
       window.removeEventListener('resize', handleResize);
     };
-  }); // Skip the Effect hook if the UID hasn't changed
+  });
 
   const getWork = async () => {
     try {
@@ -222,12 +222,7 @@ const Renditions = ({match}) => {
     const renditions = await getRenditions(work.id);
     const workCombinedWithRenditions = {
       renditions: renditions.results,
-      work_image: work.data.work_preview_image.url,
-      work_image_width: work.data.work_preview_image.dimensions.width,
-      work_script: work.data.work_script,
-      work_title: work.data.work_title,
-      work_year_from: work.data.work_year_from,
-      work_year_to: work.data.work_year_to,
+      work,
     };
     const {scaleDownFactors, numberOfImages} = handleImages(workCombinedWithRenditions);
     return {...workCombinedWithRenditions, numberOfImages, scaleDownFactors};
@@ -305,26 +300,31 @@ const Renditions = ({match}) => {
     }, 100);
   }
 
+  const workData = work.work.data;
+
   return (
     <>
       <Main loaded={loaded}>
-        <GlobalStyle img={work.work_image + scaleDownBackground(work.work_image_width) + imgix} mobile={isMobile} />
+        <GlobalStyle
+          img={workData.work_preview_image.url + scaleDownBackground(workData.work_preview_image.dimensions.width) + imgix}
+          mobile={isMobile}
+        />
         <Nav
           makeYearSmall={makeYearSmall}
           mobile={isMobile}
           renditions
-          title={work.work_title[0].text}
-          years={`${work.work_year_from}–${work.work_year_to}`}
+          title={workData.work_title[0].text}
+          years={`${workData.work_year_from}–${workData.work_year_to}`}
         />
         <Content position={!toggleScript}>
           <Script
             mobile={isMobile}
             open={!toggleScript}
             position={!toggleScript}
-            text={work.work_script.length ? (
+            text={workData.work_script.length ? (
               <RichText
                 linkResolver={linkResolver}
-                render={work.work_script}
+                render={workData.work_script}
               />
             ) : (
               'Nothing here...'
@@ -377,7 +377,7 @@ const Renditions = ({match}) => {
           </ListContainer>
         </Content>
         <Clock mobile={isMobile} />
-        {isMobile || (!work.work_script.length && !work.renditions.length) ? (
+        {isMobile || (!workData.work_script.length && !workData.renditions.length) ? (
           <StopContainer>
             <StopButton aria-label="Go back to homepage" onClick={() => history.push('/')} tabIndex={0}>
               <StopButtonSymbol alt="Stop symbol" src={ButtonFive} />
@@ -397,4 +397,4 @@ const Renditions = ({match}) => {
   );
 };
 
-export default Renditions;
+export default Work;
