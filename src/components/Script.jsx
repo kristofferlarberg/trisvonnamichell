@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 
 const ScriptBox = styled.section`
@@ -11,6 +11,9 @@ const ScriptBox = styled.section`
   transition: ${props => (props.position ? 'all 0.2s ease-out' : 'all 0.3s ease-in')};
   max-height: 69vh;
   overflow-y: auto;
+  scrollbar-color: transparent transparent;
+  scrollbar-width: thin;
+  text-decoration: ${props => (props.lengthyText && 'wavy underline var(--lightgrey)')};
   @media (max-width: 768px) {
     cursor: ns-resize;
     padding: 0 0.9rem;
@@ -42,15 +45,23 @@ const ScriptBox = styled.section`
 `;
 
 const Script = ({
-  mobile, open, position, text,
+  mobile, open, position, text, textLength,
 }) => {
   const [openScript, setOpenScript] = useState(text === 'Nothing here...');
+  const [lengthyText, setLengthyText] = useState(false);
+
+  useEffect(() => {
+    if (textLength > 1000) {
+      setLengthyText(true);
+    }
+  }, [textLength, lengthyText]);
 
   if (mobile) {
     return (
       <ScriptBox
         aria-label="Toggle between closed or opened script section"
         aria-pressed="false"
+        lengthyText={lengthyText}
         onClick={() => mobile && setOpenScript(!openScript) && window.scrollTo(0, 0)}
         openScript={openScript || open}
         position={position}
@@ -64,6 +75,7 @@ const Script = ({
 
   return (
     <ScriptBox
+      lengthyText={lengthyText}
       position={position}
     >
       {text}

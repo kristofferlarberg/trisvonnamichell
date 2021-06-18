@@ -327,8 +327,9 @@ const Renditions = ({match}) => {
                 render={work.work_script}
               />
             ) : (
-              'Nothing here...'
+              'Nothing posted here yet...'
             )}
+            textLength={RichText.asText(work.work_script).length}
           />
           <ListContainer position={!toggleScript}>
             {work.renditions.map((rendition, j) => (
