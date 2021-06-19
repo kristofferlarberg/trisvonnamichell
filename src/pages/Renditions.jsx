@@ -210,7 +210,7 @@ const Renditions = ({match}) => {
         if (factor > 1) {
           factor = 1;
         }
-        scaleDownFactors[i].push(`&w=${factor}&sharp=40`);
+        scaleDownFactors[i].push(`&w=${factor}&sharp=30`);
       });
       numberOfImages += rendition.data.rendition_images.length;
     });

@@ -156,7 +156,7 @@ const WorkTimeline = ({
     if (scaleDownFactor > 1) {
       scaleDownFactor = 1;
     }
-    return `&w=${Math.round(scaleDownFactor * 100) / 100}&sharp=40`;
+    return `&w=${Math.round(scaleDownFactor * 100) / 100}&sharp=30`;
   };
 
   return (isMobile
