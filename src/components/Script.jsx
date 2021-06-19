@@ -15,9 +15,6 @@ const ScriptBox = styled.section`
   transition: ${props => (props.position ? 'all 0.2s ease-out' : 'all 0.3s ease-in')};
   max-height: 69vh;
   overflow-y: auto;
-  scrollbar-color: transparent transparent;
-  scrollbar-width: thin;
-  text-decoration: ${props => (props.lengthyText && 'wavy underline var(--lightgrey)')};
   @media (max-width: 768px) {
     cursor: ns-resize;
     padding: 0 0.9rem;
@@ -48,6 +45,18 @@ const ScriptBox = styled.section`
   }
 `;
 
+const AmountContainer = styled.div`
+  display: flex;
+  justify-content: start;
+  margin-bottom: 1rem;
+`;
+
+const Amount = styled.h5`
+  color: ${props => (!props.lengthyText ? 'var(--lightgrey)' : 'red')};
+  margin: 0;
+  width: auto;
+`;
+
 const Script = ({
   mobile, open, position, text, textLength,
 }) => {
@@ -74,32 +83,48 @@ const Script = ({
         textLength={textLength}
       >
         {textLength ? (
-          <RichText
-            linkResolver={linkResolver}
-            render={text}
-          />
+          <>
+            <RichText
+              linkResolver={linkResolver}
+              render={text}
+            />
+            <AmountContainer>
+              <Amount lengthyText={lengthyText}>
+                {`${textLength} characters`}
+              </Amount>
+            </AmountContainer>
+          </>
         ) : (
-          'Nothing posted here yet...'
+          <p>No content here at the moment.</p>
         )}
       </ScriptBox>
     );
   }
 
   return (
-    <ScriptBox
-      lengthyText={lengthyText}
-      position={position}
-      textLength={textLength}
-    >
-      {textLength ? (
-        <RichText
-          linkResolver={linkResolver}
-          render={text}
-        />
-      ) : (
-        <p>Nothing to present here at the moment.</p>
-      )}
-    </ScriptBox>
+    <>
+      <ScriptBox
+        lengthyText={lengthyText}
+        position={position}
+        textLength={textLength}
+      >
+        {textLength ? (
+          <>
+            <RichText
+              linkResolver={linkResolver}
+              render={text}
+            />
+            <AmountContainer>
+              <Amount lengthyText={lengthyText}>
+                {`${textLength} characters`}
+              </Amount>
+            </AmountContainer>
+          </>
+        ) : (
+          <p>No content here at the moment.</p>
+        )}
+      </ScriptBox>
+    </>
   );
 };
 
