@@ -10,7 +10,7 @@ import NotFound from './NotFound';
 import WorkTimeline from '../components/WorkTimeline';
 
 const Main = styled.main`
-  margin: 10rem 2rem 2rem 2rem;
+  margin: 2rem;
   width: calc(100% - 4rem);
   height: auto;
   opacity: ${props => (props.loaded ? '1' : '0')};
