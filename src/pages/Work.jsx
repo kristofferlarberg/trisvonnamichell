@@ -164,25 +164,15 @@ const Work = ({match}) => {
   });
 
   const getWork = async () => {
-    try {
-      const work = await client.getByUID('work', uid);
-      return work;
-    }
-    catch {
-      throw new Error('No data found');
-    }
+    const work = await client.getByUID('work', uid);
+    return work;
   };
 
   const getRenditions = async (workId) => {
-    try {
-      const renditions = await client.query(
-        Prismic.Predicates.at('my.rendition.work_category', workId),
-      );
-      return renditions;
-    }
-    catch {
-      throw new Error('No data found');
-    }
+    const renditions = await client.query(
+      Prismic.Predicates.at('my.rendition.work_category', workId),
+    );
+    return renditions;
   };
 
   const calculateScaleDownFactor = (windowWidth, imgWidthPrismic) => {
@@ -210,7 +200,7 @@ const Work = ({match}) => {
         if (factor > 1) {
           factor = 1;
         }
-        scaleDownFactors[i].push(`&w=${factor}&sharp=40`);
+        scaleDownFactors[i].push(`&w=${factor}&sharp=30`);
       });
       numberOfImages += rendition.data.rendition_images.length;
     });
@@ -321,14 +311,8 @@ const Work = ({match}) => {
             mobile={isMobile}
             open={!toggleScript}
             position={!toggleScript}
-            text={workData.work_script.length ? (
-              <RichText
-                linkResolver={linkResolver}
-                render={workData.work_script}
-              />
-            ) : (
-              'Nothing here...'
-            )}
+            text={workData.work_script}
+            textLength={RichText.asText(workData.work_script).length}
           />
           <ListContainer position={!toggleScript}>
             {work.renditions.map((rendition, j) => (

@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import Prismic from 'prismic-javascript';
+import {RichText} from 'prismic-reactjs';
 import styled from 'styled-components';
 import {useQuery} from 'react-query';
 
@@ -39,11 +40,7 @@ export const imgix = '&sat=-50&exp=0&invert=true&monochrome=c5c&con=-50&monochro
 const Home = () => {
   const [loaded, setLoaded] = useState(false);
   const allLoaded = [];
-  const emailAddress = 'studiotvm@protonmail.com';
   const [isMobile, setMobile] = useState(window.innerWidth < 768);
-  let prologue = 'Text about Tris lorem ipsum, dolor sit amet consectetur adipisicing elit. Labore esse qui animi nobis laboriosam est s? ';
-  prologue += 'Possimus veniam, ratione esse qui animi nobis laboriosam ea voluptate unde corporis ipsum et magni! ';
-  prologue += 'Possimus veniam, ratione esse qui animi nobis laboriosam ea voluptate unde corporis ipsum et magni! ';
 
   const handleResize = () => {
     if (window.innerWidth < 768) setMobile(true);
@@ -58,16 +55,16 @@ const Home = () => {
   });
 
   const getWorks = async () => {
-    try {
-      const works = await client.query(
-        Prismic.Predicates.at('document.type', 'work'),
-        {orderings: '[my.work.order, my.work.work_year_to desc]'},
-      );
-      return works;
-    }
-    catch {
-      throw new Error('No data found');
-    }
+    const works = await client.query(
+      Prismic.Predicates.at('document.type', 'work'),
+      {orderings: '[my.work.order, my.work.work_year_to desc]'},
+    );
+    return works;
+  };
+
+  const getInformation = async () => {
+    const information = await client.getSingle('information');
+    return information;
   };
 
   const getMaxAndMinYears = (works) => {
@@ -106,13 +103,12 @@ const Home = () => {
     return {...worksWithAddedProperties, maxYear, minYear};
   }
 
-  const {
-    data: workTimelines, isError, isLoading, isSuccess,
-  } = useQuery('workTimelines', createWorkTimelines);
+  const workTimelinesQuery = useQuery('workTimelines', createWorkTimelines);
+  const informationQuery = useQuery('information', getInformation);
 
   const handleLoad = (i) => {
     if (allLoaded.length === 0) {
-      workTimelines.results.forEach((work) => {
+      workTimelinesQuery.data.results.forEach((work) => {
         if (work.data.work_preview_image.url !== '') {
           allLoaded.push(false);
         }
@@ -124,26 +120,29 @@ const Home = () => {
     }
   };
 
-  if (isMobile && isSuccess) {
+  if (isMobile && workTimelinesQuery.isSuccess && informationQuery.isSuccess) {
     setTimeout(() => {
       setLoaded(true);
     }, 250);
   }
 
-  if (isError) {
+  if (workTimelinesQuery.isError || informationQuery.isError) {
     return <NotFound />;
   }
 
-  if (isLoading) {
+  if (workTimelinesQuery.isLoading || informationQuery.isLoading) {
     return (<Loading>Loading...</Loading>);
   }
+
+  const workTimelines = workTimelinesQuery.data;
+  const information = informationQuery.data.data;
 
   return (
     <>
       <Main loaded={loaded} mobile={isMobile}>
         <GlobalStyle />
-        <HomeHeader fromYear={workTimelines.minYear} hiddenHeader prologue={prologue} />
-        <HomeHeader fromYear={workTimelines.minYear} prologue={prologue} />
+        <HomeHeader fromYear={workTimelines.minYear} hiddenHeader information={information} mobile={isMobile} />
+        <HomeHeader fromYear={workTimelines.minYear} information={information} mobile={isMobile} />
         {workTimelines.results.map((work, i) => {
           const timelineWidth = workTimelines.maxYear - workTimelines.minYear + 1;
           return (
@@ -169,7 +168,7 @@ const Home = () => {
             />
           );
         })}
-        <Footer>{emailAddress}</Footer>
+        <Footer>{RichText.asText(information.email)}</Footer>
       </Main>
     </>
   );
