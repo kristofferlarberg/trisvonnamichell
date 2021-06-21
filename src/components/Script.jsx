@@ -103,11 +103,13 @@ const Script = ({
               linkResolver={linkResolver}
               render={scriptText}
             />
-            <AmountContainer>
-              <Amount lengthyText={lengthyText}>
-                {`This text exceeds the textlimit with ${textLength - 1000} characters.`}
-              </Amount>
-            </AmountContainer>
+            {lengthyText && (
+              <AmountContainer>
+                <Amount lengthyText={lengthyText}>
+                  {`This text exceeds the textlimit with ${textLength - 1000} characters.`}
+                </Amount>
+              </AmountContainer>
+            )}
           </>
         ) : (
           <p>No content here at the moment.</p>
