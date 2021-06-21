@@ -11,13 +11,13 @@ import NotFound from './NotFound';
 import WorkTimeline from '../components/WorkTimeline';
 
 const Main = styled.main`
-  margin: 10rem 2rem 2rem 2rem;
+  margin: 2rem;
   width: calc(100% - 4rem);
   height: auto;
   opacity: ${props => (props.loaded ? '1' : '0')};
   transition: opacity 0.5s ease-in;
   @media (max-width: 768px) {
-    margin: 200px 5px 40px 5px;
+    margin: 5px 5px 40px 5px;
     width: calc(100% - 10px);
   }
 `;
@@ -141,6 +141,7 @@ const Home = () => {
     <>
       <Main loaded={loaded} mobile={isMobile}>
         <GlobalStyle />
+        <HomeHeader fromYear={workTimelines.minYear} hiddenHeader information={information} mobile={isMobile} />
         <HomeHeader fromYear={workTimelines.minYear} information={information} mobile={isMobile} />
         {workTimelines.results.map((work, i) => {
           const timelineWidth = workTimelines.maxYear - workTimelines.minYear + 1;

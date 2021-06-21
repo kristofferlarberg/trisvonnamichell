@@ -22,9 +22,9 @@ const ScriptBox = styled.section`
     left: 0;
     width: calc(100% - 0.6rem);
     margin: 0 0.3rem 1rem 0.3rem;
-    max-height: ${props => (props.openScript ? '1400px' : '175px')};
+    max-height: ${props => (props.openScript ? '600px' : '175px')};
     overflow-y: hidden;
-    ${({openScript}) => !openScript
+    ${({openScript, lengthyText}) => !openScript
     && `
       &:after {
       content: "";
@@ -33,7 +33,7 @@ const ScriptBox = styled.section`
       bottom: 0;
       height: 50px;
       width: 100%;
-      box-shadow: inset 0 -40px 20px var(--offwhite);
+      box-shadow: ${(!lengthyText ? 'inset 0 -40px 20px var(--offwhite)' : 'inset 0 -40px 20px yellow')};
       pointer-events: none;
       -webkit-appearance: none;
     }
@@ -87,7 +87,10 @@ const Script = ({
         aria-label="Toggle between closed or opened script section"
         aria-pressed="false"
         lengthyText={lengthyText}
-        onClick={() => mobile && setOpenScript(!openScript) && window.scrollTo(0, 0)}
+        onClick={() => {
+          setOpenScript(!openScript);
+          window.scrollTo(0, 0);
+        }}
         openScript={openScript || open}
         position={position}
         role="button"
@@ -102,7 +105,7 @@ const Script = ({
             />
             <AmountContainer>
               <Amount lengthyText={lengthyText}>
-                {`${textLength} characters`}
+                {`This text exceeds the textlimit with ${textLength - 1000} characters.`}
               </Amount>
             </AmountContainer>
           </>
