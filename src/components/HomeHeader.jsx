@@ -1,5 +1,8 @@
 import React from 'react';
+import {RichText} from 'prismic-reactjs';
 import styled from 'styled-components';
+
+import {linkResolver} from '../prismic-configuration';
 
 const PageTitle = styled.h1`
   margin: 0;
@@ -16,15 +19,16 @@ const HeaderContainer = styled.header`
   z-index: -10;
 `;
 
-function HomeHeader({mobile, prologue, fromYear}) {
+function HomeHeader({information, mobile, fromYear}) {
   return (
     <HeaderContainer mobile={mobile}>
       <PageTitle>
-        {`Vonna-Michell from ${fromYear}–`}
+        {`${RichText.asText(information.title)} ${fromYear}–`}
       </PageTitle>
-      <p>
-        {prologue}
-      </p>
+      <RichText
+        linkResolver={linkResolver}
+        render={information.description}
+      />
     </HeaderContainer>
   );
 }
