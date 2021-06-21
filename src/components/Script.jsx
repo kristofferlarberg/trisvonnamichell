@@ -51,7 +51,10 @@ const Script = ({
       <ScriptBox
         aria-label="Toggle between closed or opened script section"
         aria-pressed="false"
-        onClick={() => mobile && setOpenScript(!openScript) && window.scrollTo(0, 0)}
+        onClick={() => {
+          setOpenScript(!openScript);
+          window.scrollTo(0, 0);
+        }}
         openScript={openScript || open}
         position={position}
         role="button"

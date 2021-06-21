@@ -16,7 +16,7 @@ const Main = styled.main`
   opacity: ${props => (props.loaded ? '1' : '0')};
   transition: opacity 0.5s ease-in;
   @media (max-width: 768px) {
-    margin: 200px 5px 40px 5px;
+    margin: 5px 5px 40px 5px;
     width: calc(100% - 10px);
   }
 `;
@@ -42,6 +42,7 @@ const Home = () => {
   const emailAddress = 'studiotvm@protonmail.com';
   const [isMobile, setMobile] = useState(window.innerWidth < 768);
   let prologue = 'Text about Tris lorem ipsum, dolor sit amet consectetur adipisicing elit. Labore esse qui animi nobis laboriosam est s? ';
+  prologue += 'Possimus veniam, ratione esse qui animi nobis laboriosam ea voluptate unde corporis ipsum et magni! ';
   prologue += 'Possimus veniam, ratione esse qui animi nobis laboriosam ea voluptate unde corporis ipsum et magni! ';
 
   const handleResize = () => {
@@ -141,7 +142,8 @@ const Home = () => {
     <>
       <Main loaded={loaded} mobile={isMobile}>
         <GlobalStyle />
-        <HomeHeader fromYear={workTimelines.minYear} mobile={isMobile} prologue={prologue} />
+        <HomeHeader fromYear={workTimelines.minYear} hiddenHeader prologue={prologue} />
+        <HomeHeader fromYear={workTimelines.minYear} prologue={prologue} />
         {workTimelines.results.map((work, i) => {
           const timelineWidth = workTimelines.maxYear - workTimelines.minYear + 1;
           return (
