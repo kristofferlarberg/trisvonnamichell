@@ -321,8 +321,8 @@ const Work = ({match}) => {
             mobile={isMobile}
             open={!toggleScript}
             position={!toggleScript}
-            text={work.work_script}
-            textLength={RichText.asText(work.work_script).length}
+            text={workData.work_script}
+            textLength={RichText.asText(workData.work_script).length}
           />
           <ListContainer position={!toggleScript}>
             {work.renditions.map((rendition, j) => (
