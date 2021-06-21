@@ -55,26 +55,16 @@ const Home = () => {
   });
 
   const getWorks = async () => {
-    try {
-      const works = await client.query(
-        Prismic.Predicates.at('document.type', 'work'),
-        {orderings: '[my.work.order, my.work.work_year_to desc]'},
-      );
-      return works;
-    }
-    catch {
-      throw new Error('No data found');
-    }
+    const works = await client.query(
+      Prismic.Predicates.at('document.type', 'work'),
+      {orderings: '[my.work.order, my.work.work_year_to desc]'},
+    );
+    return works;
   };
 
   const getInformation = async () => {
-    try {
-      const information = await client.getSingle('information');
-      return information;
-    }
-    catch {
-      throw new Error('No data found');
-    }
+    const information = await client.getSingle('information');
+    return information;
   };
 
   const getMaxAndMinYears = (works) => {

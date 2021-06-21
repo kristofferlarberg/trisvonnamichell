@@ -164,25 +164,15 @@ const Work = ({match}) => {
   });
 
   const getWork = async () => {
-    try {
-      const work = await client.getByUID('work', uid);
-      return work;
-    }
-    catch {
-      throw new Error('No data found');
-    }
+    const work = await client.getByUID('work', uid);
+    return work;
   };
 
   const getRenditions = async (workId) => {
-    try {
-      const renditions = await client.query(
-        Prismic.Predicates.at('my.rendition.work_category', workId),
-      );
-      return renditions;
-    }
-    catch {
-      throw new Error('No data found');
-    }
+    const renditions = await client.query(
+      Prismic.Predicates.at('my.rendition.work_category', workId),
+    );
+    return renditions;
   };
 
   const calculateScaleDownFactor = (windowWidth, imgWidthPrismic) => {
