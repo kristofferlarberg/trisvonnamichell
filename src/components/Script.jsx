@@ -6,10 +6,10 @@ import {linkResolver} from '../prismic-configuration';
 
 const ScriptBox = styled.section`
   box-sizing: border-box;
-  height: ${props => (!props.textLength && '69vh')};
+  height: ${props => (!props.textLength ? '69vh' : 'auto')};
   padding: 0.2rem 1.5rem;
   width: 37vw;
-  background-color: var(--offwhite);
+  background-color: ${props => (!props.lengthyText ? 'var(--offwhite)' : 'yellow')};
   position: fixed;
   left: ${props => (props.position ? '-34vw' : '2rem')};
   transition: ${props => (props.position ? 'all 0.2s ease-out' : 'all 0.3s ease-in')};
@@ -49,10 +49,10 @@ const AmountContainer = styled.div`
   display: flex;
   justify-content: start;
   margin-bottom: 1rem;
+  margin-top: 1rem;
 `;
 
 const Amount = styled.h5`
-  color: ${props => (!props.lengthyText ? 'var(--lightgrey)' : 'red')};
   margin: 0;
   width: auto;
 `;
@@ -60,9 +60,26 @@ const Amount = styled.h5`
 const Script = ({
   mobile, open, position, text, textLength,
 }) => {
-  const [openScript, setOpenScript] = useState(text === 'Nothing here...');
+  const [openScript, setOpenScript] = useState(false);
+  const lengthyText = !!(textLength > 1000);
 
-  const lengthyText = textLength > 1000 && true;
+  const truncateText = (t) => {
+    const scriptTextCopy = JSON.parse(JSON.stringify(t));
+    let numberOfCharacters = 0;
+
+    if (lengthyText) {
+      scriptTextCopy.forEach((script, i) => {
+        if (numberOfCharacters + script.text.length > 1000) {
+          scriptTextCopy[i].text = `${script.text.substring(0, (1000 - numberOfCharacters))}(…)`;
+          scriptTextCopy.length = i + 1;
+        }
+        numberOfCharacters += script.text.length;
+      });
+    }
+
+    return scriptTextCopy;
+  };
+  const scriptText = truncateText(text);
 
   if (mobile) {
     return (
@@ -81,7 +98,7 @@ const Script = ({
           <>
             <RichText
               linkResolver={linkResolver}
-              render={text}
+              render={scriptText}
             />
             <AmountContainer>
               <Amount lengthyText={lengthyText}>
@@ -107,13 +124,15 @@ const Script = ({
           <>
             <RichText
               linkResolver={linkResolver}
-              render={text}
+              render={scriptText}
             />
-            <AmountContainer>
-              <Amount lengthyText={lengthyText}>
-                {`${textLength} characters`}
-              </Amount>
-            </AmountContainer>
+            {lengthyText && (
+              <AmountContainer>
+                <Amount lengthyText={lengthyText}>
+                  {`This text exceeds the textlimit with ${textLength - 1000} characters.`}
+                </Amount>
+              </AmountContainer>
+            )}
           </>
         ) : (
           <p>No content here at the moment.</p>
