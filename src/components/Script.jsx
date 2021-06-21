@@ -22,7 +22,7 @@ const ScriptBox = styled.section`
     left: 0;
     width: calc(100% - 0.6rem);
     margin: 0 0.3rem 1rem 0.3rem;
-    max-height: ${props => (props.openScript ? '1400px' : '175px')};
+    max-height: ${props => (props.openScript ? '600px' : '175px')};
     overflow-y: hidden;
     ${({openScript, lengthyText}) => !openScript
     && `
@@ -105,7 +105,7 @@ const Script = ({
             />
             <AmountContainer>
               <Amount lengthyText={lengthyText}>
-                {`${textLength} characters`}
+                {`This text exceeds the textlimit with ${textLength - 1000} characters.`}
               </Amount>
             </AmountContainer>
           </>
