@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {RichText} from 'prismic-reactjs';
 import styled from 'styled-components';
 
@@ -61,13 +61,8 @@ const Script = ({
   mobile, open, position, text, textLength,
 }) => {
   const [openScript, setOpenScript] = useState(text === 'Nothing here...');
-  const [lengthyText, setLengthyText] = useState(false);
 
-  useEffect(() => {
-    if (textLength > 1000) {
-      setLengthyText(true);
-    }
-  }, [textLength, lengthyText]);
+  const lengthyText = textLength > 1000 && true;
 
   if (mobile) {
     return (
