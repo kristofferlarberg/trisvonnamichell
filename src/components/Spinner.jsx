@@ -9,8 +9,8 @@ const SpinnerSpinning = keyframes`
 const SpinnerSpan = styled.span`
   width: 5rem;
   height: 5rem;
-  border-top-color: #fff9;
-  border-left-color: #fff6;
+  border-top-color: #fff8;
+  border-left-color: #fff5;
   animation: ${SpinnerSpinning} 400ms linear infinite;
   border-bottom-color: transparent;
   border-right-color: transparent;
