@@ -8,6 +8,7 @@ import {client} from '../prismic-configuration';
 import GlobalStyle from '../styles/global';
 import HomeHeader from '../components/HomeHeader';
 import NotFound from './NotFound';
+import Spinner from '../components/Spinner';
 import WorkTimeline from '../components/WorkTimeline';
 
 const Main = styled.main`
@@ -20,12 +21,6 @@ const Main = styled.main`
     margin: 5px 5px 40px 5px;
     width: calc(100% - 10px);
   }
-`;
-const Loading = styled.p`
-  color: var(--offwhite);
-  margin: 32px 0 0 32px;
-  font-family: "PT-Regular", sans-serif;
-  font-size: 1.05rem;
 `;
 const Footer = styled.footer`
   color: var(--offwhite);
@@ -131,7 +126,7 @@ const Home = () => {
   }
 
   if (workTimelinesQuery.isLoading || informationQuery.isLoading) {
-    return (<Loading>Loading...</Loading>);
+    return (<Spinner />);
   }
 
   const workTimelines = workTimelinesQuery.data;

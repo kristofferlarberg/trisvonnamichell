@@ -16,6 +16,7 @@ import NotFound from './NotFound';
 import RemoteControl from '../components/RemoteControl';
 import RenditionList from '../components/RenditionList';
 import Script from '../components/Script';
+import Spinner from '../components/Spinner';
 
 const Main = styled.main`
   box-sizing: border-box;
@@ -35,13 +36,6 @@ const Main = styled.main`
     margin: 0;
     width: 100%;
   }
-`;
-
-const Loading = styled.p`
-  color: #fff;
-  margin: 32px 0 0 32px;
-  font-family: "PT-Regular", sans-serif;
-  font-size: 1.05rem;
 `;
 
 const Content = styled.article`
@@ -281,7 +275,7 @@ const Work = ({match}) => {
   }
 
   if (isLoading) {
-    return (<Loading>Loading...</Loading>);
+    return (<Spinner />);
   }
 
   if (isSuccess && !work.numberOfImages) {
