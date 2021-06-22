@@ -6,16 +6,18 @@ import {useHistory} from 'react-router-dom';
 import {useQuery} from 'react-query';
 
 import {client, linkResolver} from '../prismic-configuration';
+import {imgixGreen, imgixOrange} from './Home';
 import ButtonFive from '../graphics/5.svg';
 import Circle from '../components/Circle';
 import Clock from '../components/Clock';
 import GlobalStyle from '../styles/global';
-import {imgix} from './Home';
 import Nav from '../components/Nav';
 import NotFound from './NotFound';
 import RemoteControl from '../components/RemoteControl';
 import RenditionList from '../components/RenditionList';
 import Script from '../components/Script';
+
+console.log(imgixGreen);
 
 const Main = styled.main`
   box-sizing: border-box;
@@ -291,6 +293,8 @@ const Work = ({match}) => {
   }
 
   const workData = work.work.data;
+  // const imgix = workData.artist === 'father' ? imgixOrange : imgixGreen;
+  const imgix = work.numberOfImages % 2 === 0 ? imgixOrange : imgixGreen;
 
   return (
     <>

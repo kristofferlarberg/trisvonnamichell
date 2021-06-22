@@ -35,7 +35,8 @@ const Footer = styled.footer`
   }
 `;
 
-export const imgix = '&sat=-50&exp=0&invert=true&monochrome=c5c&con=-50&monochrome=%23862e9c';
+export const imgixGreen = '&sat=-50&exp=0&invert=true&monochrome=c5c&con=-50';
+export const imgixOrange = '&sat=-50&exp=0&invert=true&monochrome=28f&con=-50';
 
 const Home = () => {
   const [loaded, setLoaded] = useState(false);
@@ -98,7 +99,7 @@ const Home = () => {
       };
       worksWithAddedProperties.results[i] = workLink;
     });
-
+    console.log(worksWithAddedProperties);
     const {minYear, maxYear} = getMaxAndMinYears(worksWithAddedProperties);
     return {...worksWithAddedProperties, maxYear, minYear};
   }
@@ -148,7 +149,9 @@ const Home = () => {
           return (
             <WorkTimeline
               key={work.link.id}
+              artist={work.data.artist}
               handleLoad={() => handleLoad(i)}
+              i={i}
               left={
                 ((work.data.work_year_from - workTimelines.minYear) / timelineWidth)
                 * 100
