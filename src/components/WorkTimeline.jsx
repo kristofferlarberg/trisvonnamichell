@@ -30,7 +30,7 @@ const WorkLink = styled.a`
   height: 17rem;
   text-decoration: none;
   color: inherit;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
   display: block;
   &:focus-visible {
     outline: none;
@@ -51,19 +51,19 @@ const Line = styled.section`
   margin-bottom: 5px;
   height: 17rem;
   width: 90%;
-  transition: background-color 0.3s ease-out;
+  transition: background-color 0.2s ease-out;
   &:hover ${Preview} {
     filter: none;
-  }
-  @media (hover: hover){
-    &:hover {
-      background-color: #555;
-      background-blend-mode: multiply;
-    }
   }
   @media (max-width: 768px) {
     width: 100%;
     height: 10rem;
+  }
+  @media (min-width: 769px) {
+    &:hover {
+      background-color: #555;
+      background-blend-mode: multiply;
+    }
   }
 `;
 
