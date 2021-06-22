@@ -1,9 +1,6 @@
 import styled, {keyframes} from 'styled-components';
 import React from 'react';
 
-// Green #79d163
-// Orange #cb8a00
-
 const SpinnerSpinning = keyframes`
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
@@ -12,8 +9,8 @@ const SpinnerSpinning = keyframes`
 const SpinnerSpan = styled.span`
   width: 5rem;
   height: 5rem;
-  border-top-color: #79d16366;
-  border-left-color: #cb8a0066;
+  border-top-color: #fff9;
+  border-left-color: #fff6;
   animation: ${SpinnerSpinning} 400ms linear infinite;
   border-bottom-color: transparent;
   border-right-color: transparent;
