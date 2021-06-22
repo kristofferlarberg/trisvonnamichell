@@ -17,8 +17,6 @@ import RemoteControl from '../components/RemoteControl';
 import RenditionList from '../components/RenditionList';
 import Script from '../components/Script';
 
-console.log(imgixGreen);
-
 const Main = styled.main`
   box-sizing: border-box;
   width: calc(100% - 4rem);
@@ -293,8 +291,7 @@ const Work = ({match}) => {
   }
 
   const workData = work.work.data;
-  // const imgix = workData.artist === 'father' ? imgixOrange : imgixGreen;
-  const imgix = work.numberOfImages % 2 === 0 ? imgixOrange : imgixGreen;
+  const imgix = workData.artist === 'father' ? imgixOrange : imgixGreen;
 
   return (
     <>

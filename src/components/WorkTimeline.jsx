@@ -5,8 +5,7 @@ import styled from 'styled-components';
 import {linkResolver} from '../prismic-configuration';
 
 const imgixGreen = '&sat=-50&exp=0&invert=true&monochrome=c5c&con=-50';
-// const imgixOrange = '&sat=-50&exp=0&invert=true&monochrome=06c&con=-50';
-const imgixOrange = '&sat=-50&exp=0&invert=true&monochrome=28f&con=-50';
+const imgixOrange = '&sat=-30&exp=0&invert=true&monochrome=28f&con=-50';
 
 const LineContainer = styled.section`
   display: flex;
@@ -122,7 +121,7 @@ const VerticalLine = styled.div`
 `;
 
 const WorkTimeline = ({
-  i,
+  artist,
   id,
   handleLoad,
   left,
@@ -139,8 +138,7 @@ const WorkTimeline = ({
   workYearTo,
 }) => {
   const isMobile = mobile;
-  // const imgix = artist === 'father' ? imgixOrange : imgixGreen;
-  const imgix = i % 2 === 0 ? imgixOrange : imgixGreen;
+  const imgix = artist === 'father' ? imgixOrange : imgixGreen;
 
   const scaleDownBackground = () => {
     let scaleDownFactor = (window.innerWidth + 50) / workPreviewImageWidth;
