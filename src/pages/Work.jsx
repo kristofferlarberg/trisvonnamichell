@@ -285,7 +285,7 @@ const Work = ({match}) => {
   }
 
   const workData = work.work.data;
-  const imgix = workData.artist === 'father' ? imgixOrange : imgixGreen;
+  const imgix = workData.artist === 'Erik' ? imgixOrange : imgixGreen;
 
   return (
     <>

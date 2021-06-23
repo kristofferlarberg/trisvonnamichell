@@ -48,7 +48,7 @@ const Line = styled.section`
   background-repeat: no-repeat;
   background-size: cover;
   background-blend-mode: multiply;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
   height: 17rem;
   width: 90%;
   transition: background-color 0.2s ease-out;
@@ -138,7 +138,7 @@ const WorkTimeline = ({
   workYearTo,
 }) => {
   const isMobile = mobile;
-  const imgix = artist === 'father' ? imgixOrange : imgixGreen;
+  const imgix = artist === 'Erik' ? imgixOrange : imgixGreen;
 
   const scaleDownBackground = () => {
     let scaleDownFactor = (window.innerWidth + 50) / workPreviewImageWidth;

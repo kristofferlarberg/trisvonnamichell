@@ -62,7 +62,13 @@ const GlobalStyle = createGlobalStyle`
     line-height: 1.6rem;
     width: 100%;
   }
-  @media (max-width: 900px) {
+  @media (max-width: 1416px) {
+    body {
+      font-size: 0.95rem;
+      line-height: 1.5rem;
+    }
+  }
+  @media (max-width: 768px) {
     body {
       font-size: 0.9rem;
       line-height: 1.4rem;

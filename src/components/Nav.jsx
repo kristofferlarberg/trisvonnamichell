@@ -21,11 +21,11 @@ const NavBar = styled.nav`
   @media (max-width: 768px) {
     position: static;
     box-sizing: content-box;
-    padding: 1rem 0;
+    padding: 1rem 10px;
     flex-direction: column;
     justify-content: center;
     text-align: center;
-    width: 100%;
+    width: calc(100% - 20px);
   }
 `;
 
