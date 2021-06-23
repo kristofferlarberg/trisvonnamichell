@@ -11,7 +11,7 @@ const HeaderContainer = styled.header`
   position: ${props => (props.hiddenHeader ? 'static' : 'fixed')};;
   visibility: ${props => (props.hiddenHeader ? 'hidden' : 'visible')};
   top: 2rem;
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
   width: ${props => (props.hiddenHeader ? '100%' : 'calc(100% - 4rem)')};
   max-width: 900px;
   color: var(--offwhite);
@@ -24,11 +24,11 @@ const HeaderContainer = styled.header`
   }
 `;
 
-function HomeHeader({information, hiddenHeader, fromYear}) {
+function HomeHeader({information, hiddenHeader}) {
   return (
     <HeaderContainer hiddenHeader={hiddenHeader}>
       <PageTitle>
-        {`${RichText.asText(information.title)} ${fromYear}–`}
+        {RichText.asText(information.title)}
       </PageTitle>
       <RichText
         linkResolver={linkResolver}

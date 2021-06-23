@@ -61,7 +61,7 @@ const Script = ({
   mobile, open, position, text, textLength,
 }) => {
   const [openScript, setOpenScript] = useState(false);
-  const lengthyText = !!(textLength > 1000);
+  const lengthyText = !!(textLength > 1050);
 
   const truncateText = (t) => {
     const scriptTextCopy = JSON.parse(JSON.stringify(t));
@@ -69,8 +69,8 @@ const Script = ({
 
     if (lengthyText) {
       scriptTextCopy.forEach((script, i) => {
-        if (numberOfCharacters + script.text.length > 1000) {
-          scriptTextCopy[i].text = `${script.text.substring(0, (1000 - numberOfCharacters))}(…)`;
+        if (numberOfCharacters + script.text.length > 1050) {
+          scriptTextCopy[i].text = `${script.text.substring(0, (1050 - numberOfCharacters))}(…)`;
           scriptTextCopy.length = i + 1;
         }
         numberOfCharacters += script.text.length;
@@ -106,7 +106,7 @@ const Script = ({
             {lengthyText && (
               <AmountContainer>
                 <Amount lengthyText={lengthyText}>
-                  {`This text exceeds the textlimit with ${textLength - 1000} characters.`}
+                  {`This text exceeds the textlimit with ${textLength - 1050} characters.`}
                 </Amount>
               </AmountContainer>
             )}
@@ -134,7 +134,7 @@ const Script = ({
             {lengthyText && (
               <AmountContainer>
                 <Amount lengthyText={lengthyText}>
-                  {`This text exceeds the textlimit with ${textLength - 1000} characters.`}
+                  {`This text exceeds the textlimit with ${textLength - 1050} characters.`}
                 </Amount>
               </AmountContainer>
             )}

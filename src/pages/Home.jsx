@@ -136,8 +136,8 @@ const Home = () => {
     <>
       <Main loaded={loaded} mobile={isMobile}>
         <GlobalStyle />
-        <HomeHeader fromYear={workTimelines.minYear} hiddenHeader information={information} mobile={isMobile} />
-        <HomeHeader fromYear={workTimelines.minYear} information={information} mobile={isMobile} />
+        <HomeHeader hiddenHeader information={information} />
+        <HomeHeader information={information} />
         {workTimelines.results.map((work, i) => {
           const timelineWidth = workTimelines.maxYear - workTimelines.minYear + 1;
           return (
