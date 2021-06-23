@@ -53,8 +53,17 @@ const Home = () => {
   const getWorks = async () => {
     const works = await client.query(
       Prismic.Predicates.at('document.type', 'work'),
-      {orderings: '[my.work.order, my.work.work_year_to desc]'},
+      {orderings: '[my.work.work_year_to desc]'},
     );
+    works.results.sort((a, b) => {
+      if (a.data.order === null) {
+        return 1;
+      }
+      if (b.data.order === null) {
+        return -1;
+      }
+      return a.data.order - b.data.order;
+    });
     return works;
   };
 
